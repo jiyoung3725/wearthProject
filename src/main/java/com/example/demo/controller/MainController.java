@@ -14,8 +14,12 @@ public class MainController {
 	public String test2() {
 		return "shop/shopMain";
 	}
-	@GetMapping("/test")
+	@GetMapping("/detail")
 	public String test3() {
-		return "shop/test";
+		return "shop/detail";
+	}
+	@GetMapping("/cart")
+	public String test4() {
+		return "shop/cart";
 	}
 }
