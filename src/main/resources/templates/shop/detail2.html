@@ -3,6 +3,110 @@
 
 <head>
 	<title>Single Product</title>
+	<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+    acc[i].onclick = function(){
+        this.classList.toggle("active");
+        var panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+            panel.style.display = "none";
+        } else {
+            panel.style.display = "block";
+        }
+    }
+}
+	</script>
+	<style>
+	@import url('//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+.tone {
+	width: 200px;
+	height: 75px;
+	background-color: #2BA5DC;
+	padding: 10px;
+	box-sizing: border-box;
+}
+h1 {
+	font-family: 'open sans' !important;
+	font-size: 15pt !important;
+	color: white !important;
+	font-weight: bold !important;
+	letter-spacing: 1pt;
+}
+h2 {
+	font-family: 'open sans' !important;
+	font-size: 14pt !important;
+	color: white !important;
+	font-weight: normal !important;
+}
+h3 {
+	font-family: 'open sans' !important;
+	font-size: 13pt !important;
+	font-weight: bold !important;
+	color: black;
+	text-decoration: underline;
+}
+p {
+	font-family: 'open sans';
+	font-size: 11pt;
+	margin-top: -15px;
+}
+.expandedcontent {
+	padding-top: 15px;
+	display:inline-block;
+}
+table {
+margin-top: 5px;
+}
+th {
+	text-decoration: underline;
+	font-family: 'raleway';
+	font-size: 14pt;
+	text-transform: uppercase;
+	background-color: #6E6A6F;
+	color: white;
+	padding-left: 10px;
+}
+td {
+	font-family: 'open sans';
+	font-size: 11pt;
+	color: black;
+}
+
+button.accordion {
+    background-color: white;
+    color: #444;
+    cursor: pointer;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
+		height: 40px;
+		border-bottom: 1px solid rgba(0,0,0,.12);
+}
+
+button.accordion.active, button.accordion:hover {
+    background-color: rgba(0,0,0,.12);
+}
+
+div.panel {
+    padding: 0 18px;
+    display: none;
+}
+.callid {
+	color: #46809C !important;
+	font-family: 'open sans' !important;
+	font-size: 12pt !important;
+}
+i {
+	color: white;
+	float: left;
+	margin-right: 15px;
+}
+	</style>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="description" content="Colo Shop Template">
@@ -16,6 +120,7 @@
 	<link rel="stylesheet" type="text/css" href="css/shop/detail/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
 	<link rel="stylesheet" type="text/css" href="css/shop/detail/styles/single_styles.css">
 	<link rel="stylesheet" type="text/css" href="css/shop/detail/styles/single_responsive.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
 </head>
 
 <body>
@@ -41,31 +146,7 @@
 				</div>
 			</div>
 
-			<div class="row">
-				<div class="col-lg-7">
-					<div class="single_product_pics">
-						<div class="row">
-							<div class="col-lg-3 thumbnails_col order-lg-1 order-2">
-								<div class="single_product_thumbnails">
-									<ul >
-										<li><img src="css/shop/images/potatochip1.jpg" alt=""
-												data-image="css/shop/images/potatochip1.jpg"></li>
-										<li class="active"><img src="css/shop/images/potatochip1_2.jpg"
-												data-image="css/shop/images/potatochip1_2.jpg"></li>
-										<li><img src="css/shop/images/potatochip1_3.jpg" alt=""
-												data-image="css/shop/images/potatochip1_3.jpg"></li>
-									</ul>
-								</div>
-							</div>
-							<div class="col-lg-9 image_col order-lg-2 order-1">
-								<div class="single_product_image">
-									<div class="single_product_image_background"
-										style="background-image:url(css/shop/images/potatochip1_2.jpg)"></div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+			
 				<div class="col-lg-5">
 					<div class="product_details">
 						<div class="product_details_title">
@@ -115,242 +196,121 @@
 
 		</div>
 
-		<!-- Tabs -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
 
-		<div class="tabs_section_container">
-
-			<div class="container">
-				<div class="row">
-					<div class="col">
-						<div class="tabs_container">
-							<ul
-								class="tabs d-flex flex-sm-row flex-column align-items-left align-items-md-center justify-content-center">
-								<li class="tab active" data-active-tab="tab_1"><span>상세정보</span></li>
-								<li class="tab" data-active-tab="tab_2"><span>후기(2)</span></li>
-								<li class="tab" data-active-tab="tab_3"><span>문의(1)</span></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col">
-
-						<!-- Tab Description -->
-
-						<div id="tab_1" class="tab_container active">
-							<div class="row" style="justify-content: center;">
-
-								<div class="tab_title">
-									<img src="css/shop/images/potatochip1Info.jpg" width="800px" height="100%" />
-								</div>
-
-
-							</div>
-						</div>
-
-						<!-- Tab Additional Info -->
-
-						<div id="tab_2" class="tab_container">
-							<div class="row">
-
-								<!-- User Reviews -->
-
-								<div class="col-lg-6 reviews_col">
-									<div class="tab_title reviews_title">
-										<h4>Reviews (2)</h4>
-									</div>
-
-									<!-- User Review -->
-
-									<div class="user_review_container d-flex flex-column flex-sm-row">
-										<div class="user">
-											<div class="user_pic"></div>
-											<div class="user_rating">
-												<ul class="star_rating">
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-												</ul>
-											</div>
-										</div>
-										<div class="review">
-											<div class="review_date">27 Aug 2016</div>
-											<div class="user_name">Brandon William</div>
-											<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-												tempor incididunt ut labore et dolore magna aliqua.</p>
-										</div>
-									</div>
-
-									<!-- User Review -->
-
-									<div class="user_review_container d-flex flex-column flex-sm-row">
-										<div class="user">
-											<div class="user_pic"></div>
-											<div class="user_rating">
-												<ul class="star_rating">
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-												</ul>
-											</div>
-										</div>
-										<div class="review">
-											<div class="review_date">27 Aug 2016</div>
-											<div class="user_name">Brandon William</div>
-											<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-												tempor incididunt ut labore et dolore magna aliqua.</p>
-										</div>
-									</div>
-								</div>
-
-								<!-- Add Review -->
-
-								<div class="col-lg-6 add_review_col">
-
-									<div class="add_review">
-										<form id="review_form" action="post">
-											<div>
-												<h1>Add Review</h1>
-												<input id="review_name" class="form_input input_name" type="text"
-													name="name" placeholder="Name*" required="required"
-													data-error="Name is required.">
-												<input id="review_email" class="form_input input_email" type="email"
-													name="email" placeholder="Email*" required="required"
-													data-error="Valid email is required.">
-											</div>
-											<div>
-												<h1>Your Rating:</h1>
-												<ul class="user_star_rating">
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-												</ul>
-												<textarea id="review_message" class="input_review" name="message"
-													placeholder="Your Review" rows="4" required
-													data-error="Please, leave us a review."></textarea>
-											</div>
-											<div class="text-left text-sm-right">
-												<button id="review_submit" type="submit"
-													class="red_button review_submit_btn trans_300"
-													value="Submit">submit</button>
-											</div>
-										</form>
-									</div>
-
-								</div>
-
-							</div>
-						</div>
-
-						<!-- Tab Reviews -->
-
-						<div id="tab_3" class="tab_container">
-							<div class="row">
-
-								<!-- User Reviews -->
-
-								<div class="col-lg-6 reviews_col">
-									<div class="tab_title reviews_title">
-										<h4>Reviews (2)</h4>
-									</div>
-
-									<!-- User Review -->
-
-									<div class="user_review_container d-flex flex-column flex-sm-row">
-										<div class="user">
-											<div class="user_pic"></div>
-											<div class="user_rating">
-												<ul class="star_rating">
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-												</ul>
-											</div>
-										</div>
-										<div class="review">
-											<div class="review_date">27 Aug 2016</div>
-											<div class="user_name">Brandon William</div>
-											<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-												tempor incididunt ut labore et dolore magna aliqua.</p>
-										</div>
-									</div>
-
-									<!-- User Review -->
-
-									<div class="user_review_container d-flex flex-column flex-sm-row">
-										<div class="user">
-											<div class="user_pic"></div>
-											<div class="user_rating">
-												<ul class="star_rating">
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-												</ul>
-											</div>
-										</div>
-										<div class="review">
-											<div class="review_date">27 Aug 2016</div>
-											<div class="user_name">Brandon William</div>
-											<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-												tempor incididunt ut labore et dolore magna aliqua.</p>
-										</div>
-									</div>
-								</div>
-
-								<!-- Add Review -->
-
-								<div class="col-lg-6 add_review_col">
-
-									<div class="add_review">
-										<form id="review_form" action="post">
-											<div>
-												<h1>Add Review</h1>
-												<input id="review_name" class="form_input input_name" type="text"
-													name="name" placeholder="Name*" required="required"
-													data-error="Name is required.">
-												<input id="review_email" class="form_input input_email" type="email"
-													name="email" placeholder="Email*" required="required"
-													data-error="Valid email is required.">
-											</div>
-											<div>
-												<h1>Your Rating:</h1>
-												<ul class="user_star_rating">
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star" aria-hidden="true"></i></li>
-													<li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-												</ul>
-												<textarea id="review_message" class="input_review" name="message"
-													placeholder="Your Review" rows="4" required
-													data-error="Please, leave us a review."></textarea>
-											</div>
-											<div class="text-left text-sm-right">
-												<button id="review_submit" type="submit"
-													class="red_button review_submit_btn trans_300"
-													value="Submit">submit</button>
-											</div>
-										</form>
-									</div>
-
-								</div>
-
-							</div>
-						</div>
-
-					</div>
-				</div>
+<div class="tone">
+		<h1>Average Tone</h1>
+		<h2>Irrational</h2>
+</div>
+<table class='col-md-6'>
+	<tr>
+		<th>Call ID</th>
+		<th>Date & Time</th>
+		<th>Problem</th>
+		<th>Agent</th>
+	</tr>
+</table>
+<button class="accordion col-md-6">
+	<table class="col-md-12">
+		<tr>
+			<td class="callid">22627</td>
+			<td>10-1-17 10:11 AM</td>
+			<td>Couldn't Read Fax</td>
+			<td>EBARRUS</font></td>
+		</tr>
+	</table>
+</button>
+<div class="panel col-md-6">
+	<div class="row col-md-12">
+		<div class="col-md-6 expandedcontent">
+		<h3>Problem Description</h3>
+		<p>The doctor said that she didn't like us very much.The doctor said that she didn't like us very much.The doctor said that she didn't like us very much.</p>
+		</div>
+		<div class="col-md-6 expandedcontent">
+			<h3>Resolution</h3>
+			<p>The doctor said she will not talk to us anymore.The doctor said that she didn't like us very much.The doctor said that she didn't like us very much.The doctor said that she didn't like us very much.</p>
+		</div>
+		<div class="col-md-6 expandedcontent">
+			<h3>Tone</h3>
+			<p>Irrational</p>
+		</div>
+			<div class="col-md-6 expandedcontent">
+			<h3>Contact Name</h3>
+			<p>Bobby</p>
 			</div>
+	</div>
+</div>
+
+<button class="accordion col-md-6 callid">
+	<table class="col-md-12">
+		<tr>
+			<td class="callid">22627</td>
+			<td>10-1-17 10:11 AM</td>
+			<td>Couldn't Read Fax</td>
+			<td>EBARRUS</font></td>
+		</tr>
+	</table>
+</button>
+
+<div class="panel col-md-6">
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+</div>
+
+<button class="callid col-md-6 accordion">
+		<table class="col-md-12">
+		<tr>
+			<td class="callid">22627</td>
+			<td>10-1-17 10:11 AM</td>
+			<td>Couldn't Read Fax</td>
+			<td>EBARRUS</td>
+		</tr>
+	</table>	
+</button>
+<div class="panel col-md-6">
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+</div>
+
+<button class="accordion col-md-6 callid">
+		<table class="col-md-12">
+		<tr>
+			<td class="callid">22627</td>
+			<td>10-1-17 10:11 AM</td>
+			<td>Couldn't Read Fax</td>
+			<td>EBARRUS</font></td>
+		</tr>
+	</table>
+</button>
+<div class="panel col-md-6">
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+</div>
+
+<button class="accordion col-md-6 callid">
+		<table class="col-md-12">
+		<tr>
+			<td class="callid">22627</td>
+			<td>10-1-17 10:11 AM</td>
+			<td>Couldn't Read Fax</td>
+			<td>EBARRUS</font></td>
+		</tr>
+	</table>
+</button>
+<div class="panel col-md-6">
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+</div>
+
+<button class="callid col-md-6 accordion">
+		<table class="col-md-12">
+		<tr>
+			<td class="callid">22627</td>
+			<td>10-1-17 10:11 AM</td>
+			<td>Couldn't Read Fax</td>
+			<td>EBARRUS</font></td>
+		</tr>
+	</table>
+</button>
+<div class="panel col-md-6">
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+</div>
 
 		</div>
 		<!--footer-->
@@ -366,6 +326,9 @@
 	<script src="css/shop/detail/plugins/easing/easing.js"></script>
 	<script src="css/shop/detail/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 	<script src="css/shop/detail/js/single_custom.js"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>

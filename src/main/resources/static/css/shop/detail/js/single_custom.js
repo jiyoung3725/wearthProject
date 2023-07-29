@@ -53,6 +53,8 @@ jQuery(document).ready(function($)
 	initStarRating();
 	initFavorite();
 	initTabs();
+	
+	
 
 	/* 
 
@@ -339,4 +341,5 @@ jQuery(document).ready(function($)
     }
   }
 })
+
 });

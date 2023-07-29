@@ -85,7 +85,6 @@ p a {
 	display: inline;
 	position: relative;
 	color: inherit;
-	border-bottom: solid 2px #fde0db;
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
 	-ms-transition: all 200ms ease;
@@ -514,21 +513,33 @@ section {
 
 	font-style: inherit;
 	font-size: 13pt;
-	border-radius: 5px;
+	border-radius: 30px;
 	border: #777777;
 }
+#btn_pay:hover{
+  background: #d6d6d6;
+  color : black;
+   border : none;
+   border-radius: 30px;
+} 
 
 #btn_pay2 {
 	width: 100%;
-	background-color: #43a06f;
+	background-color: #58b483;
 	;
 	border: none;
 	font-style: inherit;
 	font-size: 13pt;
 	color: white;
-	border-radius: 5px;
+	border-radius: 30px;
 	margin-top: 10px;
 }
+#btn_pay2:hover{
+  background: #43a06f;
+  color : white;
+   border : none;
+   border-radius: 30px;
+} 
 
 /*상세정보, 후기, 문의 탭*/
 div.btn-group.btn-group-sm {
@@ -604,10 +615,17 @@ div.btn-group.btn-group-sm {
 div.progress,div.progress-bar.bg-success{
 	height: 7px;
 }
+
+.btn_photo{
+	border: none;
+	background-color: unset;
+}
+
 .carousel-wrap {
 	margin-top: 10px;
   width: 80%;
   left: 11%;
+  height : 60px;
   position: relative;
 }
 
@@ -638,4 +656,79 @@ div.progress,div.progress-bar.bg-success{
 .owl-nav .owl-next {
   right: -30px;
   top: -35px;
+}
+
+.details-row{
+	display: none;
+}
+
+.custom-btn{
+  background-color : #58b483;
+  color : white;
+  text-align: center;
+  border : none;
+  border-radius: 30px;
+  width : 100px;
+}
+.custom-btn:hover{
+  background: #43a06f;
+  color : white;
+   border : none;
+   border-radius: 30px;
+   height : 27.13px;
+} 
+#cancel-btn{
+	width : 100px;
+	border-radius: 30px;
+	height : 27.13px;
+	background-color: #f3f3f3;
+	color: black;
+	padding : 0px;
+}
+#cancel-btn:hover{
+  background: #d6d6d6;
+  color : black;
+   border : none;
+   border-radius: 30px;
+} 
+
+.box {
+  position: relative;
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+.slide {
+  height: auto;
+  cursor: pointer;
+  font-size: 30px;
+}
+
+figure{
+  border-radius:3px;
+  height:200px;
+  margin:2px;
+  background:#ccc;
+  max-width:200px;
+  min-width:150px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:montserrat;
+  font-weight:600;
+  font-size:20px;
+  color:grey;
+}
+
+.slick-next:before{
+  color:grey;
+}
+
+.slick-prev:before{
+  color:grey;
+}
+
+.slick-dots li.slick-active button:before {
+    opacity: 1;
+    color: orange;
 }

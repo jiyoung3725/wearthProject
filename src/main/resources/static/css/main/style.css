@@ -649,6 +649,7 @@
 
 .footer-widget, .footer-link, .footer-link-contact{
 	margin-top: 15px;
+	width: 500px;
 }
  .footer-widget h4 {
      color: gray;

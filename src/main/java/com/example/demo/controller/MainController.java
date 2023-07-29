@@ -10,7 +10,7 @@ public class MainController {
 	public String test() {
 		return "main/main";
 	}
-	@GetMapping("/main")
+	@GetMapping("/shop")
 	public String test2() {
 		return "shop/shopMain";
 	}
