@@ -16,6 +16,7 @@ public class TrainingRequestVO {
 	private int reqNo;
 	private String reqTitle;
 	private String reqContent;
+	private String reqStatus;
 	private String reqApp;
 	private String reqAddr;
 	private String reqDate;

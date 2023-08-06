@@ -13,10 +13,18 @@ public class SchoolDBManager extends DBManager{
 
 	// lecture
 		
-		//강의 전체목록 가져오기 / 날짜 정보 2023-08-19 형태로 가져오기
+		// 강의 전체목록 반환 (기본권한)
 		public static List<LectureVO> findAllLecture () {
 			SqlSession session = sqlSessionFactory.openSession();
 			List<LectureVO> list = session.selectList("lecture.findAllLecture");
+			session.close();
+			return list;
+		}
+		
+		// 강의 전체목록 반환 (회원권한)
+		public static List<LectureVO> findAllLectureLogin (String id) {
+			SqlSession session = sqlSessionFactory.openSession();
+			List<LectureVO> list = session.selectList("lecture.findAllLectureLogin", id);
 			session.close();
 			return list;
 		}
@@ -57,33 +65,46 @@ public class SchoolDBManager extends DBManager{
 		*/
 	
 		
-	// education
+// education
+		//기본 레코드수	
+		public static int getTotalRecordEducation(HashMap<String, Object> map)	{
+			int n = 0;
+			SqlSession session = sqlSessionFactory.openSession();
+			n = session.selectOne("education.getTotalRecordEducation", map);
+			session.close();
+			return n;
+		}
+		//로그인 레코드수	
+		public static int getTotalRecordEducationLogin(HashMap<String, Object> map)	{
+			int n = 0;
+			SqlSession session = sqlSessionFactory.openSession();
+			n = session.selectOne("education.getTotalRecordEducationLogin", map);
+			session.close();
+			return n;
+		}
+		// 기본 findAll
+		public static List<EducationVO> findAllEducation(HashMap<String, Object> map){
+			SqlSession session = sqlSessionFactory.openSession();
+			List<EducationVO> list = session.selectList("education.findAllEducation",map);
+			session.close();
+			return list;
+		}
+		// 로그인 findAll
+		public static List<EducationVO> findAllEducationLogin(HashMap<String, Object> map){
+			SqlSession session = sqlSessionFactory.openSession();
+			List<EducationVO> list = session.selectList("education.findAllEducationLogin",map);
+			session.close();
+			return list;
+		}	
 		
-	public static int getTotalRecordEducation(HashMap<String, Object> map)	{
-		int n = 0;
-		SqlSession session = sqlSessionFactory.openSession();
-		n = session.selectOne("education.getTotalRecordEducation", map);
-		System.out.println("dbManager getTotal map : " + map);
-		System.out.println("dbManager getTotal n(전체레코드) : " + n);
-		session.close();
-		return n;
-	}
+		public static EducationVO findByNoEducation (int eduno) {
+			EducationVO e = null;
+			SqlSession session = sqlSessionFactory.openSession();
+			e = session.selectOne("education.findByNoEducation", eduno);
+			session.close();
+			return e;
+		}
 		
-	public static List<EducationVO> findAllEducation(HashMap<String, Object> map){
-		SqlSession session = sqlSessionFactory.openSession();
-		List<EducationVO> list = session.selectList("education.findAllEducation",map);
-		session.close();
-		return list;
-	}	
-	
-	public static EducationVO findByNoEducation (int eduno) {
-		EducationVO e = null;
-		SqlSession session = sqlSessionFactory.openSession();
-		e = session.selectOne("education.findByNoEducation", eduno);
-		session.close();
-		return e;
-	}
-	
 	
 	
 	// TrainingRequest
@@ -108,7 +129,7 @@ public class SchoolDBManager extends DBManager{
 			session.close();
 			return t;
 		}
-		
+		/* JPA 사용으로 삭제예정
 		public static int insertTrainingRequest (TrainingRequestVO t) {
 			int re = -1;
 			SqlSession session=sqlSessionFactory.openSession();
@@ -133,7 +154,7 @@ public class SchoolDBManager extends DBManager{
 			session.close();
 			return re;
 		}
-		
+		*/
 	// opinion
 		public static int getTotalRecordOpinion()	{
 			int opinionNo = 0;

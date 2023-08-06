@@ -10,9 +10,13 @@ import com.example.demo.vo.LectureVO;
 
 @Repository
 public class LectureMyBatisRepository {
-	
+	// 강의 전체목록 반환 (기본권한)
 	public List<LectureVO> findAllLecture() {
 		return SchoolDBManager.findAllLecture();
+	}
+	// 강의 전체목록 반환 (회원권한)
+	public List<LectureVO> findAllLectureLogin(String id) {
+		return SchoolDBManager.findAllLectureLogin(id);
 	}
 	
 	public LectureVO findByNoLecture(int lecNO){

@@ -2,15 +2,23 @@ package com.example.demo.vo;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name="users")
 public class UsersVO {
 	@Id
@@ -28,6 +36,12 @@ public class UsersVO {
 	private int point;
 	private String u_status;
 	private String role;
+	
+	@OneToMany(mappedBy = "users", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	private List<EducationVO> education;
+	@OneToMany(mappedBy = "users", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	private List<LectureVO> lecture;
+	
 	public int getUserno() {
 		return userno;
 	}

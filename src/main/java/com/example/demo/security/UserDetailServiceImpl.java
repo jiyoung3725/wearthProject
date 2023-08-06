@@ -24,6 +24,7 @@ public class UserDetailServiceImpl implements UserDetailsService  {
 	@Override
 	public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
 	    Optional<UsersVO> userOptional = ur.findById(id);
+	   
 	    UsersVO u = userOptional.orElse(null);
 	    if (u == null) {
 	        throw new UsernameNotFoundException(id);

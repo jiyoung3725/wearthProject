@@ -25,9 +25,14 @@ public class lectureService {
 	@Autowired
 	private LectureMyBatisRepository dao_MB;
 
-	//MB (조회)
+//MB (조회)
+	// 강의 전체목록 반환 (기본권한)
 	public List<LectureVO> findAllLecture(){
 		return dao_MB.findAllLecture();
+	}
+	// 강의 전체목록 반환 (회원권한)
+	public Object findAllLectureLogin(String id){
+		return dao_MB.findAllLectureLogin(id);
 	}
 	
 	public LectureVO findByNoLecture(int lecNO) {

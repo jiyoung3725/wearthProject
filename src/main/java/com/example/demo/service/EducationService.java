@@ -14,7 +14,7 @@ import lombok.Setter;
 
 @Service
 @Setter
-public class EducationService {
+public class EducationService  {
 
 	@Autowired
 	private EducationJpaRepository dao_JPA;
@@ -22,14 +22,24 @@ public class EducationService {
 	@Autowired
 	private EducationMyBatisRepository dao_MB;
 
-	//MB (조회)
+//MB (조회)
 	
+	// 기본 래코드수
 	public int getTotalRecordEducation(HashMap<String, Object> map) {
 		return dao_MB.getTotalRecordEducation(map);
 	}
-	
+	// 로그인 래코드수
+	public int getTotalRecordEducationLogin(HashMap<String, Object> map) {
+		return dao_MB.getTotalRecordEducation(map);
+	}
+	// 기본 findAll
 	public List<EducationVO> findAllEducation(HashMap<String, Object> map){
-		System.out.println("map: "+map);
+		System.out.println("기본권한) map: "+map);
+		return dao_MB.findAllEducation(map);
+	}
+	// 로그인 findAll
+	public Object findAllEducationLogin(HashMap<String, Object> map){
+		System.out.println("회원권한) map: "+map);
 		return dao_MB.findAllEducation(map);
 	}
 	
@@ -39,7 +49,7 @@ public class EducationService {
 	
 	
 	
-	//JPA (추가, 수정, 삭제)
+//JPA (추가, 수정, 삭제)
 	
 	public int getNextNoEducation() {
 		return (int)dao_JPA.getNextNoEducation();

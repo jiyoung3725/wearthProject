@@ -4,9 +4,14 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="lecture">
     
- 	<!-- 강의 전체목록 가져오기 / 날짜 정보 2023-08-19 형태로 가져오기 -->
+ 	<!-- 강의 전체목록 반환 (기본권한) -->
  	<select id="findAllLecture" resultType="lectureVO">
- 		select lecNO, lecName, lecContent, lecDate, lecAddr, lecturer, lecApp, lecPhone, lecPrice, lecFile, lecSysdate from lecture order by lecDate
+ 		select lecNO, lecName, lecContent, lecStatus, lecDate, lecAddr, lecturer, lecApp, lecPhone, lecPrice, lecFile, lecSysdate from lecture order by lecDate
+ 	</select>
+ 	
+ 	<!-- 강의 전체목록 반환 (회원권한) -->
+ 	<select id="findAllLectureLogin" resultType="lectureVO">
+ 		select lecNO, lecName, lecContent, lecStatus, lecDate, lecAddr, lecturer, lecApp, lecPhone, lecPrice, lecFile, lecSysdate from lecture  where id = #{id} order by lecDate
  	</select>
  	
  	<select id="findByNoLecture" resultType="lectureVO">
@@ -14,7 +19,7 @@
     </select>
  	
  	<insert id="insertLecture" parameterType="lectureVO">
- 		insert into lecture values (seq_lecture.nextval,#{lecName},#{leccontent},to_date(#{lecdate},'yyyy-mm-dd'),#{lecaddr},#{lecturer},#{lecapp},#{lecphone},#{lecprice},#{lecfile},sysdate)
+ 		insert into lecture values (seq_lecture.nextval,#{lecName},#{leccontent},#{lecStatus},to_date(#{lecdate},'yyyy-mm-dd'),#{lecaddr},#{lecturer},#{lecapp},#{lecphone},#{lecprice},#{lecfile},sysdate)
  	</insert>
  	
  	<!-- JPA 사용으로 삭제예정

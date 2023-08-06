@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="education">
-	<!-- 전체 레코드 수 반환 -->
+	<!-- 전체 레코드 수 반환 (기본권한)-->
 	 	<select id="getTotalRecordEducation" resultType="java.lang.Integer">
 		    select count(*) from education
 		    <if test="search != null">
@@ -18,25 +18,60 @@
 			    </if>
 		    </if>
 		</select>
-	 	
-	<!-- 교육 전체목록 반환 -->
-  <select id="findAllEducation" resultType="educationVO">
-    select eduno, eduName, eduContent, eduStatus, eduApp, eduAddr, educator, eduPhone, eduFile, eduDetailFile, edusysdate 
-    from (select rownum n, eduno, eduName, eduContent, eduStatus, eduApp, eduAddr, educator, eduPhone, eduFile, eduDetailFile, edusysdate 
-    from (select * from education 
-     <if test="search != null">
+		
+	<!-- 전체 레코드 수 반환 (회원권한)-->
+	 	<select id="getTotalRecordEducationLogin" resultType="java.lang.Integer">
+		    select count(*) from education where id=#{id}
+		    <if test="search != null">
 			    <if test="category == 'eduName'">
-					where eduName like '%'||#{search}||'%'
+					and eduName like '%'||#{search}||'%'
 			    </if>
 			    <if test="category == 'eduContent'">
-					where eduContent like '%'||#{search}||'%'
+					and eduContent like '%'||#{search}||'%'
 			    </if>
 			    <if test="category == 'eduApp'">
-					where eduApp like '%'||#{search}||'%'
+					and eduApp like '%'||#{search}||'%'
 			    </if>
 		    </if>
-     order by eduNo desc)) a where a.n between #{start} and #{end}
-</select>
+		</select>
+	 	
+	<!-- 교육 전체목록 반환 (기본권한)-->
+	  <select id="findAllEducation" resultType="educationVO">
+	    select eduno, eduName, eduContent, eduStatus, eduApp, eduAddr, educator, eduPhone, eduFile, eduDetailFile, edusysdate 
+	    from (select rownum n, eduno, eduName, eduContent, eduStatus, eduApp, eduAddr, educator, eduPhone, eduFile, eduDetailFile, edusysdate 
+	    from (select * from education 
+	     <if test="search != null">
+				    <if test="category == 'eduName'">
+						where eduName like '%'||#{search}||'%'
+				    </if>
+				    <if test="category == 'eduContent'">
+						where eduContent like '%'||#{search}||'%'
+				    </if>
+				    <if test="category == 'eduApp'">
+						where eduApp like '%'||#{search}||'%'
+				    </if>
+			    </if>
+	     order by eduNo desc)) a where a.n between #{start} and #{end}
+	</select>
+
+	<!-- 교육 전체목록 반환 (회원권한)-->
+	  <select id="findAllEducationLogin" resultType="educationVO">
+	    select eduno, eduName, eduContent, eduStatus, eduApp, eduAddr, educator, eduPhone, eduFile, eduDetailFile, edusysdate 
+	    from (select rownum n, eduno, eduName, eduContent, eduStatus, eduApp, eduAddr, educator, eduPhone, eduFile, eduDetailFile, edusysdate 
+	    from (select * from education where id = #{id}
+	     <if test="search != null">
+				    <if test="category == 'eduName'">
+						and eduName like '%'||#{search}||'%'
+				    </if>
+				    <if test="category == 'eduContent'">
+						and eduContent like '%'||#{search}||'%'
+				    </if>
+				    <if test="category == 'eduApp'">
+						and eduApp like '%'||#{search}||'%'
+				    </if>
+			    </if>
+	     order by eduNo desc)) a where a.n between #{start} and #{end}
+	</select>
 
  	<!-- 교육 해당 번호목록 반환 -->
  	<select id="findByNoEducation" resultType="educationVO">
