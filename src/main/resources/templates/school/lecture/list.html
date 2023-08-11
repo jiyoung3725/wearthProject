@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>강연</title>
@@ -14,7 +14,7 @@
 <body onload="autoReload();">
 	<div class="container">
 	 <div th:include="/main/header.html"></div>
-	 
+	<!--<span th:text="${session.user.id}+'님이 로그인하였습니다.'"></span><span th:text="${session.user.id}+'('+${session.user.name}+')님이 로그인하였습니다.'"></span>-->	 
 	<!--상단배너-->
 		<div class="container p-5 my-5 border">
 		  <h1 style="font-weight: bold;  color: #43a06f;">강연</h1>
@@ -24,31 +24,29 @@
 		<div class="calendar">
 		  <div style="color: yellowgreen; font-size: 80px; font-weight: bold;">C A L E N D A R</div>
 		</div>
-		<div class="calendar" style="margin-top: -20px;">
+		<div class="calendar" style="margin-top: -35px;">
 		 	<div style="color: rgb(123, 164, 40); font-size: 30px; font-weight: bold;">- W  E  A  R  T  H &nbsp; S  C  H  O  O  L -</div>
 		 </div>
 		
 	<table class="table" id="calendar" style="margin-top: -10px;">
-		<tr>
-			<td></td>
-			<td></td>
-			<td>
+		<tr >
+			<td style="border-top:0"></td>
+			<td style="border-top:0"></td>
+			<td style="border-top:0">
 			<div class="month">
 				<a id="before" href="javascript:beforem()"></a>
 			</div>
 			</td>
-			<td colspan="1" align="center">
+			<td colspan="1" align="center" style="border-top:0">
 			<a href="javascript:thisMonth()"><div class="date" id="yearmonth"></div></a>
 			</td>
-			<td>
+			<td style="border-top:0">
 			<div class="month">
 			<a id="next" href="javascript:nextm()"></a>
 			</div>
 			</td>
-			<td></td>
-			<td>		
-				
-			</td>
+			<td style="border-top:0"></td>
+			<td style="border-top:0"></td>
 		</tr>
 		<tr>
 			<th>월</th>
@@ -60,6 +58,11 @@
 			<th><font color="#ed5353">일</font></th>
 		</tr>
 	</table>
+	
+	<ul th:each="l:${list}">
+		 <li><span class="lec" th:attr="lecNO=''+${l.lecNO},lecName=''+${l.lecName},lecDate=''+${l.lecDate}"></span></li>
+	</ul>
+	
 	
 	</div>
     <div th:include="/main/footer.html"></div>

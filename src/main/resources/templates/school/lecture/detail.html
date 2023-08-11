@@ -22,6 +22,14 @@
 <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap" rel="stylesheet">
 <!-- Custom styles for this template -->
 <link href="blog.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="/js/education/detail.js"></script>  
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+<meta name="_csrf" th:content="${_csrf.token}"/>
 </head>
 <body>
 <div class="container">
@@ -34,7 +42,7 @@
 	    <div class="col-md-8">
 			
 			<!-- 상세 메인이미지 -->
-			<article class="blog-post"><img class="detailImg" src="/images/education/edu10.jpg" ><br />
+			<article class="blog-post"><img class="detailImg" th:src="@{'/images/education/'+${l.lecFile}}" ><br />
 			</article>
 			
 			<!-- 그룹 버튼 -->
@@ -53,65 +61,7 @@
 			<!-- 상세 -->
 		    <article class="blog-post">
 			<div  id="detail" class="content">
-		        <h2 class="blog-post-title" style="text-align: center;">위얼스학교 X 탄소연구소</h2>
-		        <p class="blog-post-meta" style="text-align: center;">"탄소 중립의 길" </p>
-		        <p style="text-align: center; margin-bottom: 50px;">탄소 줄이기는 환경 보호와 지속 가능한 미래를 위해 매우 중요한 주제입니다. 탄소는 온실가스 중 하나인 이산화탄소(CO2)의 주요 구성 성분이며, 인간 활동으로 인해 대량으로 배출되고 있습니다. 이러한 탄소 배출은 지구 온난화와 기후 변화를 가속화시키고 있어서 우리 모두가 적극적으로 참여하여 탄소를 줄이는 노력이 필요합니다.</p>
-		        <hr>
-		 		<h2>Heading</h2>
-		        <p>This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.</p>
-		        <br />
-		        <h3>Sub-heading</h3>
-		        <p>This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.</p>
-		        <pre><code>Example code block</code></pre>
-		        <p>This is some additional paragraph placeholder content. It's a slightly shorter version of the other highly repetitive body text used throughout.</p>
-			<br />
-	       <h3>Example table</h3>
-	        <table class="table">
-	          <thead>
-	            <tr>
-	              <th>Name</th>
-	              <th>Upvotes</th>
-	              <th>Downvotes</th>
-	            </tr>
-	          </thead>
-	          <tbody>
-	            <tr>
-	              <td>Alice</td>
-	              <td>10</td>
-	              <td>11</td>
-	            </tr>
-	            <tr>
-	              <td>Bob</td>
-	              <td>4</td>
-	              <td>3</td>
-	            </tr>
-	            <tr>
-	              <td>Charlie</td>
-	              <td>7</td>
-	              <td>9</td>
-	            </tr>
-	          </tbody>
-	          <tfoot>
-	            <tr>
-	              <td>Totals</td>
-	              <td>21</td>
-	              <td>23</td>
-	            </tr>
-	          </tfoot>
-	        </table>
-	        <br />
-	        <h3>지도</h3>
-		        <div id="map" style="width:100%;height:350px;"></div>
-					<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d9790c6888a563258e334542bc0c24a9"></script>
-					<script>
-						var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-						    mapOption = { 
-						        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-						        level: 3 // 지도의 확대 레벨
-						    };
-						// 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
-						var map = new kakao.maps.Map(mapContainer, mapOption); 
-					</script>
+		         <img class="img-fluid" th:src="@{'/images/education/detail/'+${l.lecDetailFile}}" />
 			</div>
 			 </article>
 			 
@@ -282,10 +232,15 @@
 			  
 			<!-- 제목, 가격 --> 
 	        <div class="p-4 mb-3 bg-white rounded" style="border: 1px solid lightgrey;">
-	      		<h4 class="fst-basic">[모집중] 탄소 중립의 길</h4>
-	          <div class="row">
-	          <div class="col"><p class="mb-0" style="color: #43a06f; font-weight: bold;"> 10,000 원 </p></div>
-	           <div class="col"><a href="#" onclick="changeImage('2')" style="margin-left: 100px;"><img id="2" src="/images/education/whiteHeart.jpg" style="width:28px;" /></a></div>
+	      		<div>[<span  style="font-weight: bold;" th:text="${l.lecStatus}"></span>] <span  style="font-weight: bold;" th:text="${l.lecName}"></span></div>
+				<br />
+	           <div class="row">
+	      		<div class="col"><span class="mb-0" style="color: #43a06f; font-weight: bold;" th:text="${l.lecPrice}"></span> <span style="color: #43a06f; font-weight: bold;">원</span></div>
+	           <div class="col" th:if="${session.u}" sec:authorize="isAuthenticated()">
+					    <a th:onclick="'likeOrUnlike2(\'' + ${l.lecNO} + '\'); return false;'" style="margin-left: 100px;">
+					        <img th:id="${l.lecNO}" th:src="${l.liked ? '/images/education/redHeart.jpg' : '/images/education/whiteHeart.jpg'}" style="width:28px" />
+					    </a>
+					</div>
 	        </div>
 	        </div>
 	        
@@ -293,13 +248,15 @@
 	        <div class="p-4">
 	          <ol class="list-unstyled mb-0">
 				<li style="font-weight: bold;">내용</li>
-	            <li> 탄소 배출은 지구 온난화와 기후 변화를 가속화시키고 있어서 우리 모두가 적극적으로 참여하여 탄소를 줄이는 노력이 필요합니다.</li>
+	            <li th:text="${l.lecContent}"></li>
+	            <li style="font-weight: bold;">강연대상</li>
+	            <li th:text="${l.lecApp}"></li>
 				<li style="font-weight: bold;">날짜</li>	
-	            <li>2023년 7월 26일</li>
-	            <li style="font-weight: bold;">인원</li>
-	            <li>20명</li>
+	             <li th:text="${l.lecDate}"></li>
 	            <li style="font-weight: bold;">장소</li>
-	            <li>남태령 산적마을농장</li>
+	            <li th:text="${l.lecAddr}"></li>
+	            <li style="font-weight: bold;">출처</li>
+	            <li th:text="${l.lecturer}"></li>
 	          </ol>
 	        </div>
 	        
@@ -315,13 +272,38 @@
 
 	<div th:include="/main/footer.html"></div>
 </div>
-  <script src="/js/education/education.js"></script> 
-  <script src="/js/education/detail.js"></script>  
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
- 
+<script>
+// 강연 디테일 좋아요 버튼 
+var isLiked = {};
+function likeOrUnlike2(id) {
+  var heartImage = document.getElementById(id);
+ 	var header = $("meta[name='_csrf_header']").attr('content');
+	var token = $("meta[name='_csrf']").attr('content');
+  console.log("id : "+ id);
+  if (!isLiked[id]) {
+    heartImage.src = "/images/education/redHeart.jpg";
+    isLiked[id] = true;
+    $.ajax({
+		url : "/school/lecture/liked/insert",
+		type : "post",
+		data : {lecNO : id},
+		beforeSend : function(xhr){
+			xhr.setRequestHeader(header, token);
+		}
+	});
+  } else {
+    heartImage.src = "/images/education/whiteHeart.jpg";
+    isLiked[id] = false;
+      $.ajax({
+		url : "/school/lecture/liked/delete",
+		type : "post",
+		data : {lecNO : id},
+		beforeSend : function(xhr){
+			xhr.setRequestHeader(header, token);
+		}
+	});
+  }
+}
+</script>
   </body>
 </html>
