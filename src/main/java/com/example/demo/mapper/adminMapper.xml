@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="admin">
 
     <!--****************************************DashBoard **********************************-->
@@ -22,10 +22,46 @@
 
     <!-- ****************************************adminUserList *****************************-->
     <!-- 검색기능 -->
-    <select id = "searchUser">
-
+    <select id="getSearchUserList" resultType="usersVO">
+        SELECT * FROM users
+        WHERE 1 = 1
+        <if test="u_name != null and u_name != ''">
+            AND u_name LIKE '%'||#{u_name}||'%'
+        </if>
+        <if test="id != null and id != ''">
+            AND id LIKE '%'||#{id}||'%'
+        </if>
+        <if test="date_birth != null and date_birth != ''">
+            AND date_birth LIKE '%'||#{date_birth}||'%'
+        </if>
+        <if test="phone != null and phone != ''">
+            AND phone LIKE '%'||#{phone}||'%'
+        </if>
+        <if test="residence != null and residence != ''">
+            AND residence LIKE '%'||#{residence}||'%'
+        </if>
     </select>
 
+
+    <select id = "getSearchTotalUser" resultType = "java.lang.Integer">
+        select count(*) from users
+        WHERE 1 = 1
+        <if test="u_name != null and u_name != ''">
+            AND u_name LIKE '%'||#{u_name}||'%'
+        </if>
+        <if test="id != null and id != ''">
+            AND id LIKE '%'||#{id}||'%'
+        </if>
+        <if test="date_birth != null and date_birth != ''">
+            AND date_birth LIKE '%'||#{date_birth}||'%'
+        </if>
+        <if test="phone != null and phone != ''">
+            AND phone LIKE '%'||#{phone}||'%'
+        </if>
+        <if test="residence != null and residence != ''">
+            AND residence LIKE '%'||#{residence}||'%'
+        </if>
+    </select>
 
     <!-- 유저리스트 -->
     <select id = "getTotalUserList" resultType="usersVO">

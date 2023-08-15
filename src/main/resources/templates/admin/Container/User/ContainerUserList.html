@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -32,53 +32,54 @@
 
                 <!-- 검색 영역-->
                 <div class="div-userlist-searching-container">
-
                     <!-- Text 영역-->
                     <div class="input-group">
                         <div class="input-group flex-nowrap">
-                            <span class="input-group-text" id="1">이 름</span>
-                            <input type="text" class="form-control" placeholder="이름검색" aria-label="Username"
+                            <span class="input-group-text" >이 름</span>
+                            <input type="text" id="searchU_name" class="form-control" placeholder="이름검색" aria-label="Username"
                                    aria-describedby="addon-wrapping">
                         </div>
                         <div class="input-group flex-nowrap">
-                            <span class="input-group-text" id="2">아 이 디</span>
-                            <input type="text" class="form-control" placeholder="아이디검색" aria-label="Username"
+                            <span class="input-group-text" >아 이 디</span>
+                            <input type="text" id="searchId" class="form-control" placeholder="아이디검색" aria-label="Username"
                                    aria-describedby="addon-wrapping">
                         </div>
                     </div>
 
                     <div class="input-group">
                         <div class="input-group flex-nowrap">
-                            <span class="input-group-text" id="3">나 이</span>
-                            <input type="text" class="form-control" placeholder="나이검색" aria-label="Username"
+                            <span class="input-group-text" >생년월일</span>
+                            <input type="text" id="searchDate_birth" class="form-control" placeholder="생년월일검색" aria-label="Username"
                                    aria-describedby="addon-wrapping">
                         </div>
                         <div class="input-group flex-nowrap">
-                            <span class="input-group-text" id="4">핸드폰 번호</span>
-                            <input type="text" class="form-control" placeholder="xxx-xxxx-xxxx" aria-label="Username"
+                            <span class="input-group-text">연락처</span>
+                            <input type="text" id="searchPhone" class="form-control" placeholder="xxx-xxxx-xxxx" aria-label="Username"
                                    aria-describedby="addon-wrapping">
                         </div>
                     </div>
 
-                    <!-- DropDown 영역-->
-                    <div class="dropdown-group">
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                거주지
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><button class="dropdown-item" type="button">서울</button></li>
-                                <li><button class="dropdown-item" type="button">경기</button></li>
-                                <li><button class="dropdown-item" type="button">강원</button></li>
-                            </ul>
+                    <div>
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text" >거주지</span>
+                            <input type="text" id="searchResidence" class="form-control" placeholder="주소입력" aria-label="Username"
+                                   aria-describedby="addon-wrapping">
+                        </div>
+                        <div class="dropdown-group">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                    성별
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><button class="dropdown-item" type="button" value="M">남자</button></li>
+                                    <li><button class="dropdown-item" type="button" value="F">여자</button></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-ㅊ
 
-                    <button>
-                        검색
-                    </button>
+                    <button type="button" class="btn btn-primary-search">검색</button>
                 </div>
 
             </div>

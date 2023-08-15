@@ -18,6 +18,14 @@ public class AdminMyBatisRepository {
 	public static int totalRecord;
 	public static int totalPage;
 
+	public List<UsersVO> getSearchUserList(HashMap<String, Object> map) {
+		totalRecord = AdminDBManager.getTotalUser();
+		totalPage = (int)Math.ceil(totalRecord / (double)pageSize);
+		System.out.println("TotalUserList 전체레코드 : "+ totalRecord);
+		System.out.println("TotalUserList 전체페이지 : "+ totalPage);
+		return AdminDBManager.getSearchUserList(map);
+	}
+
 	public List<UsersVO> getTotalUserList(HashMap<String, Object> map) {
 		totalRecord = AdminDBManager.getTotalUser();
 		totalPage = (int)Math.ceil(totalRecord / (double)pageSize);
@@ -26,6 +34,9 @@ public class AdminMyBatisRepository {
 		return AdminDBManager.getTotalUserList(map);
 	}
 
+	public int getSearchTotalUser(){
+		return AdminDBManager.getSearchTotalUser();
+	}
 	public int getTotalUser(){
 		return AdminDBManager.getTotalUser();
 	}

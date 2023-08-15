@@ -13,8 +13,16 @@ public class AdminService {
     @Autowired
     private AdminMyBatisRepository repository;
 
+    public List<UsersVO> getSearchUserList(HashMap<String, Object>map){
+        return repository.getSearchUserList(map);
+    }
+
     public List<UsersVO> getTotalUserList(HashMap<String, Object> map) {
         return repository.getTotalUserList(map);
+    }
+
+    public int getSearchTotalUser(){
+        return repository.getSearchTotalUser();
     }
     public int getTotalUser(){
         return repository.getTotalUser();

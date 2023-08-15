@@ -10,6 +10,16 @@ import java.util.HashMap;
 import java.util.List;
 
 public class AdminDBManager extends DBManager {
+
+    public static List<UsersVO> getSearchUserList(HashMap<String, Object>map){
+        System.out.println("getSearchUserList작동");
+        System.out.println("맵에들어있는 값은 뭔데??" + map);
+        SqlSession session = sqlSessionFactory.openSession();
+        List<UsersVO> userList = session.selectList("admin.getSearchUserList", map);
+        System.out.println("AdminDBManger의 List확인" + userList);
+        session.close();
+        return userList;
+    }
     public static List<UsersVO> getTotalUserList(HashMap<String, Object>map) {
 
         System.out.println("getTotalUserList의 AdminDBManager작동");
@@ -21,6 +31,12 @@ public class AdminDBManager extends DBManager {
         return userList;
     }
 
+    public static int getSearchTotalUser(){
+        int n = 0;
+        SqlSession session = sqlSessionFactory.openSession();
+        n = session.selectOne("admin.getSearchTotalUser");
+        return n;
+    }
     public static int getTotalUser(){
         int n = 0;
         SqlSession session = sqlSessionFactory.openSession();

@@ -3,7 +3,56 @@ $(document).ready(function() {
     //토큰선언
     var header = $("meta[name='_csrf_header']").attr('content');
     var token = $("meta[name='_csrf']").attr('content');
-    
+
+    /* 유저 검색 기능 */
+    $(".btn-primary-search").click(function() {
+        // 입력된 데이터 수집
+
+        var u_name = $('#searchU_name').val();
+        var id = $('#searchId').val();
+        var age = $('#searchDate_birth').val();
+        var phone = $('#searchPhone').val();
+        var residence = $('#searchResidence').val();
+        var gender = $('.dropdown-toggle').attr("value");
+
+        // 값이 없는 조건에 대해 공백으로 처리
+        if (u_name === null) u_name = "";
+        if (id === null) id = "";
+        if (age === null) age = "";
+        if (phone === null) phone = "";
+        if (residence === null) residence = "";
+
+        console.log('uname찍어봄'+u_name);
+        console.log('id' + id);
+
+        // 데이터를 서버로 전송
+        $.ajax({
+            url: "/adminUserList/search/1",
+            type: "GET",
+            data: {
+                u_name: u_name,
+                id: id,
+                age: age,
+                phone: phone,
+                residence: residence,
+                gender: gender
+            },
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function(response) {
+                if (response === "success") {
+
+                } else {
+                    alert('사용가능한 아이디입니다');
+                }
+            },
+            error: function(xhr, status, error) {
+                // 에러 처리 코드
+            }
+        });
+    });
+
     /* 체크박스 전체 선택 기능 */
     $('#selectAllCheckbox').change(function() {
         $('tbody input[type="checkbox"]').prop('checked', $(this).prop('checked'));
@@ -36,9 +85,9 @@ $(document).ready(function() {
             },
             success: function(response) {
                 if (response === "success") {
-                    alert('중복된 아이디입니다');
+                    window.location.href = '/adminUserList/1';
                 } else {
-                    alert('사용가능한 아이디입니다');
+
                 }
             },
             error: function(error) {
