@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.repository.AdminMyBatisRepository;
+import com.example.demo.repository.EducationMyBatisRepository;
 import com.example.demo.service.AdminService;
 import com.example.demo.service.EducationService;
 import com.example.demo.service.VolunteerService;
@@ -57,23 +58,76 @@ public class AdminController {
 
     //UserList
     @GetMapping("/adminUserList/{pageNUM}")
-    public String adminUserList(Model model, @PathVariable("pageNUM") int pageNUM){
+    public String adminUserList(Model model, @PathVariable("pageNUM") int pageNUM,
+                                @RequestParam(value = "u_name", required = false) String u_name,
+                                @RequestParam(value = "id", required = false) String id,
+                                @RequestParam(value = "age", required = false) String age,
+                                @RequestParam(value = "phone", required = false) String phone,
+                                @RequestParam(value = "residence", required = false) String residence,
+                                @RequestParam(value = "gender", required = false) String gender){
 
-        int start = (pageNUM-1) * AdminMyBatisRepository.pageSize+1;
-        int end = start + AdminMyBatisRepository.pageSize-1;
-
-        System.out.println("adminUserList의 컨트롤러 작동");
+        int start = (pageNUM - 1) * AdminMyBatisRepository.pageSize + 1;
+        int end = start + AdminMyBatisRepository.pageSize - 1;
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("start", start);
         map.put("end", end);
 
-        model.addAttribute("totalUser", adminService.getTotalUser());
-        model.addAttribute("userList", adminService.getTotalUserList(map));
-        model.addAttribute("totalPage", AdminMyBatisRepository.totalPage); // 추가된 부분
+        System.out.println("이름좀보자" + u_name);
+        System.out.println("컨트롤러에서 검색기능 동작됨");
+        if (u_name != null || id != null || age != null || phone != null || residence != null || gender != null) {
 
+            map.put("u_name", u_name);
+            map.put("id", id);
+            map.put("age", age);
+            map.put("phone", phone);
+            map.put("residence", residence);
+            map.put("gender", gender);
+
+            model.addAttribute("userList", adminService.getSearchUserList(map));
+            model.addAttribute("totalUser", adminService.getSearchTotalUser(map));
+            model.addAttribute("totalPage", AdminMyBatisRepository.totalPage);
+            System.out.println("totalUser몇명이야?" + adminService.getSearchTotalUser(map));
+        } else {
+            System.out.println("adminUserList의 컨트롤러 작동");
+            model.addAttribute("totalUser", adminService.getTotalUser());
+            model.addAttribute("userList", adminService.getTotalUserList(map));
+            model.addAttribute("totalPage", AdminMyBatisRepository.totalPage);
+        }
         return "admin/User/UserList";
     }
+
+//    @GetMapping("/adminUserList/search/{pageNUM}")
+//    public String adminSearchUserList(Model model, @PathVariable("pageNUM") int pageNUM,
+//                                @RequestParam(value = "u_name", required = false) String u_name,
+//                                @RequestParam(value = "id", required = false) String id,
+//                                @RequestParam(value = "age", required = false) String age,
+//                                @RequestParam(value = "phone", required = false) String phone,
+//                                @RequestParam(value = "residence", required = false) String residence,
+//                                @RequestParam(value = "gender", required = false) String gender) {
+//
+//        int start = (pageNUM - 1) * AdminMyBatisRepository.pageSize + 1;
+//        int end = start + AdminMyBatisRepository.pageSize - 1;
+//
+//        HashMap<String, Object> map = new HashMap<>();
+//        map.put("start", start);
+//        map.put("end", end);
+//
+//        System.out.println("이름좀보자" + u_name);
+//        System.out.println("컨트롤러에서 검색기능 동작됨");
+//        map.put("u_name", u_name);
+//        map.put("id", id);
+//        map.put("age", age);
+//        map.put("phone", phone);
+//        map.put("residence", residence);
+//        map.put("gender", gender);
+//
+//        model.addAttribute("userList", adminService.getSearchUserList(map));
+//        model.addAttribute("totalPage", AdminMyBatisRepository.totalPage);
+//        model.addAttribute("totalUser",adminService.getSearchTotalUser());
+//        return "success";
+//    }
+
 
     @DeleteMapping("/deleteUser/{userno}")
     @ResponseBody
@@ -86,7 +140,6 @@ public class AdminController {
             return "error";  // 사용자 삭제에 실패하면 "error" 반환
         }
     }
-    //02 검색기능 만들기 : 검색은 이름 나이 아이디 핸드폰번호 거주지
     @DeleteMapping("/deleteSelectedUser")
     @ResponseBody
     public String deleteSelectedUser(@RequestBody List<Integer> checkedUserIds) {
@@ -147,14 +200,47 @@ public class AdminController {
     //*****************************School***************************//
     //강연관리, 교육관리, 문의게시판
 
-    @GetMapping("/adminSchoolEducation")
-    public String adminEducation(){
+    @GetMapping("/adminLectureList/{pageNUM}")
+    public String adminLectureList(Model model, @PathVariable("pageNUM") int pageNUM){
+
+        int start = (pageNUM - 1) * AdminMyBatisRepository.pageSize + 1;
+        int end = start + AdminMyBatisRepository.pageSize - 1;
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("start", start);
+        map.put("end", end);
+
+        System.out.println("컨트롤러에서 검색기능 동작됨");
+        System.out.println("adminLectureList작동 컨트롤러 작동");
+        model.addAttribute("totalleu", adminService.getTotalLecture());
+        model.addAttribute("lectureList", adminService.getTotalLectureList(map));
+
+        model.addAttribute("totalPage", AdminMyBatisRepository.totalPage);
+        return "admin/School/SchoolLecture";
+    }
+
+    @GetMapping(value = {"/adminEducationList/{pageNUM}"})
+    public String adminEducationList(Model model, @PathVariable("pageNUM") int pageNUM){
+
+        int start = (pageNUM - 1) * EducationMyBatisRepository.pageSize + 1;
+        int end = start + EducationMyBatisRepository.pageSize - 1;
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("start", start);
+        map.put("end", end);
+
+        System.out.println("컨트롤러에서 검색기능 동작됨");
+        System.out.println("adminEducationList의 컨트롤러 작동");
+        model.addAttribute("totaledu", educationService.getTotalEducation());
+        model.addAttribute("educationList", adminService.getTotalEducationList(map));
+        model.addAttribute("totalPage", AdminMyBatisRepository.totalPage);
         return "admin/School/SchoolEducation";
     }
 
-    @GetMapping("/adminSchoolLecture")
-    public String adminLecture(){
-        return "admin/School/SchoolLecture";
+
+    @GetMapping("/adminSchooltrainingRequest")
+    public String admintrainingRequest(){
+        return "admin/School/SchooltrainingRequest";
     }
     //Shopping
 

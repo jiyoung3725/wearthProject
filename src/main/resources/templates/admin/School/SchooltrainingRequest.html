@@ -7,11 +7,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Test</title>
-  <link rel="stylesheet" href="/css/admin/User/ContainerUserList.css">
-
 </head>
 
 <body>
+</script>
+
 <!-- 여기다가 adminHeader.html넣기-->
 <div th:include="admin/Header/Header.html"></div>
 
@@ -20,8 +20,9 @@
   <div th:include="admin/Side/Sidebar.html"></div>
 
   <!-- 메인 컨테이너 -->
-  <div class ="ContainerUserList" id = "ContainerUserList" th:include="admin/Container/User/ContainerUserList.html"></div>
+  <div th:include="admin/Container/School/ContainertrainingRequest.html"></div>
 </main>
 
 </body>
+
 </html>
