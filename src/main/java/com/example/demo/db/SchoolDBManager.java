@@ -12,8 +12,7 @@ import com.example.demo.vo.TrainingRequestVO;
 
 public class SchoolDBManager extends DBManager{
 
-	// lecture
-		
+// lecture
 		// 강의 전체목록 반환 
 		public static List<LectureVO> findAllLecture () {
 			SqlSession session = sqlSessionFactory.openSession();
@@ -21,7 +20,6 @@ public class SchoolDBManager extends DBManager{
 			session.close();
 			return list;
 		}
-		
 		public static LectureVO findByNoLecture(int lecNO){
 			System.out.println("dbManager) findBYNO: "+lecNO);
 			LectureVO l = null;
@@ -30,7 +28,6 @@ public class SchoolDBManager extends DBManager{
 			session.close();
 			return l;
 		}
-		
 		public static int insertLecture (LectureVO l) {
 			int re = -1;
 			SqlSession session=sqlSessionFactory.openSession();
@@ -39,6 +36,7 @@ public class SchoolDBManager extends DBManager{
 			session.close();
 			return re;
 		}
+//좋아요
 		// 강연좋아요 추가
 		public static int insertLectureLiked(HashMap<String, Object> map) {
 			int re = -1;
@@ -63,7 +61,6 @@ public class SchoolDBManager extends DBManager{
 			session.close();
 			return list;
 		}
-		
 		// 좋아요한 lecNO 조회( 화면에 세션유지를 위함)
 		public static List<Integer> findLikedLectureNos(int userno) {
 			SqlSession session = sqlSessionFactory.openSession();
@@ -92,7 +89,7 @@ public class SchoolDBManager extends DBManager{
 	
 		
 // education
-		//기본 레코드수	
+		//기본 전체 레코드수	
 		public static int getTotalRecordEducation(HashMap<String, Object> map)	{
 			int n = 0;
 			SqlSession session = sqlSessionFactory.openSession();
@@ -100,16 +97,13 @@ public class SchoolDBManager extends DBManager{
 			session.close();
 			return n;
 		}
-		
-		// 기본 findAll
+		// 기본 전체목록 조회
 		public static List<EducationVO> findAllEducation(HashMap<String, Object> map){
 			SqlSession session = sqlSessionFactory.openSession();
 			List<EducationVO> list = session.selectList("education.findAllEducation",map);
 			session.close();
 			return list;
 		}
-		
-		
 		public static EducationVO findByNoEducation (int eduno) {
 			EducationVO e = null;
 			SqlSession session = sqlSessionFactory.openSession();
@@ -117,7 +111,7 @@ public class SchoolDBManager extends DBManager{
 			session.close();
 			return e;
 		}
-		
+//좋아요		
 		// 교육좋아요 추가
 		public static int insertEducationLiked(HashMap<String, Object> map) {
 			int re = -1;
@@ -151,17 +145,47 @@ public class SchoolDBManager extends DBManager{
 			session.close();
 			return list;
 		}
-
-	
-	// TrainingRequest
-		public static int getTotalRecordTrainingRequest()	{
-			int reqNo = 0;
+//신청
+		//교육신청 전체레코드 수 조회
+		public static int getTotalRecordEducationApplication(int userno)	{
+			System.out.println( "교육 신청 전체레코드 dbManager userno : " + userno);
+			int n = 0;
 			SqlSession session = sqlSessionFactory.openSession();
-			reqNo = session.selectOne("trainingRequest.getTotalRecordTrainingRequest");
+			n = session.selectOne("trainingRequest.getTotalRecordEducationApplication", userno);
+			System.out.println("n :? "+n);
 			session.close();
-			return reqNo;
+			return n;
+		}
+		
+		//교육신청 전체목록 조회
+		public static List<TrainingRequestVO> findAllEducationApplication(HashMap<String, Object> map){
+			System.out.println( "교육 신청 dbManager Map : " + map);
+			SqlSession session = sqlSessionFactory.openSession();
+			List<TrainingRequestVO> list = session.selectList("trainingRequest.findAllEducationApplication",map);
+			session.close();
+			return list;
+		}
+		//교육신청 상세정보 조회
+		public static TrainingRequestVO findByNoEducationApplication (int reqNO) {
+			TrainingRequestVO r = null;
+			SqlSession session = sqlSessionFactory.openSession();
+			r = session.selectOne("trainingRequest.findByNoEducationApplication", reqNO);
+			session.close();
+			return r;
+		}
+		
+	
+// TrainingRequest
+		//기본 전체레코드 수 조회
+		public static int getTotalRecordTrainingRequest(HashMap<String, Object> map)	{
+			int n = 0;
+			SqlSession session = sqlSessionFactory.openSession();
+			n = session.selectOne("trainingRequest.getTotalRecordTrainingRequest",map);
+			session.close();
+			return n;
 		}
 		public static List<TrainingRequestVO> findAllTrainingRequest(HashMap<String, Object> map){
+			System.out.println( "강의요청  dbManager Map : " + map);
 			SqlSession session = sqlSessionFactory.openSession();
 			List<TrainingRequestVO> list = session.selectList("trainingRequest.findAllTrainingRequest", map);
 			session.close();
@@ -175,85 +199,23 @@ public class SchoolDBManager extends DBManager{
 			session.close();
 			return t;
 		}
-		
-		
-		/* JPA 사용으로 삭제예정
-		public static int insertTrainingRequest (TrainingRequestVO t) {
-			int re = -1;
-			SqlSession session=sqlSessionFactory.openSession();
-			re = session.insert("trainingRequest.insertTrainingRequest", t);
-			session.commit();
-			session.close();
-			return re;
-		}
-		
-		public static int updateTrainingRequest(TrainingRequestVO t) {
+		/*
+		public static int updateTrainingRequest(TrainingRequestVO r) {
 			int re = -1;
 			SqlSession session = sqlSessionFactory.openSession(true);
-			re = session.update("trainingRequest.updateTrainingRequest",t);
+			re = session.update("trainingRequest.updateTrainingRequest",r);
 			session.close();
 			return re;
 		}
 		
-		public static int deleteTrainingRequest(TrainingRequestVO t) {
+		public static int deleteTrainingRequest(TrainingRequestVO r) {
 			int re = -1;
 			SqlSession session =sqlSessionFactory.openSession(true);
-			re = session.delete("trainingRequest.deleteTrainingRequest",t);
+			re = session.delete("trainingRequest.deleteTrainingRequest",r);
 			session.close();
 			return re;
-		}
-		*/
-	// opinion
-		public static int getTotalRecordOpinion()	{
-			int opinionNo = 0;
-			SqlSession session = sqlSessionFactory.openSession();
-			opinionNo = session.selectOne("opinion.getTotalRecordOpinion");
-			session.close();
-			return opinionNo;
-		}
-		public static List<OpinionVO> findAllOpinion(HashMap<String, Object> map){
-			SqlSession session = sqlSessionFactory.openSession();
-			List<OpinionVO> list = session.selectList("opinion.findAllOpinion", map);
-			session.close();
-			return list;
-		}
-		
-		public static OpinionVO findByNoOpinion (int opinionNO) {
-			OpinionVO o = null;
-			SqlSession session = sqlSessionFactory.openSession();
-			o = session.selectOne("opinion.findByNoOpinion", opinionNO);
-			session.close();
-			return o;
-		}
-		
-		public static int insertOpinion (OpinionVO o) {
-			int re = -1;
-			SqlSession session=sqlSessionFactory.openSession();
-			re = session.insert("opinion.insertOpinion", o);
-			session.commit();
-			session.close();
-			return re;
-		}
-	
-		
-		public static int updateOpinion(OpinionVO o) {
-			int re = -1;
-			SqlSession session = sqlSessionFactory.openSession(true);
-			re = session.update("opinion.updateOpinion",o);
-			session.close();
-			return re;
-		}
-		
-		public static int deleteOpinion(OpinionVO o) {
-			int re = -1;
-			SqlSession session =sqlSessionFactory.openSession(true);
-			re = session.delete("opinion.deleteOpinion",o);
-			session.close();
-			return re;
-		}
+		}*/
+			
 
-	
-
-	
 		
 }

@@ -61,9 +61,9 @@
 					  <button id="btnReply" class="btn custom-btn" style="background-color : #58b483;">등록</button>
 				  </form>
 				
-				  	<div id="comments" name="comments" style="width: 100%;">
-					</div>
+			  	<div id="comments" name="comments" style="width: 100%;">
 				</div>
+			</div>
 			
 	        </article>
 			  
@@ -79,54 +79,51 @@
 			    </div>
 			    
 			    <!-- 게시글 등록 버튼 -->
-			    <div class="col d-grid gap-2 d-md-flex justify-content-md-end">
+			    <div class="col d-grid gap-2 d-md-flex justify-content-md-end"  sec:authorize="isAuthenticated()">
 					<button type="button" class="btn custom-btn" data-bs-toggle="modal" data-bs-target="#exampleModal" >게시글 등록</button>
 				</div>
 					<!-- 게시글 등록 양식 모달 -->
-					<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"  sec:authorize="isAuthenticated()">
 					  <div class="modal-dialog">
+						  
 					    <div class="modal-content">
 					      <div class="modal-header">
 					        <h5 class="modal-title" id="exampleModalLabel">문의하기</h5>
 					        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					      </div>
+					      
 					      <div class="modal-body">
 					        <form>
+								<input type="hidden" id="eduNO" th:value="${e.eduNO}" />
 					          <div class="mb-3">
 					            <label for="recipient-name" class="col-form-label">제목</label>
-					            <input type="text" class="form-control" id="recipient-name" name="title">
+					            <input type="text" class="form-control" id="opinionName" name="opinionName">
 					          </div>
 					          <div class="mb-3">
 					            <label for="message-text" class="col-form-label">내용</label>
-					            <textarea class="form-control" id="message-text" name="content" style="height: 190px;"></textarea>
+					            <textarea class="form-control" id="opinionContent" name="opinionContent" style="height: 190px;"></textarea>
 					          </div>
-					          <div class="mb-3">
-							    <label for="formFileMultiple" class="col-form-label">첨부파일 </label>
-							    <input class="form-control" type="file" id="formFileMultiple">
-						  	  </div>
 						     <div class="form-check form-switch" id="secreat" style="margin:20px;">
 							  <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
 							  <label class="form-check-label" for="flexSwitchCheckDefault">비밀글</label>
 							</div>	
 							<div class="mb-3" id="mb-3" style="display: none;">
 							  <label for="pwd" class="col-form-label">비밀번호</label>
-							  <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">
-							</div>					  	  
+							  <input type="password" class="form-control" id="opinionPwd"  name="opinionPwd" placeholder="Enter password">
+							</div>		
+								<div class="modal-footer">
+						        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+						        <button type="button" class="btn custom-btn" id="btnEduOpinion">등록</button>
+						      </div>			  	  
 					        </form>
-					      </div>
-					      <div class="modal-footer">
-					        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-					        <button type="button" class="btn custom-btn">등록</button>
 					      </div>
 					    </div>
 					  </div>
 					</div>
-				
-				
 				</div>
 				
 			    <br />
-			    
+			    <!-- 교육 문의게시글 조회목록 -->
 			    <table class="table table-hover">
 					<colgroup>
 				        <col style="width: 10%;">
@@ -142,71 +139,15 @@
 			                <th>작성일</th>
 			            </tr>
 			        </thead>
-			        <tbody>
-			            <tr data-toggle="collapse" data-target="#details1" class="clickable">
-			                <td>3</td>
-			                <td>교육관련문의드립니다.</td>
-			                <td>Doe</td>
-			                <td>2023-07-25</td>
-			            </tr>
-			            <tr id="details1" class="collapse">
-			                <td colspan="4" class="post-details">
-			                    <label for="password1">비밀번호를 입력하세요:</label>
-			                    <input type="password" id="password1" required>
-			                    <button onclick="checkPassword(1)" class="btn custom-btn">확인</button>
-			                    <br><br>
-			                    <div id="postContent1" style="display: none;">
-			                        안녕하세요 교육관련 해서 문의드려요~~ 이러쿵 저러쿵 롤로로롤롤ㄹ롤로라랄랄랄릴ㄹ라랄랄
-			                        <br><br>
-			                        [답변] <br>
-			                        안녕하세요 고갱님 ^^ 해당 교육은 최대 수용인원이 요렁쿵입니다. 더욱 자세한 정보를 듣고 싶으시다면 전화주세요~
-			                    </div>
-			                </td>
-			            </tr>
-			            <tr data-toggle="collapse" data-target="#details2" class="clickable">
-			                <td>2</td>
-			                <td>환불관련문의드립니다.</td>
-			                <td>Doe</td>
-			                <td>2023-07-13</td>
-			            </tr> 
-			            <tr id="details2" class="collapse">
-			                <td colspan="4" class="post-details">
-			                    <label for="password2">비밀번호를 입력하세요:</label>
-			                    <input type="password" id="password2" required>
-			                    <button  class="btn custom-btn" onclick="checkPassword(2)">확인</button>
-			                    <br><br>
-			                    <div id="postContent2" style="display: none;">
-			                        안녕하세요 환불관련 해서 문의드려요~~ 이러쿵 저러쿵 롤로로롤롤ㄹ롤로라랄랄랄릴ㄹ라랄랄
-			                        <br><br>
-			                        [답변] <br>
-			                        안녕하세요 고갱님 ^^ 환 불 처리 해드렸습니다~ 2~3일 정도 소요 됩니다. 
-			                    </div>
-			                </td>
-			            </tr>
-			             <tr data-toggle="collapse" data-target="#details3" class="clickable">
-			                <td>1</td>
-			                <td>환불관련 문의드립니다.</td>
-			                <td>Doe</td>
-			                <td>2023-07-12</td>
-			            </tr>
-			            <tr id="details3" class="collapse">
-			                <td colspan="4" class="post-details">
-			                    <label for="password3">비밀번호를 입력하세요:</label>
-			                    <input type="password" id="password3" required>
-			                    <button  class="btn custom-btn" onclick="checkPassword(3)">확인</button>
-			                    <br><br>
-			                    <div id="postContent3" style="display: none;">
-			                        안녕하세요 환불관련 해서 문의드려요~~ 이러쿵 저러쿵 롤로로롤롤ㄹ롤로라랄랄랄릴ㄹ라랄랄
-			                        <br><br>
-			                        [답변] <br>
-			                        안녕하세요 고갱님 ^^ 환 불 처리 해드렸습니다~ 2~3일 정도 소요 됩니다. 
-			                    </div>
-			                </td>
-			            </tr>
+			        <tbody id="tableList">
+						<!-- js 로 동적 리스트 구현 -->
 			        </tbody>
 			    </table>
-			</div>
-			 </article>
+			
+				</div>
+			
+		 </article>
+		 
 	    </div>
 		
 		<!-- 오른쪽 레이아웃 -->
@@ -244,7 +185,7 @@
 	        
 	        <!-- 신청버튼 --> 
 			<div class="p-4">
-	       		<a class="btn custom-btn" style="width: 320px; " href="/school/education/insert">신청하기</a>
+	       		<a class="btn custom-btn" style="width: 320px; " th:href="@{'/school/education/insert/'+${eduNO}}">신청하기</a>
 			</div>
 	      </div>
 	      </div>
@@ -261,5 +202,5 @@
 <script type="text/javascript" src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script type="text/javascript">
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </html>

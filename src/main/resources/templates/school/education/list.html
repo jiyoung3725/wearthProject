@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="/css/styles.css">
 <link rel="stylesheet" href="/css/main/style.css">
 <link rel="stylesheet" href="/css/education/education.css">
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="/js/education/education.js"></script> 
 <script src="/js/education/detail.js"></script>  
 <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
@@ -65,7 +65,7 @@
 	    <div class="card">
 	         <a th:href="@{'/school/education/detail/'+${e.eduNO}}"><img class="card-img-top" th:src="@{'/images/education/'+${e.eduFile}}" alt="Card image" style="width: 100%" /></a>
 	        <div class="card-body">
-	            <h5 class="card-title" th:text="${e.eduName}"></h5>
+	            <h5 class="card-title" th:text="${e.eduName}"  style="white-space: nowrap; overflow : hidden; text-overflow : ellipsis;"></h5>
 	            <p class="card-text" th:text="${e.eduContent}"></p>
 	            <div class="row">
 	                <div class="col">

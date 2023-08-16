@@ -16,15 +16,10 @@ function submitForm() {
 	} else if (password == "" || password == null) {
 		swal('로그인 실패', '비밀번호를 입력해주세요.', 'warning');
 	} else {
-<<<<<<< HEAD
-		var form = document.formLogin;
-		form.submit();
-=======
 
 		var form = document.formLogin;
 		form.submit();
 
->>>>>>> refs/heads/yein2
 	}
 
 }

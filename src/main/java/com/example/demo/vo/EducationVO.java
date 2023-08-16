@@ -2,6 +2,8 @@ package com.example.demo.vo;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -26,8 +28,11 @@ public class EducationVO {
 	private String educator;
 	private String eduPhone;
 	
+	// 기본 file, 상세 페이지file MultipartFile 추가
+//	MultipartFile uploadFile;
+//	MultipartFile uploadDetailFile;
 	private String eduFile;
-	private String eduDetailFile;
+	private String eduDetailFile; 
 	private String eduSysdate;
 	private boolean liked;
 	

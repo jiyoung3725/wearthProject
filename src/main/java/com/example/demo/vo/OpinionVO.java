@@ -18,7 +18,7 @@ public class OpinionVO {
 	private int opinionNO;
 	private int eduNO;
 	private int goodsNo;
-	private int lecNo;
+	private int lecNO;
 
 	private String ID;
 	private String opinionName;

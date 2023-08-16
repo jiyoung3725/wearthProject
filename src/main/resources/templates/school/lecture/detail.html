@@ -4,17 +4,17 @@
 <title>강연 상세페이지</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="description">
+<meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+<meta name="generator" content="Hugo 0.84.0">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
-    
 <link rel="stylesheet" href="/css/styles.css">
 <link rel="stylesheet" href="/css/main/style.css">
 <link rel="stylesheet" href="/css/education/education.css">
 <link rel="stylesheet" href="/css/education/detail.css">
-
-<meta name="description">
-<meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-<meta name="generator" content="Hugo 0.84.0">
 <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/blog/">
 <!-- Bootstrap core CSS -->
 <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -22,14 +22,12 @@
 <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap" rel="stylesheet">
 <!-- Custom styles for this template -->
 <link href="blog.css" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="/js/education/detail.js"></script>  
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-<meta name="_csrf" th:content="${_csrf.token}"/>
 </head>
 <body>
 <div class="container">
@@ -73,13 +71,13 @@
 				  <p>강연 관련 후기를 남겨주세요:)</p>            
 				<br />
 				
-				  <form id="comment" action="">
+				  <form id="comment" action="" th:if="${session.u}" sec:authorize="isAuthenticated()">
+					  <input type="hidden" id="lecNO" th:value="${l.lecNO}" />
 					  <input type="text" name="content"	id="content" size="50" />
-					  <button id="btnReply" class="btn custom-btn" style="background-color : #58b483;">등록</button>
+					  <button id="btnReply2" class="btn custom-btn" style="background-color : #58b483;">등록</button>
 				  </form>
 				
-			    <div class="comments">
-		 			 <!-- 댓글 내용은 JavaScript로 동적으로 추가할 예정 -->
+			  	<div id="comments" name="comments" style="width: 100%;">
 				</div>
 		  	</div>
 	        </article>
@@ -96,44 +94,41 @@
 			    </div>
 			    
 			    <!-- 게시글 등록 버튼 -->
-			    <div class="col d-grid gap-2 d-md-flex justify-content-md-end">
+			    <div class="col d-grid gap-2 d-md-flex justify-content-md-end"  sec:authorize="isAuthenticated()">
 					<button type="button" class="btn custom-btn" data-bs-toggle="modal" data-bs-target="#exampleModal" >게시글 등록</button>
 				</div>
 					<!-- 게시글 등록 양식 모달 -->
-					<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"  sec:authorize="isAuthenticated()">
 					  <div class="modal-dialog">
+						  
 					    <div class="modal-content">
 					      <div class="modal-header">
 					        <h5 class="modal-title" id="exampleModalLabel">문의하기</h5>
 					        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					      </div>
+					      
 					      <div class="modal-body">
 					        <form>
+								<input type="hidden" id="lecNO" th:value="${l.lecNO}" />
 					          <div class="mb-3">
 					            <label for="recipient-name" class="col-form-label">제목</label>
-					            <input type="text" class="form-control" id="recipient-name" name="title">
+					            <input type="text" class="form-control" id="opinionName" name="opinionName">
 					          </div>
 					          <div class="mb-3">
 					            <label for="message-text" class="col-form-label">내용</label>
-					            <textarea class="form-control" id="message-text" name="content" style="height: 190px;"></textarea>
+					            <textarea class="form-control" id="opinionContent" name="opinionContent" style="height: 190px;"></textarea>
 					          </div>
-					          <div class="mb-3">
-							    <label for="formFileMultiple" class="col-form-label">첨부파일 </label>
-							    <input class="form-control" type="file" id="formFileMultiple">
-						  	  </div>
 						     <div class="form-check form-switch" id="secreat" style="margin:20px;">
 							  <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
 							  <label class="form-check-label" for="flexSwitchCheckDefault">비밀글</label>
 							</div>	
 							<div class="mb-3" id="mb-3" style="display: none;">
 							  <label for="pwd" class="col-form-label">비밀번호</label>
-							  <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">
-							</div>					  	  
-					        </form>
-					      </div>
-					      <div class="modal-footer">
-					        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-					        <button type="button" class="btn custom-btn">등록</button>
+							  <input type="password" class="form-control" id="opinionPwd"  name="opinionPwd" placeholder="Enter password">
+							</div>		
+								<div class="modal-footer">
+						        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+					        <button type="button" class="btn custom-btn" id="btnLecOpinion">등록</button>
 					      </div>
 					    </div>
 					  </div>
@@ -154,72 +149,13 @@
 			        <thead>
 			            <tr>
 			                <th>번호</th>
-			                <th width="50%">제목</th>
+			                <th>제목</th>
 			                <th>작성자</th>
 			                <th>작성일</th>
 			            </tr>
 			        </thead>
-			        <tbody>
-			            <tr data-toggle="collapse" data-target="#details1" class="clickable">
-			                <td>3</td>
-			                <td>강연관련문의드립니다.</td>
-			                <td>Doe</td>
-			                <td>2023-07-25</td>
-			            </tr>
-			            <tr id="details1" class="collapse">
-			                <td colspan="4" class="post-details">
-			                    <label for="password1">비밀번호를 입력하세요:</label>
-			                    <input type="password" id="password1" required>
-			                    <button onclick="checkPassword(1)" class="btn custom-btn">확인</button>
-			                    <br><br>
-			                    <div id="postContent1" style="display: none;">
-			                        안녕하세요 강연관련 해서 문의드려요~~ 이러쿵 저러쿵 롤로로롤롤ㄹ롤로라랄랄랄릴ㄹ라랄랄
-			                        <br><br>
-			                        [답변] <br>
-			                        안녕하세요 고갱님 ^^ 해당 강연은 최대 수용인원이 요렁쿵입니다. 더욱 자세한 정보를 듣고 싶으시다면 전화주세요~
-			                    </div>
-			                </td>
-			            </tr>
-			            <tr data-toggle="collapse" data-target="#details2" class="clickable">
-			                <td>2</td>
-			                <td>환불관련문의드립니다.</td>
-			                <td>Doe</td>
-			                <td>2023-07-13</td>
-			            </tr>
-			            <tr id="details2" class="collapse">
-			                <td colspan="4" class="post-details">
-			                    <label for="password2">비밀번호를 입력하세요:</label>
-			                    <input type="password" id="password2" required>
-			                    <button onclick="checkPassword(2)" class="btn custom-btn">확인</button>
-			                    <br><br>
-			                    <div id="postContent2" style="display: none;">
-			                        안녕하세요 환불관련 해서 문의드려요~~ 이러쿵 저러쿵 롤로로롤롤ㄹ롤로라랄랄랄릴ㄹ라랄랄
-			                        <br><br>
-			                        [답변] <br>
-			                        안녕하세요 고갱님 ^^ 환 불 처리 해드렸습니다~ 2~3일 정도 소요 됩니다. 
-			                    </div>
-			                </td>
-			            </tr>
-			             <tr data-toggle="collapse" data-target="#details3" class="clickable">
-			                <td>1</td>
-			                <td>환불관련 문의드립니다.</td>
-			                <td>Doe</td>
-			                <td>2023-07-12</td>
-			            </tr>
-			            <tr id="details3" class="collapse">
-			                <td colspan="4" class="post-details">
-			                    <label for="password3">비밀번호를 입력하세요:</label>
-			                    <input type="password" id="password3" required>
-			                    <button onclick="checkPassword(3)"  class="btn custom-btn">확인</button>
-			                    <br><br>
-			                    <div id="postContent3" style="display: none;">
-			                        안녕하세요 환불관련 해서 문의드려요~~ 이러쿵 저러쿵 롤로로롤롤ㄹ롤로라랄랄랄릴ㄹ라랄랄
-			                        <br><br>
-			                        [답변] <br>
-			                        안녕하세요 고갱님 ^^ 환 불 처리 해드렸습니다~ 2~3일 정도 소요 됩니다. 
-			                    </div>
-			                </td>
-			            </tr>
+			        <tbody id="tableList">
+						<!-- js 로 동적 리스트 구현 -->
 			        </tbody>
 			    </table>
 			</div>
@@ -304,6 +240,168 @@ function likeOrUnlike2(id) {
 	});
   }
 }
+// 강연 댓글 기능
+$(function(){
+	var header = $("meta[name='_csrf_header']").attr('content');
+	var token = $("meta[name='_csrf']").attr('content');	
+	 var lecNO = $("#lecNO").val();
+	 loadComments(lecNO);
+	 
+	$("#btnReply2").on("click", function(event) {
+    event.preventDefault();
+    var commentText = $("#content").val().trim(); // 변경된 부분
+    if (commentText !== "") {
+        $.ajax({
+            url: "/school/lecture/review/insert",
+            type: "post",
+            data: { lecNO: lecNO, opinionContent: commentText },
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function(result) {
+                if (result === 1) {
+                    $("#content").val(""); 
+                    // 댓글 등록 후 화면 갱신을 하지 않고 새로운 댓글만 추가
+                    loadComments(lecNO); 
+                } else {
+                    swal('', '댓글 등록에 실패하였습니다.', 'error');
+                }
+            },
+            error: function() {
+                swal('', '댓글 등록 중 오류가 발생하였습니다.', 'error');
+            }
+        });
+    }
+});
+
+  // 댓글 목록을 가져와 화면에 표시하는 함수
+	function loadComments(lecNO) {
+    $.ajax({
+        url: `/school/lecture/review/list/`+lecNO, // 위에서 작성한 컨트롤러 경로
+        success: function(comments) {
+				$("#comments").empty();
+            $.each(comments, function(){
+				var div2 = $("<div></div>").addClass("card").css("width","95%");
+				var div = $("<div></div>").addClass("card-body");
+				var h4 = $("<h4></h4>").html(this.ID).css("font-weight","bold");
+				var p = $("<p></p>").html(this.OPINIONCONTENT);
+				var p2 = $("<p></p>").html(this.OPINIONDATE);
+				$(div).append(h4,p,p2);
+				$(div2).append(div);
+				 $("#comments").append(div2);
+			})
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+	}  
+})
+$(function(){
+	// 교육문의 게시글 작성 모달
+	var header = $("meta[name='_csrf_header']").attr('content');
+	var token = $("meta[name='_csrf']").attr('content');
+	var exampleModal = document.getElementById('exampleModal');
+	
+	 loadEducationOpinion();
+	
+	exampleModal.addEventListener('show.bs.modal', function (event) {
+	  // Button that triggered the modal
+	  var button = event.relatedTarget;
+	
+	  // Update the modal's content.
+	  var modalTitle = exampleModal.querySelector('.modal-title');
+	  var modalBodyInput = exampleModal.querySelector('.modal-body input');
+	
+	  modalTitle.textContent = '문의하기'; // Change modal title
+	  modalBodyInput.value = ''; // Clear input fields
+	
+	  // Handle 등록 버튼 클릭 이벤트
+	  $("#btnLecOpinion").click(function () {
+		var lecNO = document.getElementById('lecNO').value;
+	    var opinionName = document.getElementById('opinionName').value;
+	    var opinionContent = document.getElementById('opinionContent').value;
+	    var opinionPwd = document.getElementById('opinionPwd').value;
+		
+	     $.ajax({
+	       type: 'POST',
+	       url: '/school/lecture/opinion/insert',
+	       data: {
+			 lecNO : lecNO,
+	         opinionName: opinionName,
+	         opinionContent: opinionContent,
+	         opinionPwd: opinionPwd
+	       },
+	       beforeSend: function(xhr) {
+	                xhr.setRequestHeader(header, token);
+	       },
+	       success: function(result) {
+			   if(result === -1){
+	        	swal("게시글 등록 성공","문의 게시글이 등록되었습니다.","success");
+			   }else{
+				swal("게시글 등록 실패","문의 게시글 등록에 실패했습니다.","warning");  
+			   }
+	       },
+	       error: function(error) {
+	         swal("게시글 등록 실패","문의 게시글 등록중 오류가 발생했습니다.","error");
+	       }
+	     });
+	
+	    // 모달 숨기기
+	    $(exampleModal).modal('hide');
+	  });
+	});
+	
+// 교육문의 게시글 조회
+function loadEducationOpinion() {
+	var lecNO = document.getElementById("lecNO").value;
+    $.ajax({
+        url: '/school/lecture/opinion/list/' + lecNO,
+        success: function (data) {
+            // 서버로부터 받아온 데이터를 이용하여 페이지 내용 업데이트
+            $("#tableList").empty();
+            $.each(data, function () {
+			    var tr = $("<tr></tr>").addClass("clickable").attr("data-toggle", "collapse").attr("data-target", "#details" + this.opinionNO); // opinionNO에 따라 details 뒤에 번호를 붙여 유니크한 ID를 생성
+			    var td1 = $("<td></td>").html(this.opinionNO);
+			    var td2 = $("<td></td>").html(this.opinionName);
+			    var td3 = $("<td></td>").html(this.id);
+			    var td4 = $("<td></td>").html(this.opinionDate);
+			    var pwd = $("<span><span>").html(this.opinionPwd).css("display","none");
+			    
+			    var tr2 = $("<tr></tr>").addClass("collapse").attr("id", "details" + this.opinionNO); // opinionNO에 따라 details 뒤에 번호를 붙여 유니크한 ID를 생성
+			    var td5 = $("<td></td>").attr("colspan", 4).addClass("post-details");
+			    var label = $("<label>비밀번호를 입력하세요 : </label>").attr("for", "password" + this.opinionNO); // opinionNO에 따라 password 뒤에 번호를 붙여 유니크한 ID를 생성
+			    var input = $("<input>").attr("type", "password").attr("id", "password" + this.opinionNO).attr("required", true);
+					
+				var button = $("<button>확인</button>").attr("data-opinionNO", this.opinionNO); // data-opinionNO 속성에 opinionNO 저장
+			    var div = $("<div></div>").attr("id", "postContent" + this.opinionNO).css("display", "none").html(this.opinionContent); // opinionNO에 따라 postContent 뒤에 번호를 붙여 유니크한 ID를 생성
+				
+				button.on("click", function () {
+				    var opinionNO = $(this).attr("data-opinionNO"); // data-opinionNO 속성에서 opinionNO 가져옴
+				    var passwordInput = document.getElementById('password' + opinionNO).value;
+				    var correctPassword = pwd.text();
+				    
+				    console.log("passwordInput : " + passwordInput);
+				    console.log("correctPassword : " + correctPassword);
+				    
+				    if (passwordInput === correctPassword) {
+				         var postContent = document.getElementById('postContent' + opinionNO);
+						    if (postContent) {
+						        postContent.style.display = 'block'; // display를 block으로 변경하여 내용이 보이도록 설정
+						    }
+				    } else {
+				        swal('비밀번호 오류', '비밀번호가 올바르지 않습니다.', 'warning');
+				    }
+				});
+		    tr.append(td1, td2, td3, td4);
+		    td5.append(label, input, button, div);
+		    tr2.append(td5);
+		    $("#tableList").append(tr, tr2);
+		});
+        }
+    });
+	}
+});
 </script>
   </body>
 </html>

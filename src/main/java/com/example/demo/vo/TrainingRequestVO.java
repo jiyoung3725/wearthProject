@@ -2,11 +2,14 @@ package com.example.demo.vo;
 
 import java.sql.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Data;
 
 @Entity
@@ -15,13 +18,9 @@ import lombok.Data;
 public class TrainingRequestVO {
 	
 	@Id
-	private int reqNo;
+	private int reqNO;
+	private int userno;
 	private String reqTitle;
-	
-//	@ManyToOne
-//	@JoinColumn(name = "id", insertable = true, updatable = true)
-//	private UsersVO users;
-	
 	private String reqContent;
 	private String reqStatus;
 	private String reqApp;
@@ -29,6 +28,9 @@ public class TrainingRequestVO {
 	private String reqDate;
 	private String reqCompany;
 	private String reqPhone;
+	@Transient
+	private MultipartFile uploadFile;
+	private String reqFile; 
 	private Date reqSysDate;
-	private int userNo;
+	private String type;
 }

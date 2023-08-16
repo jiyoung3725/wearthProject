@@ -10,10 +10,10 @@
   </insert>
  	<!-- 댓글(강연후기) -->
  	<select id="findAllEducationReview" resultType="map">
- 		select * from opinion where type='review' and eduNO = #{eduNO} and eduNO is not null
+ 		select * from opinion where type='review' and eduNO = #{eduNO} and eduNO is not null order by opiniondate desc
  	</select>
  	<select id="findAllLectureReview" resultType="map"> 
- 		select * from opinion where type='review' and lecNO = #{lecNO} and lecNO is not null
+ 		select * from opinion where type='review' and lecNO = #{lecNO} and lecNO is not null order by opiniondate desc
  	</select>
  	<insert id="insertEducationReview" parameterType="opinionVO">
  		insert into opinion (opinionno, eduNO, goodsno, lecNO, id, opinionname, opinioncontent, opiniondate, opinionSecret, opinionPwd, opinionStatus, REVIEWSCORE  , answerNo, type)
@@ -21,7 +21,7 @@
  	</insert>
  	<insert id="insertLectureReview" parameterType="opinionVO">
  		insert into opinion(opinionno, eduNO, goodsno, lecNO, id, opinionname, opinioncontent, opiniondate, opinionSecret, opinionPwd, opinionStatus, REVIEWSCORE , answerNo, type)
- 		 values (seq_opinion.nextval,#{eduNO, jdbcType=INTEGER},#{goodsNo, jdbcType=INTEGER},#{lecNO}, #{ID},#{opinionName, jdbcType=VARCHAR},#{opinionContent}, sysdate ,#{opinionSecret, jdbcType=INTEGER},#{opinionPwd, jdbcType=VARCHAR},#{opinionStatus, jdbcType=VARCHAR},#{reviewScore},#{answerNo, jdbcType=INTEGER},'review')
+ 		 values (seq_opinion.nextval,#{eduNO, jdbcType=INTEGER},#{goodsNo, jdbcType=INTEGER},#{lecNO}, #{ID},#{opinionName, jdbcType=VARCHAR},#{opinionContent}, sysdate ,#{opinionSecret, jdbcType=INTEGER},#{opinionPwd, jdbcType=VARCHAR},#{opinionStatus, jdbcType=VARCHAR},#{reviewScore, jdbcType=INTEGER},#{answerNo, jdbcType=INTEGER},'review')
  	</insert>
 
 </mapper>
