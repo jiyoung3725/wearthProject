@@ -3,11 +3,11 @@ package com.example.demo.repository;
 import com.example.demo.db.AdminDBManager;
 import com.example.demo.db.SchoolDBManager;
 import com.example.demo.vo.EducationVO;
+import com.example.demo.vo.LectureVO;
+import com.example.demo.vo.TrainingRequestVO;
 import com.example.demo.vo.UsersVO;
 import org.springframework.stereotype.Repository;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,24 +18,22 @@ public class AdminMyBatisRepository {
 	public static int totalRecord;
 	public static int totalPage;
 
+
+
 	public List<UsersVO> getSearchUserList(HashMap<String, Object> map) {
-		totalRecord = AdminDBManager.getTotalUser();
+		totalRecord = AdminDBManager.getSearchTotalUser(map);
 		totalPage = (int)Math.ceil(totalRecord / (double)pageSize);
-		System.out.println("TotalUserList 전체레코드 : "+ totalRecord);
-		System.out.println("TotalUserList 전체페이지 : "+ totalPage);
 		return AdminDBManager.getSearchUserList(map);
 	}
 
 	public List<UsersVO> getTotalUserList(HashMap<String, Object> map) {
 		totalRecord = AdminDBManager.getTotalUser();
 		totalPage = (int)Math.ceil(totalRecord / (double)pageSize);
-		System.out.println("TotalUserList 전체레코드 : "+ totalRecord);
-		System.out.println("TotalUserList 전체페이지 : "+ totalPage);
 		return AdminDBManager.getTotalUserList(map);
 	}
 
-	public int getSearchTotalUser(){
-		return AdminDBManager.getSearchTotalUser();
+	public int getSearchTotalUser(HashMap<String, Object>map){
+		return AdminDBManager.getSearchTotalUser(map);
 	}
 	public int getTotalUser(){
 		return AdminDBManager.getTotalUser();
@@ -54,5 +52,32 @@ public class AdminMyBatisRepository {
 	}
 	public int deleteUser(int userno){
 		return AdminDBManager.deleteUser(userno);
+	}
+
+
+	//*******************************위얼스 학교 *****************************
+
+	//강연관리
+
+	public int getTotalLecture(){
+		return AdminDBManager.getTotalLecture();
+	}
+
+	public List<LectureVO> getTotalLectureList(HashMap<String, Object> map) {
+		totalRecord = SchoolDBManager.getTotalLecture();
+		totalPage = (int)Math.ceil(totalRecord / (double)pageSize);
+		return AdminDBManager.getTotalLectureList(map);
+	}
+
+	public List<EducationVO> getTotalEducationList(HashMap<String, Object> map) {
+		totalRecord = SchoolDBManager.getTotalEducation();
+		totalPage = (int)Math.ceil(totalRecord / (double)pageSize);
+		return AdminDBManager.getTotalEducationList(map);
+	}
+
+	public List<TrainingRequestVO> getTotalTrainingRequestList(HashMap<String, Object> map) {
+		totalRecord = AdminDBManager.getTotalTrainingRequest();
+		totalPage = (int)Math.ceil(totalRecord / (double)pageSize);
+		return AdminDBManager.getTotalTraningRequestList(map);
 	}
 }

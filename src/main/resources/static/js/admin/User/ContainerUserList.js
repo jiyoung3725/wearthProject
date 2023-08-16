@@ -7,7 +7,6 @@ $(document).ready(function() {
     /* 유저 검색 기능 */
     $(".btn-primary-search").click(function() {
         // 입력된 데이터 수집
-
         var u_name = $('#searchU_name').val();
         var id = $('#searchId').val();
         var age = $('#searchDate_birth').val();
@@ -22,12 +21,11 @@ $(document).ready(function() {
         if (phone === null) phone = "";
         if (residence === null) residence = "";
 
-        console.log('uname찍어봄'+u_name);
-        console.log('id' + id);
+        var url = "/adminUserList/1"; // 기본 URL을 설정해주세요.
 
         // 데이터를 서버로 전송
         $.ajax({
-            url: "/adminUserList/search/1",
+            url: url,
             type: "GET",
             data: {
                 u_name: u_name,
@@ -38,14 +36,12 @@ $(document).ready(function() {
                 gender: gender
             },
             beforeSend: function(xhr) {
-                xhr.setRequestHeader(header, token);
+                xhr.setRequestHeader(header, token); // 요청 헤더에 토큰 설정 (헤더와 토큰 변수는 이전에 정의되어야 함)
             },
-            success: function(response) {
-                if (response === "success") {
+            success: function(data) {
+                console.log('data값 확인 ' + data); // 받은 데이터 출력
 
-                } else {
-                    alert('사용가능한 아이디입니다');
-                }
+                $('#ContainerUserList').html($(data).find('#ContainerUserList').html()); //
             },
             error: function(xhr, status, error) {
                 // 에러 처리 코드

@@ -97,6 +97,46 @@
     <delete id = "deleteUser">
         delete from users where userno = #{userno}
     </delete>
+    <!-- ***************************************************위얼스 학교 **************************-->
 
 
+    <!-- 강연 리스트 -->
+    <select id = "getTotalLecture" resultType = "java.lang.Integer">
+        SELECT count(*) FROM lecture
+    </select>
+
+    <select id="getTotalLectureList" resultType="lectureVO">
+        SELECT *
+        FROM (
+        SELECT ROWNUM as row_num, l.*
+        FROM ( SELECT * FROM lecture WHERE lecNO is NOT NULL ORDER BY lecNO) l
+        )
+        WHERE row_num BETWEEN #{start} AND #{end}
+    </select>
+
+    <!-- 교육 리스트-->
+
+    <select id="getTotalEducationList" resultType="educationVO">
+        SELECT *
+        FROM (
+        SELECT ROWNUM as row_num, e.*
+        FROM ( SELECT * FROM education WHERE eduNO is NOT NULL ORDER BY eduno) e
+        )
+        WHERE row_num BETWEEN #{start} AND #{end}
+    </select>
+
+    <!-- 문의 게시판 리스트-->
+    <select id="getTotalTrainingRequestList" resultType="trainingRequestVO">
+        SELECT *
+        FROM (
+        SELECT ROWNUM as row_num, t.*
+        FROM ( SELECT * FROM trainingRequest WHERE reqNo is NOT NULL ORDER BY reqNo) t
+        )
+        WHERE row_num BETWEEN #{start} AND #{end}
+    </select>
+
+    <!-- 문의게시판 수-->
+    <select id = "getTotalTrainingRequest" resultType = "java.lang.Integer">
+        select count(*) from trainingRequest
+    </select>
 </mapper>

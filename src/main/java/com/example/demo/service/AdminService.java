@@ -1,6 +1,9 @@
 package com.example.demo.service;
 
 import com.example.demo.repository.AdminMyBatisRepository;
+import com.example.demo.vo.EducationVO;
+import com.example.demo.vo.LectureVO;
+import com.example.demo.vo.TrainingRequestVO;
 import com.example.demo.vo.UsersVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,8 +24,8 @@ public class AdminService {
         return repository.getTotalUserList(map);
     }
 
-    public int getSearchTotalUser(){
-        return repository.getSearchTotalUser();
+    public int getSearchTotalUser(HashMap<String, Object>map){
+        return repository.getSearchTotalUser(map);
     }
     public int getTotalUser(){
         return repository.getTotalUser();
@@ -42,4 +45,28 @@ public class AdminService {
     public int deleteUser(int userno) {
         return repository.deleteUser(userno);
     }
+
+    //****************************************위얼스 학교 ************************
+
+    //강연관리
+
+    public int getTotalLecture(){
+        return repository.getTotalLecture();
+    }
+
+    public List<LectureVO> getTotalLectureList(HashMap<String, Object> map) {
+        return repository.getTotalLectureList(map);
+    }
+
+    public List<EducationVO> getTotalEducationList(HashMap<String, Object> map) {
+        return repository.getTotalEducationList(map);
+    }
+
+    public List<TrainingRequestVO> getTotalTrainingRequestList(HashMap<String, Object> map) {
+        return repository.getTotalTrainingRequestList(map);
+    }
+
+
+
+
 }
