@@ -2,14 +2,15 @@ package com.example.demo.vo;
 
 import java.util.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Data;
 
-
 @Entity
-@Data
 @Table(name = "liked")
 public class LikedVO {
 
@@ -17,9 +18,9 @@ public class LikedVO {
 	private int likedNo;
 	private int userNo;
 	private int boardNo;
-	private int lecNo;
+	private int lecNO;
 	private int goodsNo;
-	private int eduNo;
+	private int eduNO;
 	private Date likedDate;
 	public int getLikedNo() {
 		return likedNo;
@@ -39,11 +40,11 @@ public class LikedVO {
 	public void setBoardNo(int boardNo) {
 		this.boardNo = boardNo;
 	}
-	public int getLecNo() {
-		return lecNo;
+	public int getLecNO() {
+		return lecNO;
 	}
-	public void setLecNo(int lecNo) {
-		this.lecNo = lecNo;
+	public void setLecNO(int lecNO) {
+		this.lecNO = lecNO;
 	}
 	public int getGoodsNo() {
 		return goodsNo;
@@ -51,11 +52,11 @@ public class LikedVO {
 	public void setGoodsNo(int goodsNo) {
 		this.goodsNo = goodsNo;
 	}
-	public int getEduNo() {
-		return eduNo;
+	public int getEduNO() {
+		return eduNO;
 	}
-	public void setEduNo(int eduNo) {
-		this.eduNo = eduNo;
+	public void setEduNO(int eduNO) {
+		this.eduNO = eduNO;
 	}
 	public Date getLikedDate() {
 		return likedDate;

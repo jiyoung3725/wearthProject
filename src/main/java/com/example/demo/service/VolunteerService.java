@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.util.HashMap;
 import java.util.List;
 
+import com.example.demo.vo.ApplicationVO;
 import com.example.demo.vo.VolunteerVO;
 
 public interface VolunteerService {
@@ -15,7 +16,9 @@ public interface VolunteerService {
 
 	//봉사하기 게시글 상세페이지 - MB
 	public VolunteerVO findByVolunteerNo(int volunteerno);
-		
+
+	//봉사 신청 - JPA
+	public int volunteerApply(ApplicationVO a);
 	
 	
 //	관리자 페이지 담당

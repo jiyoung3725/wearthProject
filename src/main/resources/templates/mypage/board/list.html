@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>실천하기</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="_csrf_header" th:content="${_csrf.headerName}">
+	<meta name="_csrf" th:content="${_csrf.token}">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<!--sweetalert-->
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<link rel="stylesheet" href="../css/main/style.css" th:href="@{/css/main/style.css}" />
+	<link rel="stylesheet" href="../css/board/list.css" th:href="@{/css/board/list.css}" />
+	<link rel="stylesheet" href="../css/board/detail.css" th:href="@{/css/board/detail.css}" />
+	<link rel="stylesheet" href="../css/style.css" th:href="@{/css/style.css}" />
+
+	<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+	<script>
+
+
+	</script>
+	<style>
+		.title2 {
+			color: #3a6d40 !important;
+			font-weight: bold !important;
+			font-size: 30px !important;
+		}
+
+		.actList {
+			flex-direction: column
+		}
+
+		.modal-header {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.modal-header-1 {
+			display: flex;
+		}
+
+		.modal-header-2 {
+			display: flex;
+		}
+
+		.modal-body {
+			display: flex;
+			gap: 1rem;
+		}
+
+		.modal-left {
+			display: flex;
+			max-width: 50%;
+			max-height: 100%;
+			border-radius: 1rem;
+		}
+
+		.modal-left img {
+			border-radius: 1rem;
+		}
+
+		.modal-right {
+			display: flex;
+			width: 50%;
+		}
+
+		.commentArea {
+			display: inline;
+			width: 100%;
+		}
+
+		.commentWriter {
+			display: inline-block;
+			font-weight: bold;
+		}
+
+		.commentContent {
+			display: inline-block;
+
+		}
+
+		.addComment {
+			padding: 0;
+			width: 100%;
+			display: flex;
+			flex-direction: row;
+		}
+
+		.addCommentContent {
+
+			display: flex;
+		}
+
+		.custom-btn {
+			display: flex;
+		}
+
+		.modal-footer {
+			display: flex;
+
+		}
+
+		.modal-footer-left {
+			display: flex;
+		}
+
+		.modal-footer_right {
+			display: flex;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<!--header-->
+		<div th:include="/main/header.html"></div>
+		<div>
+			<p class="mb-3 title2">내가 쓴 글</p>
+			<p>실천하기 게시판의 내가 쓴 글을 확인할 수 있습니다.</p>
+			<hr>
+		</div>
+
+		<!--게시글 전체 목록-->
+		<div class="row row-cols-4 actListAll">
+			<!--게시글 한 개-->
+			<div th:each="board:${board_list}" class="card">
+				<div class="actList" data-bs-toggle="modal" data-bs-target="#detailModal">
+					<div id="board_boardno" style="display: none;" th:text="${board.boardno}"></div>
+					<!--이미지가 있는 경우-->
+					<div th:if="${board.fname != null}">
+						<!--<img class="card-img-top" th:src="@{/images/board/}+${board.fname}" alt="Card image">-->
+						<img class="card-img-top" th:src="@{'/board/'+${board.fname}}" alt="Card image">
+					</div>
+					<div th:unless="${board.fname != null}">
+						<img class="card-img-top" th:src="@{/board/default.jpeg}" alt="Card image">
+						<!--					<img class="card-img-top" th:src="@{/images/board/default.jpeg}" alt="Card image">-->
+					</div>
+					<div class="card-body">
+						<h4 class="card-title" th:text="${board.b_title}" id="b_title"></h4>
+						<p class="card-text" th:text="${board.b_content}" id="b_content"></p>
+						<p class="card-text" th:text="${board.nickname}" id="nickname"></p>
+						<p th:text="${board.userno}" id="writerNo"></p>
+					</div>
+				</div>
+				<!--좋아요, 조회수 영역-->
+				<div class="likeAndHit">
+					<div class="like-button">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+							style="width: 10px; margin-top: -10px; font-weight: 900;" id="heart" class="bi bi-heart"
+							viewBox="0 0 16 16">
+							<path
+								d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+						</svg>
+					</div>
+					<div class="hit">조회수</div>
+				</div><!--좋아요 영역끝-->
+
+			</div><!--게시글 한 개 끝-->
+		</div><!--게시글 리스트 끝-->
+
+
+		<!-- 상세 게시글 Modal -->
+		<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="board_title" aria-hidden="true">
+			<div class="modal-dialog" style="max-width: 800px;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<div class="modal-header-1">
+							<h1 class="modal-title fs-5" id="board_title">board_title</h1>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-header-2">
+							<p id="board_writer">board_writer</p>
+							<p style="display: none;" id="board_writerNo"></p>
+						</div>
+					</div>
+					<div class="modal-body">
+						<!--왼쪽 화면 - 이미지-->
+						<div class="modal-left">
+							<img class="contentImage" id="board_img" />
+						</div>
+						<!--오른쪽 화면 - 내용-->
+						<div class="modal-right">
+							<div style="height: 40%;" id="board_content"></div>
+							<div class="commentArea">
+								<!--<div class="commentWriter" id="board_comment_writer">댓글작성자</div>
+						<div class="commentContent" id="board_comment_content">댓글내용</div>-->
+							</div>
+							<div style="width:100%;">
+								<!--댓글입력창-->
+								<form class="addComment rightBottom" id="comment">
+									<!--<input type="hidden" th:name="${_csrf.parameterName }" th:value="${_csrf.token }">-->
+									<input type="hidden" name="boardno" id="boardno" /> <!--현재게시글 번호-->
+									<input type="hidden" name="userno" th:value="${session.u.userno}" id="userno" />
+									<input type="text" class="addCommentContent" name="c_content" id="c_content"
+										placeholder="댓글을 입력하세요." />
+									<button type="submit" class="custom-btn btn_addComment"
+										id="btn_addComment">게시</button>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer" style="padding: 0; justify-content: space-between;">
+						<div th:class="modal-footer-left" style="visibility:hidden; gap:1rem;">
+
+							<button type="button" class="btn custom-btn" id="btnUpdate">수정</button>
+							<button type="button" class="btn custom-btn" id="btnDelete">삭제</button>
+						</div>
+						<div class="modal-footer-right">
+							<div class="like-button">
+								<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+									style="width: 10px; margin-top: -10px; font-weight: 900;" id="heart"
+									class="bi bi-heart" viewBox="0 0 16 16">
+									<path
+										d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+								</svg>
+							</div>
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+
+			//카드 클릭 시 게시글 상세정보 가져오기
+			var loginUser = $("#loginUser").text();
+			console.log("접속자:" + loginUser);
+			var boardno;
+
+			$(".card").click(function (e) {
+				//현재접속자와 writer를 비교하기 위해 변수 선언
+				var writerNo = $(this).find("#writerNo").text();
+				//현재접속자와 writer를 비교하기 위해 모달에 작성자 번호 삽입
+				$("#board_writerNo").text(writerNo);
+
+				console.log("작성자번호:" + writerNo);
+				//session.u.userno와 writerNo가 같으면 
+				if (writerNo == loginUser) {
+					$(".modal-footer-left").css("visibility", "visible");
+				} else {
+					$(".modal-footer-left").css("visibility", "hidden");
+				}
+
+				boardno = $(this).find("#board_boardno").text();
+				console.log("현재 boardno:" + boardno);
+
+				var title = $(this).find("#b_title").text();
+				var content = $(this).find("#b_content").text();
+				var writer = $(this).find("#nickname").text();
+				var imageUrl = $(this).find(".card-img-top").attr("src");
+
+
+				// 모달에 정보 넣기
+				$("#boardno").val(boardno);
+				$("#board_title").text(title);
+				$("#board_content").text(content);
+				$("#board_writer").text(writer);
+				$("#board_img").attr("src", imageUrl);
+
+				//댓글리스트 가져오기
+				// 기존에 있는 내용을 지우고
+				//commentArea.empty(); -> 위치상 왜 안되는지?
+				listComment(boardno);
+
+			})//카드 클릭 이벤트 끝
+			//게시글 삭제 기능
+			$("#btnDelete").click(function (event) {
+				var header = $("meta[name='_csrf_header']").attr('content');
+				var token = $("meta[name='_csrf']").attr('content');
+				if (confirm('정말로 삭제하시겠습니까?') == true) {
+					console.log("삭제 게시글 번호:" + boardno);
+					$.ajax({
+						url: "/board/delete/" + boardno,
+						type: "GET",
+						data: {boardno: boardno},
+						beforeSend: function (xhr) {
+							xhr.setRequestHeader(header, token);
+						},
+						success: function () {
+							location.href = "/board/list/1";
+						}, error: function () {
+							alert("다시 시도해주세요.");
+						}
+					});
+
+				} else {
+					event.preventDefault();
+				}
+			});
+
+			//게시글 수정
+			$("#btnUpdate").click(function (event) {
+				location.href = "/board/update/" + boardno;
+			});
+
+			//댓글 입력
+			$("#btn_addComment").click(function () {
+				event.preventDefault();	//페이지 새로고침 막기
+				var header = $("meta[name='_csrf_header']").attr('content');
+				var token = $("meta[name='_csrf']").attr('content');
+				var boardno = $("#boardno").val();
+				var userno = $("#userno").val();
+				var c_content = $("#c_content").val();
+				console.log("boardno:" + boardno);
+				console.log("userno:" + userno);
+				console.log("c_content:" + c_content);
+				if (!c_content) {
+					alert("댓글을 입력하세요.");
+				} else {
+					$.ajax({
+						url: "/comments/insert",
+						type: "POST",
+						data: {boardno: boardno, userno: userno, c_content: c_content},
+						beforeSend: function (xhr) {
+							xhr.setRequestHeader(header, token);
+						},
+						success: function (data) {
+							console.log("댓글: " + c_content);
+							// 댓글 입력 성공 시 그 모달을 그대로 새로고침해서 띄워놓기 
+							// boardno를 가지고 있으니까, 그 boardno의 정보를 띄우면 될거 같음
+							$("#c_content").val("");
+							listComment(boardno);
+							console.log(data);
+						}, error: function () {	//	todo : 댓글을 입력하세요.
+							swal('댓글 남기기 실패', '댓글의 내용을 입력해주세요.', 'error')
+								.then(function () {
+									//todo
+									console.log("페이지 로딩 시키기");
+								})
+						}
+					});
+				}
+
+			})//댓글 입력끝
+
+			//댓글 불러오는 기능 함수로 정의
+			function listComment(boardno) {
+
+				var header = $("meta[name='_csrf_header']").attr('content');
+				var token = $("meta[name='_csrf']").attr('content');
+				$.ajax({
+					url: "/comments/list",
+					type: "POST",
+					data: {boardno: boardno},
+					beforeSend: function (xhr) {
+						xhr.setRequestHeader(header, token);
+					},
+					success: function (data) {
+						var commentArea = $(".commentArea");
+
+						// 기존에 있는 내용을 지우고
+						commentArea.empty(); //ajax을 성공해야작동해서 그런지 속도가 느림....
+
+						// 상태success : function한 댓글들의 값을 가져온다.
+						$.each(data, function (i, value) {
+							var commentWriter = value.nickname;
+							var commentContent = value.c_content;
+
+							// 댓글 작성자와 내용을 표시하는 div를 만듭니다.
+							var commentContentDiv = $("<div>").addClass("commentContent").text(commentWriter + " : " + commentContent);
+
+							// 댓글 영역에 댓글 요소들을 추가합니다.
+							var commentDiv = $("<div>").addClass("comment").append(commentContentDiv);
+
+							commentArea.append(commentDiv);
+						});
+					}, error: function () {
+						alert("실패");
+					}
+				});	//댓글 리스트 가져오기 끝
+			}
+
+			//좋아요		//좋아요 기능
+			$(document).ready(function () {
+				let isLiked = false;
+
+				$(".like-button").click(function () {
+					event.preventDefault();	//페이지 새로고침 막기
+					// isLiked 변수를 토글
+					isLiked = !isLiked;
+
+					// .liked 클래스를 토글하여 좋아요 버튼 스타일 변경
+					$(this).toggleClass("liked", isLiked);
+
+					var header = $("meta[name='_csrf_header']").attr('content');
+					var token = $("meta[name='_csrf']").attr('content');
+					$.ajax({
+						url: "/liked/insert/" + boardno,
+						type: "GET",
+						data: {boardno: boardno},
+						beforeSend: function (xhr) {
+							xhr.setRequestHeader(header, token);
+						},
+						success: function () {
+							alert("좋아요성공.... 원래모달 그대로 띄워두기로해");
+						}, error: function () {
+							alert("다시 시도해주세요.");
+						}
+					});
+
+				});
+			});
+
+		</script>
+
+
+		<!--페이지네이션-->
+		<div class="grid text-center" style="--bs-columns: 4">
+			<nav aria-label="Page navigation example">
+				<ul class="pagination justify-content-center">
+					<li class="page-item">
+						<a class="page-link" href="#" aria-label="start"><span
+								aria-hidden="true">&laquo;&laquo;</span></a>
+					</li>
+					<li class="page-item">
+						<a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+					</li>
+					<li th:each="idx:${#numbers.sequence(1, totalPage)}" class="page-item">
+						<a th:href="@{'/mypage/board/list/'+${idx}}" class="page-link" th:text="${idx}"></a>
+					</li>
+					<li class="page-item">
+						<a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+					</li>
+					<li class="page-item">
+						<a class="page-link" th:href="@{'/mypage/board/list/'+${totalPage}}" aria-label="end"><span
+								aria-hidden="true">&raquo;&raquo;</span></a>
+					</li>
+				</ul>
+			</nav>
+		</div><!--페이지네이션 끝-->
+
+		<!--footer-->
+		<div th:include="/main/footer.html"></div>
+	</div>
+</body>
+
+</html>

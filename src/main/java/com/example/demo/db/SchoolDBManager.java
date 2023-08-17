@@ -20,6 +20,7 @@ public class SchoolDBManager extends DBManager{
 			int n = 0;
 			SqlSession session = sqlSessionFactory.openSession();
 			n = session.selectOne("lecture.getTotalLecture");
+	        session.close();
 			return n;
 		}
 
@@ -234,6 +235,55 @@ public class SchoolDBManager extends DBManager{
 			session.close();
 			return re;
 		}*/
+		
+		public static int getTotalRecordOpinion()	{
+			int opinionNo = 0;
+			SqlSession session = sqlSessionFactory.openSession();
+			opinionNo = session.selectOne("opinion.getTotalRecordOpinion");
+			session.close();
+			return opinionNo;
+		}
+		public static List<OpinionVO> findAllOpinion(HashMap<String, Object> map){
+			SqlSession session = sqlSessionFactory.openSession();
+			List<OpinionVO> list = session.selectList("opinion.findAllOpinion", map);
+			session.close();
+			return list;
+		}
+		
+		public static OpinionVO findByNoOpinion (int opinionNO) {
+			OpinionVO o = null;
+			SqlSession session = sqlSessionFactory.openSession();
+			o = session.selectOne("opinion.findByNoOpinion", opinionNO);
+			session.close();
+			return o;
+		}
+		
+		public static int insertOpinion (OpinionVO o) {
+			int re = -1;
+			SqlSession session=sqlSessionFactory.openSession();
+			re = session.insert("opinion.insertOpinion", o);
+			session.commit();
+			session.close();
+			return re;
+		}
+	
+		
+		public static int updateOpinion(OpinionVO o) {
+			int re = -1;
+			SqlSession session = sqlSessionFactory.openSession(true);
+			re = session.update("opinion.updateOpinion",o);
+			session.close();
+			return re;
+		}
+		
+		public static int deleteOpinion(OpinionVO o) {
+			int re = -1;
+			SqlSession session =sqlSessionFactory.openSession(true);
+			re = session.delete("opinion.deleteOpinion",o);
+			session.close();
+			return re;
+		}
+
 			
 
 		

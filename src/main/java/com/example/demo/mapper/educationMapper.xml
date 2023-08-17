@@ -49,6 +49,24 @@
  		select * from education where eduno = #{eduno}
  	</select>
  	
+ 	
+	<!-- 관심 교육 조회 -->
+	<select id="likedEducation" resultType="educationVO">
+		select * from ( select
+		rownum n, a.* from
+		(select l.* from education e, liked l where
+		e.eduno=l.eduno and userno=#{userno} and l.eduno is not null order by
+		l.eduno) a)
+		where n between #{start} and #{end};
+	</select>
+
+	<!-- 인기 교육 조회 -->
+	<select id="getPopularEducation" resultType="educationVO">
+		select * from (select e.* from (select eduno, count(*) cnt from liked where
+		eduno is not null group by eduno) a, education e where a.eduno =
+		e.eduno order by cnt desc) where rownum between 1 and 4
+	</select>
+ 	
 </mapper>
 
 

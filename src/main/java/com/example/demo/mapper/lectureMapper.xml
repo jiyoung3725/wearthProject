@@ -31,5 +31,15 @@
  		delete lecture where lecNo = #{lecNo}
  	</delete>
  	 -->
+ 	 <!-- 관심 강연 조회 -->
+	<select id="likedLecture" resultType="lectureVO">
+		select * from ( select
+		rownum n, a.* from
+		(select l.* from lecture r, liked l where
+		r.lecno=l.lecno and
+		userno=#{userno} and l.lecno is not
+		null order by l.lecno) a)
+		where n between #{start} and #{end};
+	</select>
 
 </mapper>

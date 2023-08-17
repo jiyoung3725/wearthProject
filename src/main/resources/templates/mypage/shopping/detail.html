@@ -50,9 +50,7 @@
 				<td th:text="${d.goodsname}"
 					th:onclick="'location.href=\'' + @{/shop/detail(goodsNo=${d.goodsno})} + '\''"></td>
 				<td th:onclick="'location.href=\'' + @{/shop/detail(goodsNo=${d.goodsno})} + '\''">
-					<span style="text-decoration: line-through;" th:text="${d.goodsprice}"></span>
-					<br>
-					<b th:text="${d.detailprice}"></b>
+					<span th:text="${d.goodsprice}"></span>원
 				</td>
 				<td><button class="btn custom-btn" th:onclick="writeReview([[${d.goodsno}]])">후기쓰기</button></td>
 			</tr>
@@ -70,11 +68,11 @@
 			<tr>
 				<td th:text="${payment.payment_method}"></td>
 				<td th:text="${#dates.format(payment.payDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
-				<td th:text="${order.ordersPrice}"></td>
+				<td th:text="${order.ordersPrice}+' 원'"></td>
 				<td style="font-weight: bold; color: #3a6d40;">+</td>
-				<td th:text="${order.shipPrice}"></td>
+				<td th:text="${order.shipPrice}+' 원'"></td>
 				<td style="font-weight: bold; color: #3a6d40;">=</td>
-				<td style="font-size: 20px;" th:text="${order.ordersPrice}+${order.shipPrice}"></td>
+				<td style="font-size: 20px;" th:text="${order.ordersPrice}+${order.shipPrice}+' 원'"></td>
 			</tr>
 		</table>
 
@@ -92,7 +90,7 @@
 					제목 : <input type="text" class="input" id="inputTitle">
 					<br>
 					내용 : <br>
-					<textarea cols="20" rows="10" style="border-radius: 15px;" id="inputContent"></textarea>
+					<textarea cols="30" rows="5" style="border-radius: 15px;" id="inputContent"></textarea><br>
 					<button type="button" class="btn custom-btn" onclick="submitReview()">작성</button>
 				</div>
 			</div>
@@ -137,14 +135,10 @@
 				},
 				method: "POST",
 				success: function (result) {
-					if (result == 1) {
-						$('#inputTitle').val('');
-						$('#inputContent').val('');
 						location.reload();
-					}
 				}
-			})
-		}
+			});
+		};
 		function deleteOrders() {
 			swal({
 				title: '주문을 취소하시겠습니까?',
@@ -159,7 +153,7 @@
 
 					let hiddenField = document.createElement("input");
 					hiddenField.type = "hidden";
-					hiddenField.name = "ordersno";
+					hiddenField.name = "orderno";
 					hiddenField.value = $('#ordersNo').val();
 					form.appendChild(hiddenField);
 					let csrf = document.createElement("input");

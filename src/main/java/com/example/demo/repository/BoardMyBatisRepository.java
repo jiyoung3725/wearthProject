@@ -14,12 +14,16 @@ import com.example.demo.vo.EducationVO;
 @Repository
 public class BoardMyBatisRepository {
 
-	public List<BoardVO> findAll(HashMap<String, Object> map){
+	public List<BoardVO> findAll(HashMap<String, Object> map) {
 		return BoardDBManager.findAll(map);
 	}
 
-	
-	//페이징 처리를 위해 전체 게시글 수 불러오기
+	// 게시글 하나의 정보 가져오기
+	public BoardVO findByBoardno(int boardno) {
+		return BoardDBManager.findByBoardno(boardno);
+	}
+
+	// 페이징 처리를 위해 전체 게시글 수 불러오기
 	public int getTotalRecord() {
 		return BoardDBManager.getTotalRecord();
 	}

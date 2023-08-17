@@ -9,7 +9,6 @@ import lombok.Data;
 public class OrdersDetailGoodsVO {
 	private int ordersno;
 	private int goodsno;
-	private int detailprice;
 	private int detailcnt;
 	private String goodsname;
 	private int goodsprice;
@@ -18,8 +17,6 @@ public class OrdersDetailGoodsVO {
 	private String mainfname;
 	
 }
-
-
 /*
 create or replace view ordersdetailgoods
  as

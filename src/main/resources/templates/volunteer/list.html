@@ -89,8 +89,6 @@
 			</thead>	
 	 		<tbody>
 				<tr class="volunteerList" th:each="volunteer:${list}" th:onclick="'location.href=\''+@{/volunteer/detail/}+@{${volunteer.volunteerno}}+'\''"> 
-<!--				<tr th:each="volunteer:${list}" class="volunteerList" th:onclick="|location.href='/list/detail/'+${volunteer.volunteerno}|">-->
-			 <!--<tr th:each="volunteer:${list}" class="volunteerList" th:onclick="|location.href='./act/list'|">-->
 					 <td style="padding: 0.5rem; vertical-align: middle;" th:text="${volunteer.volunteerno}"></td>
 					 <td colspan="2" style="text-align: left;">
 						<div th:text="${volunteer.v_title}"></div>
@@ -103,9 +101,7 @@
 					 	th:if="${#dates.format(volunteer.v_end, 'yyyy-MM-dd')} >= ${#dates.format(volunteer.v_recruitDate, 'yyyy-MM-dd')}" th:text="신청마감"></td>
 				 </tr>
 			 </tbody>
-			 
-			 
-	 		
+
 	 	</table>
 		<!--페이지네이션-->
 		<div class="grid text-center" style="--bs-columns: 4">

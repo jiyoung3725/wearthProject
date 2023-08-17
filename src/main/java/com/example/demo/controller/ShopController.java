@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.io.FileOutputStream;
+import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,11 +27,19 @@ import org.springframework.web.servlet.ModelAndView;
 import com.example.demo.repository.UserJpaRepository;
 import com.example.demo.repository.UserMyBatisRepository;
 import com.example.demo.service.GoodsService;
+import com.example.demo.service.MyPageService;
+import com.example.demo.vo.AddrVO;
+import com.example.demo.vo.CouponVO;
 import com.example.demo.vo.GoodsCategoryVO;
 import com.example.demo.vo.GoodsVO;
 import com.example.demo.vo.LikedVO;
 import com.example.demo.vo.OpinionVO;
+import com.example.demo.vo.OrdersDetailGoodsVO;
+import com.example.demo.vo.OrdersDetailVO;
+import com.example.demo.vo.OrdersVO;
+import com.example.demo.vo.PaymentVO;
 import com.example.demo.vo.UsersVO;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -47,6 +56,8 @@ public class ShopController {
 	@Autowired
 	private GoodsService gs;
 
+	@Autowired
+	private MyPageService myPageService;
 
 	// 전체상품 조회 및 카테고리별 상품 조회
 	@GetMapping(value = { "/shop/shopMain/{categoryNo}", "/shop/shopMain/{categoryNo}/{value}", "/shop/shopMain",
@@ -258,17 +269,44 @@ public class ShopController {
 	
 	//하나만 구매하기 
 	@RequestMapping("/shop/order/{goodsNo}/{userNo}/{cnt}")
-	public String order(Model model,@PathVariable int goodsNo,@PathVariable int userNo,@PathVariable int cnt) {
+	public String order(Model model,@PathVariable int goodsNo,@PathVariable int userNo,@PathVariable int cnt, HttpServletRequest request) {
+		
+		// 서현
+		UsersVO u = (UsersVO) request.getSession().getAttribute("u");
+		List<CouponVO> coupon_list = myPageService.findCouponByUserno(u.getUserno());
+		String formattedPhone = u.getPhone().substring(0, 3) + '-' + u.getPhone().substring(3, 7) + '-'
+				+ u.getPhone().substring(7);
+		model.addAttribute("coupon_list", coupon_list);
+		model.addAttribute("formattedPhone", formattedPhone);
+		// 서현
 		model.addAttribute("cnt",cnt);
 		model.addAttribute("buy",gs.detailGoods(goodsNo));
+		model.addAttribute("total", cnt*gs.detailGoods(goodsNo).getGoodsPrice());
 		model.addAttribute("count",null);
+		Gson json = new Gson();
+		String jsonGood = json.toJson(gs.detailGoods(goodsNo));
+		System.out.println("jsonGood : "+jsonGood);
+		model.addAttribute("jsonGood",jsonGood);
 		return "shop/order";
 	}
 	//여러개 구매하기
 	@RequestMapping("/shop/orders/{userNo}")
-	public String orders(@PathVariable int userNo,Model model) {
+	public String orders(@PathVariable int userNo,Model model, HttpServletRequest request) {
+		// 서현
+		UsersVO u = (UsersVO) request.getSession().getAttribute("u");
+		List<CouponVO> coupon_list = myPageService.findCouponByUserno(u.getUserno());
+		String formattedPhone = u.getPhone().substring(0, 3) + '-' + u.getPhone().substring(3, 7) + '-'
+				+ u.getPhone().substring(7);
+		model.addAttribute("coupon_list", coupon_list);
+		model.addAttribute("total", myPageService.getTotalAmount(u.getUserno()));
+		model.addAttribute("formattedPhone", formattedPhone);
+		// 서현
 		model.addAttribute("products", gs.findCartByUserNo(userNo));
 		model.addAttribute("count", 1);
+		Gson json = new Gson();
+		String jsonGoods = json.toJson(gs.findCartByUserNo(userNo));
+		System.out.println("jsonGoods : "+jsonGoods);
+		model.addAttribute("jsonGoods",jsonGoods);
 		return "shop/order";
 	}
 	
@@ -278,6 +316,51 @@ public class ShopController {
 	@GetMapping("/shop/insertGoods")
 	public String insertGoodsForm() {
 		return "shop/insertGoods";
+	}
+	
+	
+
+	@PostMapping("/shop/insertOrder")
+	@ResponseBody
+	public int insertOrder(OrdersVO o) {
+		System.out.println(o);
+		myPageService.insertOrder(o);
+		int orderno = o.getOrdersNo();
+		System.out.println("orderno!!" + orderno);
+		return orderno;
+	}
+
+	@PostMapping("/shop/insertAddr")
+	@ResponseBody
+	public int insertAddr(AddrVO a) {
+		System.out.println(a);
+		myPageService.insertAddr(a);
+		int addrno = a.getAddrno();
+		return addrno;
+	}
+
+	@PostMapping("/shop/insertPayment")
+	@ResponseBody
+	public int insertPayment(PaymentVO p) {
+		System.out.println(p);
+		myPageService.insertPayment(p);
+		int payno = p.getPayno();
+		return payno;
+	}
+	@PostMapping("/shop/insertDetailOrder")
+	@ResponseBody
+	public boolean insertDetailOrder(OrdersDetailVO od) {
+		myPageService.insertOrdersDetail(od);
+		System.out.println("od : " + od);
+		return od!=null?true:false;
+	}
+
+	@GetMapping("/shop/addr")
+	public void getAddr(HttpServletRequest request, Model model) {
+		UsersVO u = (UsersVO) request.getSession().getAttribute("u");
+		List<AddrVO> addr_list = myPageService.findAddrByUserno(u.getUserno());
+		System.out.println("addr 출력 :: " + addr_list);
+		model.addAttribute("addr_list", addr_list);
 	}
 	//상품등록
 //	@PostMapping("/shop/insertGoods")

@@ -6,7 +6,7 @@
   <insert id="insertReview" parameterType="opinionVO">
 	insert into opinion(opinionno, goodsno, eduno, lecno, id, opinionname, opinioncontent, opiniondate, type) 
 	values
-	(seq_opinion.nextval,#{goodsNo},#{eduNo},#{lecNo},#{ID},#{opinionName},#{opinionContent},sysdate, 'review')
+	(seq_opinion.nextval,#{goodsNo},#{eduNo},#{lecNo},#{id},#{opinionName},#{opinionContent},sysdate, 'review')
   </insert>
  	<!-- 댓글(강연후기) -->
  	<select id="findAllEducationReview" resultType="map">

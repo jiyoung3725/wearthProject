@@ -23,4 +23,19 @@ public class OrdersMybatisRepository {
 	public static List<OrdersDetailGoodsVO> findByOrdersNo(int ordersno) {
 		return OrdersDBManager.findByOrdersNo(ordersno);
 	}
+	
+	// 전체 주문 목록 조회
+		public List<OrdersVO> findAll(){
+			return OrdersDBManager.findAll();
+		}
+		
+		// 주문 수정
+		public Integer updateOrder(OrdersVO order) {
+			return OrdersDBManager.updateOrders(order);
+		}
+		// 주문 삭제
+		public Integer deleteOrder(int ordersno) {
+			return OrdersDBManager.deleteOrders(ordersno);
+		}
+		
 }

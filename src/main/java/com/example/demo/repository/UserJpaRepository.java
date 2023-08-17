@@ -3,6 +3,7 @@ package com.example.demo.repository;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -38,5 +39,20 @@ public interface UserJpaRepository extends JpaRepository<UsersVO, Integer> {
 
    // 전화번호로 회원 찾기
    public Optional<UsersVO> findByPhone(String phone);
+   
+   // 비밀번호 변경
+   @Query(value = "update users set pwd=?2 where userno = ?1", nativeQuery=true)
+   @Modifying
+   @Transactional
+   public int changePwd(int userno, String pwd);
+   // 회원정보 변경
+   @Modifying
+   @Transactional
+   @Query(value = "update users set email=:#{#u.email}, nickname=:#{#u.nickname}, residence=:#{#u.residence} where userno = :#{#u.userno}", nativeQuery = true)
+   public int updateUserInfo(@Param("u") UsersVO u);
+   
+   @Transactional
+   public int deleteByUserno(int userno);
 
+   
 }

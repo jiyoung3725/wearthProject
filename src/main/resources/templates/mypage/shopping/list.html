@@ -2,96 +2,136 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Insert title here</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
-  <link rel="stylesheet" href="/css/mypage/mypage.css">
-  <link rel="stylesheet" href="/css/main/bootstrap.min.css">
-  <link rel="stylesheet" href="/css/main/style.css">
-  <link rel="stylesheet" href="/css/main/responsive.css">
-  <link rel="stylesheet" href="/css/main/custom.css">
-  <link rel="stylesheet" href="/css/main/sidebar.css">
-  <link rel="stylesheet" href="/css/styles.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Insert title here</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
+	<link rel="stylesheet" href="/css/mypage/mypage.css">
+	<link rel="stylesheet" href="/css/main/bootstrap.min.css">
+	<link rel="stylesheet" href="/css/main/style.css">
+	<link rel="stylesheet" href="/css/main/responsive.css">
+	<link rel="stylesheet" href="/css/main/custom.css">
+	<link rel="stylesheet" href="/css/main/sidebar.css">
+	<link rel="stylesheet" href="/css/styles.css">
 
 
-  
- 
+
+
 </head>
 
 <body>
-	
+
 	<div th:include="./main/header.html"></div>
-	
+
 	<div class="container con">
 		<div>
-          <p class="mb-3 title">주문내역</p>
-          <p>주문한 상품의 배송 내역을 확인할 수 있습니다.</p>
-          <p>아래의 주문번호를 클릭하시면, 자세히 볼 수 있습니다.</p>
-          <hr>
-        </div>
-      <div class="div-search row">
-        <button type="button" class="col search-btn btn btn-outline-success">1개월</button>
-        <button type="button" class="col search-btn btn btn-outline-success">3개월</button>
-        <button type="button" class="col search-btn btn btn-outline-success">6개월</button>
-        <div class="col div-days">
-          <input type="date" class="input"><span>&nbsp;-&nbsp;</span><input type="date" class="input">
-        </div>
-        <button type="button" class="col search-btn btn btn-outline-success">검색</button>
-      </div>
-        <table class="table table-hover">
-          <tr>
-            <th>주문번호</th>
-            <th>주문날짜</th>
-            <th>주문내역</th>
-            <th>결제금액</th>
-            <th>상태</th>
-          </tr>
-          
-          <tr th:each="o:${order_list}"  
-          th:onclick="'location.href=\'' + @{/mypage/shopping/detail(ordersno=${o.ordersNo})} + '\''">
-            <td th:text="${o.ordersNo}"></td>
-            <td th:text="${#dates.format(o.ordersDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
-            <td>대나무 칫솔 외 1개</td>
-            <td th:text="${o.ordersPrice}"></td>
-            <td th:text="${o.ordersStatus}"></td>
-          </tr>
-          
-      </table>
-        <nav aria-label="Page navigation example" class="justify-content-center" style="display: flex;">
-          <ul class="pagination">
-            <li class="page-item">
-              <a class="page-link" href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-              <a class="page-link" href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-		
+			<p class="mb-3 title">주문내역</p>
+			<p>주문한 상품의 배송 내역을 확인할 수 있습니다.</p>
+			<p>아래의 주문번호를 클릭하시면, 자세히 볼 수 있습니다.</p>
+			<hr>
+		</div>
+		<div class="div-search row">
+			<button type="button" class="col search-btn btn btn-outline-success" onclick="onemonth()">1개월</button>
+			<button type="button" class="col search-btn btn btn-outline-success" onclick="threemonth()">3개월</button>
+			<button type="button" class="col search-btn btn btn-outline-success" onclick="sixmonth()">6개월</button>
+			<div class="col div-days">
+				<input type="date" class="input" id="dstart"><span>&nbsp;-&nbsp;</span><input type="date" class="input" id="dend">
+			</div>
+			<button type="button" class="col search-btn btn btn-outline-success" onclick="searchDate()">검색</button>
+		</div>
+		<table class="table table-hover">
+			<tr>
+				<th>주문번호</th>
+				<th>주문날짜</th>
+				<th>결제금액</th>
+				<th>상태</th>
+			</tr>
+
+			<tr th:each="o:${order_list}"
+				th:onclick="'location.href=\'' + @{/mypage/shopping/detail(ordersno=${o.ordersNo})} + '\''">
+				<td th:text="${o.ordersNo}"></td>
+				<td th:text="${#dates.format(o.ordersDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+				<td th:text="${o.ordersPrice}+' 원'"></td>
+				<td th:text="${o.ordersStatus}"></td>
+			</tr>
+
+		</table>
+		<nav aria-label="Page navigation example" class="justify-content-center" style="display: flex;">
+			<ul class="pagination">
+				<li class="page-item">
+					<a class="page-link" href="#" aria-label="Previous">
+						<span aria-hidden="true">&laquo;</span>
+					</a>
+				</li>
+				<li:block class="page-item" th:each="i:${#numbers.sequence(1,totalPage)}">
+					<a class="page-link" th:href="@{'/mypage/shopping/list/'+${i}+'?dstart='+${dstart}+'&dend='+${dend}}" th:text="${i}"></a></li:block>
+				<li class="page-item">
+					<a class="page-link" href="#" aria-label="Next">
+						<span aria-hidden="true">&raquo;</span>
+					</a>
+				</li>
+			</ul>
+		</nav>
+
 	</div>
-	
-	
+
+
 	<div th:include="./main/footer.html"></div>
-	
-	
-	
-	
+
+
+
+
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+		integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+	<script>
+		function onemonth() {
+			var now = new Date();
+			const year = now.getFullYear(); // 년
+			const month = now.getMonth();   // 월
+			const day = now.getDate();      // 일
+			var prevDate = new Date(year, month - 1, day);
+			var nowFormatted = `${year}${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`;
+			var prevFormatted = `${prevDate.getFullYear()}${(prevDate.getMonth() + 1).toString().padStart(2, '0')}${prevDate.getDate().toString().padStart(2, '0')}`;
+
+			window.location.href = '/mypage/shopping/list?dstart=' + prevFormatted + '&dend=' + nowFormatted;
+		};
+		function threemonth() {
+			var now = new Date();
+			const year = now.getFullYear(); // 년
+			const month = now.getMonth();   // 월
+			const day = now.getDate();      // 일
+			var prevDate = new Date(year, month - 3, day);
+			var nowFormatted = `${year}${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`;
+			var prevFormatted = `${prevDate.getFullYear()}${(prevDate.getMonth() + 1).toString().padStart(2, '0')}${prevDate.getDate().toString().padStart(2, '0')}`;
+
+			window.location.href = '/mypage/shopping/list?dstart=' + prevFormatted + '&dend=' + nowFormatted;
+		};
+		function sixmonth() {
+			var now = new Date();
+			const year = now.getFullYear(); // 년
+			const month = now.getMonth();   // 월
+			const day = now.getDate();      // 일
+			var prevDate = new Date(year, month - 6, day);
+
+			var nowFormatted = `${year}${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`;
+			var prevFormatted = `${prevDate.getFullYear()}${(prevDate.getMonth() + 1).toString().padStart(2, '0')}${prevDate.getDate().toString().padStart(2, '0')}`;
+			window.location.href = '/mypage/shopping/list?dstart=' + prevFormatted + '&dend=' + nowFormatted;
+		};
+		function searchDate(){
+			var dstartArr = $('#dstart').val().split("-");
+			var dendArr = $('#dend').val().split("-");
+			var dstart = dstartArr[0]+dstartArr[1]+dstartArr[2]; 
+			var dend = dendArr[0]+dendArr[1]+dendArr[2]; 
+			window.location.href = '/mypage/shopping/list?dstart=' + dstart + '&dend=' + dend;
+		};
+	</script>
 </body>
 
 </html>

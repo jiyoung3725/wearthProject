@@ -3,21 +3,102 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="orders">
+
+	<!-- 전체 주문 조회 -->
+	<select id="findAll" resultType="ordersVO">
+		select * from orders order by
+		ordersno desc
+	</select>
+
+	<!-- 주문 수정 -->
+	<update id="updateOrder" parameterType="ordersVO">
+		update orders set
+		addrno=#{addrno}, ordersprice=#{ordersprice},
+		ordersdate=#{orderesdate},
+		ordersstatus=#{ordersstatus},
+		orderscontent=#{orderscontent}, orderscnt=#{orderscnt},
+		shipprice=#{shipprice}
+		where ordersno = #{ordersno}
+	</update>
+
+	<!-- 주문 삭제 -->
+	<delete id="deleteOrder" parameterType="java.lang.Integer">
+		delete orders where
+		ordersno = #{ordersno}
+	</delete>
+
+	<!-- 주문 개수 조회 -->
+	<select id="getTotalRecord" resultType="java.lang.Integer">
+		select nvl(count(*),0)
+		from orders where userno = #{userno} and ordersdate between #{dstart}
+		and #{dend}
+	</select>
+
 	<!-- 주문 목록 조회 -->
 	<select id="findListOrders" resultType="ordersVO">
-		select * from orders where userno = #{userno}
+		select ordersno, userno,
+		addrno, ordersprice, ordersdate, ordersstatus,
+		orderscontent,
+		orderscnt, shipprice
+		from (select rownum n, a.* from
+		(select * from
+		orders where userno = #{userno}
+		and ordersdate between #{dstart} and
+		#{dend}
+		order by ordersno desc) a)
+		where n between #{start} and #{end}
 	</select>
+
 	<!-- 주문 조회 -->
 	<select id="findOrdersByOrdersNo" resultType="ordersVO">
-		select * from orders where ordersno = #{ordersno}
+		select * from
+		orders where ordersno = #{ordersno}
 	</select>
+
 	<!-- 주문 상세 목록 조회 -->
-	<select id="findListOrdersDetailGoods" resultType="ordersdetailgoodsVO">
-		select * from ordersdetailgoods where ordersno = #{ordersno}
+	<select id="findListOrdersDetailGoods"
+		resultType="ordersdetailgoodsVO">
+		select * from ordersdetailgoods where ordersno =
+		#{ordersno}
 	</select>
+
 	<!-- 주문취소 -->
-	<update id="deleteOrder" parameterType="java.lang.Integer">
-		update orders set ordersstatus = '주문취소' where ordersno = #{ordersno}
+	<update id="cancelOrder" parameterType="java.lang.Integer">
+		update orders set
+		ordersstatus = '주문취소' where ordersno = #{ordersno}
 	</update>
+
+	<!-- 주소 insert -->
+	<insert id="insertAddr" parameterType="addrVO">
+		<selectKey keyProperty="addrno" resultType="int"
+			order="BEFORE">
+			SELECT seq_addr.nextval FROM dual
+		</selectKey>
+		insert into addr values (#{addrno}, #{userno},null, #{receiver}, #{phone}, #{addr}, #{post}, 'N')
+	</insert>
+	<!-- 주문 insert -->
+	<insert id="insertOrder" parameterType="ordersVO">
+		<selectKey keyProperty="ordersNo" resultType="int"
+			order="BEFORE">
+			SELECT seq_orders.nextval FROM dual
+		</selectKey>
+		insert into orders values (#{ordersNo}, #{userNo}, #{addrNo},
+		#{ordersPrice}, sysdate, '상품 준비중', #{ordersContent},#{ordersCnt},
+		#{shipPrice})
+	</insert>
+	<!-- 결제 인서트 -->
+	<insert id="insertPayment" parameterType="paymentVO">
+		<selectKey keyProperty="payno" resultType="int"
+			order="BEFORE">
+			SELECT seq_payment.nextval FROM dual
+		</selectKey>
+		insert into payment values (#{payno}, #{userno},
+		#{ordersno}, sysdate, #{payment_method})
+	</insert>
+	<!-- 주문 상세 인서트 -->
+	<insert id="insertOrdersDetail" parameterType="ordersdetailVO">
+		insert into payment values (#{payno}, #{userno},
+		#{ordersno}, sysdate, #{payment_method})
+	</insert>
 
 </mapper>

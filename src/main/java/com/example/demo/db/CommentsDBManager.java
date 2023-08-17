@@ -20,6 +20,7 @@ public class CommentsDBManager extends DBManager{
 		int totalRecord;
 		SqlSession session = sqlSessionFactory.openSession();
 		totalRecord = session.selectOne("comments.getTotalRecord");
+        session.close();
 		return totalRecord;
 	}
 	

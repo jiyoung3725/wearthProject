@@ -26,6 +26,9 @@ public class BoardVO {
 	@Transient	//테이블 매핑에서는 제외
 	private String fname;
 
+	@Transient	//테이블 매핑에서는 제외
+	private int cnt;
+
 	public int getBoardno() {
 		return boardno;
 	}
@@ -90,6 +93,13 @@ public class BoardVO {
 		this.fname = fname;
 	}
 
-	
+	public int getCnt() {
+		return cnt;
+	}
+
+	public void setCnt(int cnt) {
+		this.cnt = cnt;
+	}
+
 	
 }

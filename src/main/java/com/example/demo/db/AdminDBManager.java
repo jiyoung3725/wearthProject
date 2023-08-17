@@ -26,6 +26,7 @@ public class AdminDBManager extends DBManager {
         SqlSession session = sqlSessionFactory.openSession();
         n = session.selectOne("admin.getTotalUser");
         System.out.println("AdminDBMANGER 활성화 : getTotalUser : " + n);
+        session.close();
         return n;
     }
 
@@ -37,6 +38,7 @@ public class AdminDBManager extends DBManager {
         if (result != null) { // null 체크
             return 1;
         }
+        session.close();
         return re;
     }
 

@@ -171,6 +171,7 @@ function checkEmail() {
 				}
 			}
 		})
+	}
 };
 
 //이메일 인증
@@ -184,35 +185,49 @@ function checkEmailCheck() {
 		isVaildEmail = false;
 	}
 };
-
 // 회원가입 버튼 눌렀을때
 function submitForm() {
 	var myForm = document.getElementById('form');
 	document.getElementById("finalPhone").value =
 		document.getElementById('inputPhone1').value + document.getElementById('inputPhone2').value + document.getElementById('inputPhone3').value;
 	document.getElementById("finalEmail").value =
-		document.getElementById('inputEmail').value +'@'+document.getElementById('inputEmailUrl').value;
+		document.getElementById('inputEmail').value + '@' + document.getElementById('inputEmailUrl').value;
 	// 변수들의 값을 확인하여 모두 true인 경우에만 폼을 전송
-	if (document.getElementById('inputResidence').value == "" || document.getElementById('inputResidence').value == null) {
-		swal('회원가입 실패', '주소를 입력해주세요.', 'warning');
-	} else if (isVaildId && isVaildPwd && isVaildEmail && isVaildNickname && isVaildPhone) {
-		myForm.method = "post";
-		myForm.action = "/userinfo/signup";
-		$("#form").submit();
-	} else if (!isVaildId) {
+	if (!isVaildId) {
 		swal('회원가입 실패', '아이디 중복검사를 해주세요.', 'warning');
 	} else if (!isVaildPwd) {
 		swal('회원가입 실패', '동일한 비밀번호를 입력해주세요.', 'warning');
-	} else if (!isVaildNickname) {
+	} else if(document.getElementById('inputName').value == ""){
+		swal('회원가입 실패', '이름을 입력 해주세요.', 'warning');
+	}else if (!isVaildNickname) {
 		swal('회원가입 실패', '닉네임 중복검사를 해주세요.', 'warning');
 	} else if (!isVaildEmail) {
 		swal('회원가입 실패', '이메일 인증을 해주세요.', 'warning');
 	} else if (!isVaildPhone) {
-		swal('회원가입 실패', '중복되는 전화번호가 있습니다.', 'warning');
-	} else {
-		swal('회원가입 실패', '잠시후 다시 시도해주세요.', 'warning');
-	}
+		var phone = document.getElementById('inputPhone1').value+document.getElementById('inputPhone2').value+document.getElementById('inputPhone3').value;
+		$.ajax({
+			url: "/userinfo/checkPhone",
+			data: { phone: phone },
+			method: "get",
+			success: function(result) {
+				if (result == 'T') {
+					document.getElementById('finalPhone').value = phone;
+					if(document.getElementById('inputBirth')==""){
+						swal('회원가입 실패', '생년월일을 입력해주세요.', 'warning');
+					} else if (document.getElementById('inputResidence').value == "" || document.getElementById('inputResidence').value == null) {
+						swal('회원가입 실패', '주소를 입력해주세요.', 'warning');
+					} else {
+						myForm.method = "post";
+						myForm.action = "/userinfo/signup";
+						$("#form").submit();
+					};
 
+				} else {
+					swal('회원가입 실패', '중복되는 전화번호가 있습니다.', 'warning');
+				}
+			}
+		})
+	} 
 };
 
 
@@ -223,6 +238,4 @@ function searchResidence() {
 			document.getElementById('inputResidence').value = data.address;
 		}
 	}).open();
-
-}
 }

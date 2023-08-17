@@ -18,11 +18,11 @@ public class BoardServiceImpl implements BoardService {
 
 	@Autowired
 	private BoardJpaRepository abJPA;
-	
+
 	@Autowired
 	private BoardMyBatisRepository abMB;
-	
-	//페이징 처리를 위하여 start, end를 map에 넣어 받음
+
+	// 페이징 처리를 위하여 start, end를 map에 넣어 받음
 	@Override
 	public List<BoardVO> findAll(HashMap<String, Object> map) {
 		System.out.println("process : BoardServiceImp--------------------------");
@@ -34,22 +34,34 @@ public class BoardServiceImpl implements BoardService {
 		return abMB.getTotalRecord();
 	}
 
-	//게시글 입력시 다음 게시글 번호 부여
+	// 게시글 입력시 다음 게시글 번호 부여
 	@Override
 	public int getNextNo() {
 		return abJPA.getNextNo();
 	}
-	
-	//게시글 등록
+
+	// 게시글 등록
 	@Override
 	public void insert(BoardVO b) {
 		abJPA.insert(b);
 	}
-	//게시글 삭제
+
+	// 게시글 삭제
 	@Override
 	public void delete(int boardno) {
 		abJPA.delete(boardno);
 	}
-	
+
+	// 게시글 하나의 정보 가져오기
+	@Override
+	public BoardVO findByBoardno(int boardno) {
+		return abMB.findByBoardno(boardno);
+	}
+
+	// 게시글 수정
+	@Override
+	public void update(String title, String content, int boardno) {
+		abJPA.update(title, content, boardno);
+	}
 
 }

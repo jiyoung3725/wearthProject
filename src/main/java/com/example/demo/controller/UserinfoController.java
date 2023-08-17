@@ -41,65 +41,56 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.ModelAndView;
-import org.thymeleaf.expression.Sets;
 
-import com.example.demo.repository.UserJpaRepository;
-import com.example.demo.security.UserDetailServiceImpl;
+import com.example.demo.security.Role;
 import com.example.demo.service.UserInfoService;
 import com.example.demo.vo.UsersVO;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.Setter;
 
 @Controller
-
+@Setter
 public class UserinfoController {
 
 	@Autowired
 	private UserInfoService us;
 
-
 	@Autowired
 	private UserDetailsService uds;
-	
+
 	@Autowired
 	private AuthenticationManager am;
 
 	@Autowired
 	private BCryptPasswordEncoder encoder;
-	
+
 	@Autowired
 	private JavaMailSender mailSender;
 
 	@PostMapping("userinfo/signup")
 	public String signup(UsersVO u) {
-		String view = "redirect:/";
+		String view = "/userinfo/login";
 		u.setPwd(encoder.encode(u.getPwd()));
+		u.setRole(Role.USER);
+		System.out.println("user : "+u);
 		us.join(u);
 		return view;
 	}
 
 	@GetMapping("userinfo/login")
-	public void login(@RequestParam(value="error", required = false)String error, Model model) {
+	public void login(@RequestParam(value = "error", required = false) String error, Model model) {
 		model.addAttribute("error", error);
 	}
-
-
 
 	@GetMapping("userinfo/signup")
 	public void signupForm() {
 		System.out.println("회원가입 폼 실행");
 	}
-	
+
 	@GetMapping("userinfo/order")
 	public void order() {
 	}
@@ -142,6 +133,7 @@ public class UserinfoController {
 	@GetMapping("userinfo/checkPhone")
 	@ResponseBody
 	public String checkPhone(String phone) {
+		System.out.println("phone : "+phone);
 		String result = "T";
 		if (us.findByPhone(phone).isPresent()) {
 			result = "F";
@@ -155,7 +147,8 @@ public class UserinfoController {
 		String code = sendEmail(email);
 		session.setAttribute("code", code);
 		session.setMaxInactiveInterval(180);
-		return "인증번호를 발송했습니다.";
+		System.out.println("code : " + code);
+		return code;
 
 	}
 
@@ -203,13 +196,23 @@ public class UserinfoController {
 		return code;
 	}
 
-	private String makePwd() {
-	    StringBuilder pwd = new StringBuilder();
-	    SecureRandom r = new SecureRandom();
-	    pwd.append(r.nextInt(9)).append((char) (r.nextInt(26) + 'A')).append(r.nextInt(9))
-	            .append((char) (r.nextInt(26) + 'A')).append(r.nextInt(9)).append((char) (r.nextInt(26) + 'A'));
-	    return pwd.toString();
+	@PostMapping("/userinfo/changePwd")
+	@ResponseBody
+	public int changePwd(String pwd, String email) {
+		UsersVO u = us.findByEmail(email).get();
+		String newPwd = encoder.encode(pwd);
+		int re = us.changePwd(u.getUserno(), newPwd);
+		System.out.println("newPwd : " + newPwd);
+		System.out.println("result : " + re);
+		return re;
 	}
 
+	private String makePwd() {
+		StringBuilder pwd = new StringBuilder();
+		SecureRandom r = new SecureRandom();
+		pwd.append(r.nextInt(9)).append((char) (r.nextInt(26) + 'A')).append(r.nextInt(9))
+				.append((char) (r.nextInt(26) + 'A')).append(r.nextInt(9)).append((char) (r.nextInt(26) + 'A'));
+		return pwd.toString();
+	}
 
 }

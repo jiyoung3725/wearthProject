@@ -59,7 +59,15 @@
       userno=#{usersno} and l.goodsno is not null order by g.goodsno
    </select>
    
-   
+   <!-- 인기 상위 4개 상품 조회 (메인페이지 용) -->
+	<select id="getPopularGoods" resultType="goodsVO">
+		select g.* from 
+		(select count(*), goodsno 
+		from liked where goodsno is not null 
+		group by goodsno order by count(*) desc) a , goods g 
+		where a.goodsno=g.goodsno and rownum between 1 and 4
+	</select>
+
    <select id="getTotal" resultType="java.lang.Long">
       select sum(g.goodsprice) from goods g, cart c where c.userno=#{userno} and c.goodsno=g.goodsno
    </select>

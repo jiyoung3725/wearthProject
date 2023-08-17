@@ -33,6 +33,7 @@ public class VolunteerDBManager extends DBManager{
 		int totalRecord;
 		SqlSession session = sqlSessionFactory.openSession();
 		totalRecord = session.selectOne("volunteer.getTotalRecord");
+        session.close();
 		return totalRecord;
 	}
 	

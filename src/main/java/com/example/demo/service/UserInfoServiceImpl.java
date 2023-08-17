@@ -56,4 +56,14 @@ public class UserInfoServiceImpl implements UserInfoService {
 		return ur.findByPhone(phone);
 	}
 
+	@Override
+	public int changePwd(int userno, String pwd) {
+		return ur.changePwd(userno, pwd);
+	}
+
+	@Override
+	public int updateUserInfo(UsersVO u) {
+		return ur.updateUserInfo(u);
+	}
+
 }

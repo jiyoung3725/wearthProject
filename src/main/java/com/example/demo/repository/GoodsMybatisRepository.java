@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.example.demo.db.MainDBManager;
 import com.example.demo.db.ShopDBManager;
 import com.example.demo.vo.GoodsCategoryVO;
 import com.example.demo.vo.GoodsVO;
@@ -34,5 +35,11 @@ public class GoodsMybatisRepository {
 	public static GoodsCategoryVO findCategory(Integer goodsNo) {
 		return ShopDBManager.findCategory(goodsNo);
 	}
+	// 인기 상품 조회
+	public List<GoodsVO> getPopularGoods(){
+		return MainDBManager.getPopularGoods();
+	}
+	
+	
 	
 }

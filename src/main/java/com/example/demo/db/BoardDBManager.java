@@ -19,9 +19,20 @@ public class BoardDBManager extends DBManager{
 	}
 
 	public static int getTotalRecord() {
+		System.out.println("getTotalRecord() 정상 작동");
 		int totalRecord;
 		SqlSession session = sqlSessionFactory.openSession();
 		totalRecord = session.selectOne("board.getTotalRecord");
+		session.close();
 		return totalRecord;
+	}
+	
+	public static BoardVO findByBoardno(int boardno) {
+		System.out.println("findByBoardno() 정상 작동");
+		BoardVO b;
+		SqlSession session = sqlSessionFactory.openSession();
+		b = session.selectOne("board.findByBoardno", boardno);
+		session.close();
+		return b;
 	}
 }

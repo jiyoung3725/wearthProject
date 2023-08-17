@@ -16,6 +16,7 @@
 		<!-- 우종호 -->
 		<typeAlias type="com.example.demo.vo.UsersVO" alias="usersVO"/>
 		<!-- 권서현 -->
+		<typeAlias type="com.example.demo.vo.AddrVO" alias="addrVO" />
 		<typeAlias type="com.example.demo.vo.PaymentVO" alias="paymentVO" />
 		<typeAlias type="com.example.demo.vo.OrdersVO" alias="ordersVO" />
 		<typeAlias type="com.example.demo.vo.OrdersDetailVO" alias="ordersdetailVO" />

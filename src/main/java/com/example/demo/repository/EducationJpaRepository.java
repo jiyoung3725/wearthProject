@@ -19,4 +19,7 @@ public interface EducationJpaRepository extends JpaRepository<EducationVO, Integ
     @Transactional
     public void insertEducationApplication(EducationVO e);
 	
+	@Query(value = "select nvl(max(eduno),0)+1 from education", nativeQuery = true)
+	public int getNextNoEducation();
+	
 }

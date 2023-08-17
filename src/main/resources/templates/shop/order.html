@@ -38,7 +38,8 @@
 				</thead>
 				<tbody>
 					<tr th:if="${count ==1}" th:each="p:${products}">
-						<td style="text-align: left;"> <img th:src="@{'/images/shop/'+${p.mainFname}}" style="width : 50px; height: 50px;" /> 
+						<td style="text-align: left;"> <img th:src="@{'/images/shop/'+${p.mainFname}}"
+								style="width : 50px; height: 50px;" />
 							<span th:text="[+${p.goodsCompany}+]+${p.goodsName}"></span>
 						</td>
 						<td th:text="${p.cartCnt}"></td>
@@ -46,17 +47,19 @@
 						<td th:text="${p.shipPrice}"></td>
 					</tr>
 					<tr th:unless="${count ==1} ">
-						<td style="text-align: left;"> <img th:src="@{'/images/shop/'+${buy.mainFname}}" style="width : 50px; height: 50px;" /> 
+						<td style="text-align: left;"> <img th:src="@{'/images/shop/'+${buy.mainFname}}"
+								style="width : 50px; height: 50px;" />
 							<span th:text="[+${buy.goodsCompany}+]+${buy.goodsName}"></span>
 						</td>
 						<td th:text="${cnt}"></td>
-						<td th:text="${#numbers.formatInteger(buy.goodsPrice*0.8,0,'COMMA')}"></td>
 						<td th:text="${buy.shipPrice}"></td>
 					</tr>
 				</tbody>
 				<tfoot>
 					<td colspan="4" style="text-align: end; font-size: 17px;">
-						상품 구매금액 : 6000 + 배송비 : 3000 = 합계 : 3000
+						상품 구매금액 : <span th:text="${#numbers.formatInteger(total*0.8,0,'COMMA')}"></span>원 + 배송비 : <span id="shipPrice"
+							th:text="${#numbers.formatInteger(total > 20000 ? 0 : 3000,0,'COMMA')}"></span> 원 = 합계 : <span
+							th:text="${#numbers.formatInteger(total>20000?total*0.8:total*0.8+3000,0,'COMMA')}"></span>원
 					</td>
 				</tfoot>
 			</table>
@@ -80,32 +83,34 @@
 									value="option2">
 								<label class="form-check-label" for="ship2">새로운 배송지</label>
 							</div>
-							<button class="custom-btn btn" id = "addr-btn">주소록 보기</button>
+							<button class="custom-btn btn" id="addr-btn">주소록 보기</button>
 						</td>
 
 					</tr>
 					<tr>
 						<td scope="col">받으시는 분<b style="color: red;">&nbsp;*</b></td>
 						<td>
-							<input type="text">
+							<input type="text" class="input" id="receiver" name="receiver">
 						</td>
 					</tr>
 					<tr>
 						<td scope="col">주소<b style="color: red;">&nbsp;*</b></td>
 						<td>
-							<input type="text" id="inputAddr">
+							<input type="hidden" id="post" name="post">
+							<input type="text" class="input" id="addr" name="addr">
 							<button class="custom-btn btn" onclick="searchAddr()">검색</button>
 							<br>
-							<input type="text" placeholder="상세주소를 입력해주세요.">
+							<input type="text" class="input" id="detailaddr" placeholder="상세주소를 입력해주세요.">
 						</td>
 					</tr>
 					<tr>
 						<td scope="col">휴대전화<b style="color: red;">&nbsp;*</b></td>
 						<td>
 							<div style="display: inline-block;">
-								<input type="text" id="inputPhone1" style="width: 70px;">&nbsp;-&nbsp;
-								<input type="text" id="inputPhone2" style="width: 80px;">&nbsp;-&nbsp;
-								<input type="text" id="inputPhone3" style="width: 80px;">
+								<input type="hidden" id="finalPhone" name="phone">
+								<input type="text" id="inputPhone1" class="input" style="width: 70px;">&nbsp;-&nbsp;
+								<input type="text" id="inputPhone2" class="input" style="width: 80px;">&nbsp;-&nbsp;
+								<input type="text" id="inputPhone3" class="input" style="width: 80px;">
 							</div>
 						</td>
 					</tr>
@@ -113,12 +118,13 @@
 						<td scope="col">이메일<b style="color: red;">&nbsp;*</b></td>
 						<td>
 							<div style="display: inline-block;">
-								<input type="text" id="inputEmail" style="width: 120px;">&nbsp;@&nbsp;
-								<select id="inputEmailUrl">
+								<input type="hidden" id="finalEmail" name="email">
+								<input type="text" id="inputEmail" class="input" style="width: 120px;">&nbsp;@&nbsp;
+								<select id="inputEmailUrl" class="input">
 									<option selected>==선택하기==</option>
-									<option>naver.com</option>
-									<option>gmail.com</option>
-									<option>kakao.com</option>
+									<option value="naver.com">naver.com</option>
+									<option value="gmail.com">gmail.com</option>
+									<option value="kakao.com">kakao.com</option>
 								</select>
 							</div>
 						</td>
@@ -126,7 +132,7 @@
 					<tr>
 						<td scope="col">배송메세지</td>
 						<td>
-							<textarea cols="40" rows="3"></textarea>
+							<textarea cols="40" rows="3" class="input"></textarea>
 						</td>
 					</tr>
 				</tbody>
@@ -138,31 +144,42 @@
 				<caption style="caption-side: top;">결제 예정금액</caption>
 				<tbody>
 					<tr>
+						<td scope="col">총 구매 금액</td>
+						<td>
+							<span th:text="${total}"></span> 원
+						</td>
+
+					</tr>
+					<tr>
 						<td scope="col">총 할인금액</td>
 						<td>
-							9000원
+							-<span id="payDiscountAmount"
+								th:text="${#strings.substringBefore((total * 0.2), '.')}">0</span> 원
 						</td>
 
 					</tr>
 					<tr>
 						<td scope="col">최종 결제금액</td>
 						<td>
-							12500원
+							<span th:text="${#strings.substringBefore((total * 0.8), '.')}" id="payFinalAmount"></span>
+							원
 						</td>
-
 					</tr>
 					<tr>
 						<td scope="col">쿠폰 할인</td>
 						<td>
 							<button class="custom-btn btn" data-bs-toggle="modal" data-bs-target="#modal-coupon">쿠폰
 								적용</button>
+							<button class="btn custom-btn" style="background-color: lightgray;" onclick="clearCoupon()">
+								초기화
+							</button>
 						</td>
 					</tr>
 					<tr>
 						<td scope="col">적립금</td>
 						<td>
-							<input type="number" id="inputPoint" style="width: 90px;" th:text="${session.u.point}"
-								max="3000"> 원
+							<input type="number" class="input" id="inputPoint" style="width: 90px;" max="3000">
+							<span th:text="'가용 적립금 : '+${session.u.point}+'원'"></span>
 							<br>
 							<input type="hidden" id="point" th:value="${session.u.point}">
 							<ul class="info">
@@ -186,40 +203,41 @@
 					<tr>
 						<td style="width: 60%;">
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="radio" name="radio-pay" id="pay1" value="option1">
+								<input class="form-check-input" type="radio" name="radio-pay" id="pay1" value="vbank">
 								<label class="form-check-label" for="pay1">무통장 입금</label>
 							</div>
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="radio" name="radio-pay" id="pay2" value="option1">
+								<input class="form-check-input" type="radio" name="radio-pay" id="pay2" value="card">
 								<label class="form-check-label" for="pay2">카드 결제</label>
 							</div>
 						</td>
 						<td style="width: 40%;" rowspan="2">
-							<p>무통장 입금 최종 결제 금액</p>
-							<h2>12,500원</h2>
+							<p>최종 결제 금액</p>
+							<h2><span id="payFinalAmountText"></span> 원</h2>
 							<div class="form-check">
 								<input class="form-check-input" type="checkbox" value="" id="check-pay">
 								<label class="form-check-label" for="check-pay">
 									결제정보를 확인했으며, 구매 진행에 동의합니다.
 								</label>
 							</div>
-							<btn class="custom-btn btn">결제하기</btn>
+							<btn class="custom-btn btn" onclick="submitPay()">결제하기</btn>
 							<div>
 								<dl>
 									<dt><strong>총 적립예정금액</strong></dt>
-									<dd>1,300원</dd>
+									<dd><span id="pointAmount"></span> 원</dd>
 								</dl>
 							</div>
 
 						</td>
 
 					</tr>
-					<tr>
-						<td>
-
-							<!--결제 방식 선택에 따른 화면 출력 / 무통장일 시 은행 선택 등등 .. / 카드 결제면 결제 안내 등등-->
-						</td>
-					</tr>
+					<td>
+						<div id="div-vbank" style="display: hidden;">
+							<p>입금 계좌 안내</p>
+							<hr>
+							<input type="text" class="input" value="케이뱅크 100-141-070042 권서현" disabled>
+						</div>
+					</td>
 				</tbody>
 
 			</table>
@@ -232,18 +250,17 @@
 				<div class="modal-content">
 					<div class="modal-header" style="border: none;">
 						<h2>쿠폰</h2>
-						<button type="button" class="btn-close" onclick="closeModal()" data-bs-dismiss="modal"
-							aria-label="Close"></button>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body justify-content-center">
 						<p class="mb-3">적용할 쿠폰을 선택해주세요.</p>
 
 						<div class="mb-3">
-							<select id="selectCoupon">
+							<select id="selectCoupon" class="input">
 								<option selected value="0">==쿠폰 선택==</option>
-								<option th:each="c:${coupon_list}" 
-								th:text="'['+${c.couponDisCount}+'%] '+${c.couponName}+' ('+${c.couponCnt}+' 장)'"
-								th:value="${c.couponDisCount}">
+								<option th:each="c:${coupon_list}" th:id="${c.couponNo}"
+									th:text="'['+${c.couponDisCount}+'%] '+${c.couponName}+' ('+${c.couponCnt}+' 장)'"
+									th:value="${c.couponDisCount}">
 								</option>
 							</select>
 						</div>
@@ -260,13 +277,17 @@
 									</thead>
 									<tbody>
 										<tr>
-											<td>15,500원</td>
-											<td>3,000원</td>
-											<td>12,500원</td>
+											<td><span th:text="${#strings.substringBefore((total * 0.8), '.')}"></span>
+												원</td>
+											<td><span id="couponDiscountAmount">0</span> 원</td>
+											<td><span th:text="${#strings.substringBefore((total * 0.8), '.')}"
+													id="couponFinalAmount"></span> 원</td>
 										</tr>
 									</tbody>
 
 								</table>
+								<button class="btn custom-btn" onclick="setCoupon()" data-bs-dismiss="modal"
+									aria-label="Close">적용</button>
 							</div>
 
 						</div>
@@ -278,40 +299,357 @@
 		<div th:include="./main/footer.html"></div>
 
 		<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
- 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
 			integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
-			</script> 
+			</script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-
+		<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 		<script src="/js/userinfo/login.js"></script>
 		<script>
+			var total = "[[${total}]]";
 			// 주소 검색 api
 			function searchAddr() {
 				new daum.Postcode({
 					oncomplete: function (data) {
-						document.getElementById('inputAddr').value = data.address;
+						document.getElementById('addr').value = data.address;
+						document.getElementById('post').value = data.postcode;
 					}
 				}).open();
 
 			}
+			// 포인트 범위 제한 
+			var finalAmount = document.getElementById('payFinalAmount');
 			document.getElementById('inputPoint').addEventListener('keyup', function () {
 				var inputPointValue = parseFloat(document.getElementById('inputPoint').value);
 				var pointValue = parseFloat(document.getElementById('point').value);
-
-				if (!isNaN(inputPointValue) && !isNaN(pointValue)) {
+				if (isNaN(inputPointValue) || inputPointValue === '') {
+					finalAmount.textContent = total;
+					console.log("isnan");
+				} else {
+					console.log("isntnan");
 					if (inputPointValue > pointValue) {
 						document.getElementById('inputPoint').value = pointValue;
+						console.log("over");
 					}
+					if (inputPointValue > 3000) {
+						console.log("over3000");
+						document.getElementById('inputPoint').value = 3000;
+					}
+					finalAmount.textContent = total - inputPointValue;
+					console.log("result : ", total - inputPointValue);
+					console.log("total : ", total);
+					console.log("inputPointValue : ", inputPointValue);
 				}
 			});
+			// 주소록 팝업
 			document.getElementById('addr-btn').addEventListener("click", function () {
-				window.open("/shop/addr", "주소록", "width=500, height=400, left=50%, top=50%");
+				let addrWindow = window.open("/shop/addr", "주소록", "width=700, height=400, left=50%, top=50%");
 			});
 
+			// 라디오 버튼 이벤트 리스너 추가
+			document.querySelectorAll('input[name="radio-ship"]').forEach(function (radio) {
+				radio.addEventListener('change', handleRadioChange);
+			});
+
+			// 라디오 버튼 변경 시 호출될 함수
+			function handleRadioChange(event) {
+				if (event.target.value === 'option1') {
+					// 회원 정보와 동일 선택
+					var phone = "[[${session.u.phone}]]" + '';
+					var email = "[[${session.u.email}]]"
+					document.getElementById("receiver").value = "[[${session.u.u_name}]]";
+					document.getElementById("addr").value = "[[${session.u.residence}]]";
+					document.getElementById("inputPhone1").value = phone.substring(0, 3);
+					document.getElementById("inputPhone2").value = phone.substring(3, 7);
+					document.getElementById("inputPhone3").value = phone.substring(7);
+					document.getElementById("inputEmail").value = email.split('@')[0];
+					document.getElementById("inputEmailUrl").value = email.split('@')[1];
+				} else if (event.target.value === 'option2') {
+					document.getElementById("receiver").value = "";
+					document.getElementById("addr").value = "";
+					document.getElementById("inputPhone1").value = "";
+					document.getElementById("inputPhone2").value = "";
+					document.getElementById("inputPhone3").value = "";
+					document.getElementById("inputEmail").value = "";
+					document.getElementById("inputEmailUrl").value = "";
+
+				}
+			}
+			// 쿠폰 선택
+			var selectCoupon = document.getElementById('selectCoupon'); // select 엘리먼트 가져오기
+			var selectCouponId; // select 엘리먼트 가져오기
+			var selectedCouponDiscount;
+			var discountAmount;
+			// 쿠폰 선택 시에 적용되도록 할 변수 추가
+			var isCouponApplied = false;
+
+			// 쿠폰 선택
+			selectCoupon.addEventListener('change', function () {
+				if (isCouponApplied) {
+					// 이미 쿠폰이 적용된 경우 경고 메시지 표시
+					swal("쿠폰은 한 번만 적용할 수 있습니다.", "", "warning");
+					selectCoupon.value = "0"; // 쿠폰 선택 초기화
+					return;
+				}
+
+				total = parseInt(document.getElementById('payFinalAmount').textContent);
+				selectedCouponDiscount = selectCoupon.value;
+				selectCouponId = selectCoupon.options[selectCoupon.selectedIndex].id;
+				discountAmount = total * (parseInt(selectedCouponDiscount) / 100);
+				if (discountAmount == 0) {
+					total = "[[${total}]]" - parseFloat(document.getElementById('inputPoint').value);
+				} else {
+					document.getElementById("couponDiscountAmount").textContent = discountAmount;
+					document.getElementById("couponFinalAmount").textContent = (total - discountAmount);
+				}
+
+				isCouponApplied = true; // 쿠폰이 적용됨을 표시
+			});
+
+			// 쿠폰 적용 버튼 클릭 시 호출되는 함수
+			function setCoupon() {
+				if (!isCouponApplied) {
+					swal("쿠폰을 먼저 선택해주세요.", "", "warning");
+					return;
+				}
+
+				total = total - discountAmount;
+				document.getElementById('payDiscountAmount').textContent = discountAmount;
+				document.getElementById('payFinalAmount').textContent = total;
+			}
+
+
+			document.addEventListener("DOMContentLoaded", function () {
+				// 요소 가져오기
+				var payFinalAmountSpan = document.getElementById('payFinalAmount');
+				var payFinalAmountText = document.getElementById('payFinalAmountText');
+				var pointAmount = document.getElementById('pointAmount');
+
+				// 초기 값 설정
+				if (parseInt(payFinalAmountSpan.textContent) < 20000) {
+					payFinalAmountText.textContent = parseInt(payFinalAmountSpan.textContent) + 3000;
+				} else {
+					payFinalAmountText.textContent = payFinalAmountSpan.textContent;
+				}
+				pointAmount.textContent = parseInt(payFinalAmountText.textContent * 0.03);
+
+				// payFinalAmountSpan 내용이 변경될 때 감지
+				var observer = new MutationObserver(function (mutations) {
+					mutations.forEach(function (mutation) {
+						if (mutation.type === "childList" && mutation.target === payFinalAmountSpan) {
+							if (parseInt(payFinalAmountSpan.textContent) < 20000) {
+								payFinalAmountText.textContent = parseInt(payFinalAmountSpan.textContent) + 3000;
+							} else {
+								payFinalAmountText.textContent = payFinalAmountSpan.textContent;
+							}
+							pointAmount.textContent = parseInt(payFinalAmountText.textContent * 0.03);
+						}
+					});
+				});
+
+				observer.observe(payFinalAmountSpan, {childList: true});
+
+				// 라디오 버튼 요소들을 가져옴
+				var radioButtons = document.querySelectorAll('input[name="radio-pay"]');
+
+				// 라디오 버튼 변경 이벤트 처리
+				radioButtons.forEach(function (radioButton) {
+					radioButton.addEventListener("change", function () {
+						if (this.checked) {
+							// 선택된 라디오 버튼의 값을 가져와서 처리
+							var selectedValue = this.value;
+
+							// 예시: 선택된 값에 따라 다른 동작 수행
+							if (selectedValue === "vbank") {
+								console.log("무통장 입금 선택됨");
+								document.getElementById('div-vbank').style.display = "block";
+							} else if (selectedValue === "card") {
+								console.log("카드 결제 선택됨");
+								document.getElementById('div-vbank').style.display = "none";
+							}
+						}
+					});
+				});
+			});
+
+
+			// 쿠폰 초기화
+			function clearCoupon() {
+				isCouponApplied = false;
+				selectCoupon.value = "0"; // 쿠폰 선택 초기화
+				discountAmount = 0; // 할인 금액 초기화
+				document.getElementById("couponDiscountAmount").textContent = discountAmount;
+				total = "[[${total}]]"
+				if (document.getElementById('inputPoint').value.length > 0) {
+					total = total - parseFloat(document.getElementById('inputPoint').value);
+				}
+
+				console.log("point : ", parseInt(document.getElementById('inputPoint').value));
+				console.log("total : ", total);
+				console.log("total2 : ", "[[${total}]]");
+				document.getElementById('payDiscountAmount').textContent = discountAmount;
+				document.getElementById('payFinalAmount').textContent = total;
+			}
+			var IMP = window.IMP;
+			IMP.init("imp25055717");
+			// 결제 버튼 눌럿을때
+			function submitPay() {
+				var isChecked = document.getElementById('check-pay').checked;
+				var payMethod = document.querySelector('input[name="radio-pay"]:checked');
+				var receiver = document.getElementById('receiver').value;
+				var addr = document.getElementById('addr').value + document.getElementById('detailaddr').value;
+				var phone = document.getElementById('inputPhone1').value + document.getElementById('inputPhone2').value + document.getElementById('inputPhone3').value;
+				var email = document.getElementById('inputEmail').value + '@' + document.getElementById('inputEmailUrl').value;
+				var point = document.getElementById('pointAmount').textContent;
+				var post = document.getElementById('post').value;
+				var amount = document.getElementById('payFinalAmountText').textContent;
+				var shipPrice = document.getElementById('shipPrice').textContent;
+				var count = "[[${count}]]";
+				if (receiver.length <= 0) {
+					swal("받는 사람을 입력해주세요.", "", "warning");
+					return;
+				} else if (addr.length <= 0) {
+					swal("주소를 입력해주세요.", "", "warning");
+					return;
+				} else if (phone.length <= 0) {
+					swal("전화번호를 입력해주세요.", "", "warning");
+					return;
+				} else if (email.length <= 0) {
+					swal("이메일을 입력해주세요.", "", "warning");
+					return;
+				} else if (!isChecked) {
+					swal("구매 진행 동의를 눌러주세요.", "", "warning");
+					return;
+				} else if (payMethod === null) {
+					swal("결제 방법을 선택해주세요.", "", "warning");
+					return;
+				} else if (payMethod.value == "vbank") {
+
+				} else {
+					var header = $("meta[name='_csrf_header']").attr('content');
+					var token = $("meta[name='_csrf']").attr('content');
+					$.ajax({
+						url: "/shop/insertAddr",
+						data: {
+							userno: "[[${session.u.userno}]]",
+							receiver: receiver,
+							phone: phone,
+							addr: addr,
+							post: post
+						},
+						beforeSend: function (xhr) {
+							xhr.setRequestHeader(header, token);
+						},
+						method: "POST",
+						success: function (addrno) {
+							IMP.request_pay({ // param
+								pg: "kcp",
+								pay_method: "card",
+								merchant_uid: "ORD" + new Date().getTime(),
+								name: "위어스",
+								amount: amount,
+								buyer_email: email,
+								buyer_name: "[[${session.u.u_name}]]",
+								buyer_tel: phone,
+								buyer_addr: addr,
+								buyer_postcode: post
+							}, function (res) { // callback
+								if (res.success) {
+									$.ajax({
+										url: "/shop/insertOrder",
+										data: {
+											userNo: "[[${session.u.userno}]]",
+											addrNo: addrno,
+											ordersPrice: amount,
+											ordersContent: '쇼핑',
+											ordersCnt: 1,
+											shipPrice: shipPrice
+										},
+										beforeSend: function (xhr) {
+											xhr.setRequestHeader(header, token);
+										},
+										method: "POST",
+										success: function (orderno) {
+											$.ajax({
+												url: "/shop/insertPayment",
+												data: {
+													userno: "[[${session.u.userno}]]",
+													ordersno: orderno,
+													payment_method: 'card'
+												},
+												beforeSend: function (xhr) {
+													xhr.setRequestHeader(header, token);
+												},
+												method: "POST",
+												success: function (result) {
+													if (count == 1) {
+														var jsonGoods = "[[${jsonGoods}]]";
+														var items = JSON.parse(jsonGoods.replace(/&quot;/g, '"'));
+														console.log("Test:"+jsonGoods.replace(/&quot;/g, '"'));
+														console.log(items); // 파싱된 item 출력
+														
+														items.forEach(function (item) {
+															$.ajax({
+																url: "/shop/insertDetailOrder",
+																data: {
+																	userNo: "[[${session.u.userno}]]",
+																	ordersNo: orderno,
+																	goodsNo: item.goodsNo,
+																	detailCnt: item.cartCnt
+																},
+																beforeSend: function (xhr) {
+																	xhr.setRequestHeader(header, token);
+																},
+																method: "POST",
+																success: function (result) {
+																	console.log("success 1");
+																	location.href="/mypage/shopping/detail?ordersno="+orderno;
+																}
+															});
+														});
+
+													} else {
+														var jsonGood = "[[${jsonGood}]]";
+														var item = JSON.parse(jsonGood.replace(/&quot;/g, '"'));
+														console.log("Test:"+jsonGood.replace(/&quot;/g, '"'));
+														console.log(item); // 파싱된 item 출력
+														$.ajax({
+															url: "/shop/insertDetailOrder",
+															data: {
+																userNo: "[[${session.u.userno}]]",
+																ordersNo: orderno,
+																goodsNo: item.goodsNo,
+																detailCnt: "[[${cnt}]]"
+															},
+															beforeSend: function (xhr) {
+																xhr.setRequestHeader(header, token);
+															},
+															method: "POST",
+															success: function (result) {
+																console.log("success 2");
+																location.href="/mypage/shopping/detail?ordersno="+orderno;
+															}
+														});
+													}
+												}
+											});
+										}
+									});
+
+								} else {
+									swal("[결제실패]" + res.error_msg, "", "warning");
+								}
+							});
+						}
+					})
+
+
+				}
+			};
+
 		</script>
-		
 </body>
 
 </html>

@@ -8,7 +8,7 @@ import com.example.demo.vo.AddrVO;
 
 public interface AddrJpaRepository extends JpaRepository<AddrVO, Integer> {
 		
-	public List<AddrVO> findByUserNo(int userno);
+	public List<AddrVO> findByUserno(int userno);
 
 
 

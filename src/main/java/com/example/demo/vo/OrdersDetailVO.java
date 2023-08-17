@@ -15,7 +15,6 @@ public class OrdersDetailVO {
 	private int ordersNo;
 	private int goodsNo;
 	private int lecNo;
-	private int detailPrice;
 	private int detailCnt;
 	public int getOrdersDetailNo() {
 		return ordersDetailNo;
@@ -47,17 +46,16 @@ public class OrdersDetailVO {
 	public void setLecNo(int lecNo) {
 		this.lecNo = lecNo;
 	}
-	public int getDetailPrice() {
-		return detailPrice;
-	}
-	public void setDetailPrice(int detailPrice) {
-		this.detailPrice = detailPrice;
-	}
 	public int getDetailCnt() {
 		return detailCnt;
 	}
 	public void setDetailCnt(int detailCnt) {
 		this.detailCnt = detailCnt;
+	}
+	@Override
+	public String toString() {
+		return "OrdersDetailVO [ordersDetailNo=" + ordersDetailNo + ", userNo=" + userNo + ", ordersNo=" + ordersNo
+				+ ", goodsNo=" + goodsNo + ", lecNo=" + lecNo + ", detailCnt=" + detailCnt + "]";
 	}
 	
 	

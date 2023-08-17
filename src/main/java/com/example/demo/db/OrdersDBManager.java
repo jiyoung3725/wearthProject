@@ -8,6 +8,29 @@ import com.example.demo.vo.OrdersDetailVO;
 import com.example.demo.vo.OrdersVO;
 
 public class OrdersDBManager extends DBManager {
+	
+	public static List<OrdersVO> findAll(){
+		SqlSession session = sqlSessionFactory.openSession();
+		List<OrdersVO> list = session.selectList("orders.findAll");
+		session.close();
+		return list;
+	}
+	
+	public static Integer updateOrders(OrdersVO order) {
+		SqlSession session = sqlSessionFactory.openSession(true);
+		Integer re = session.update("orders.updateOrder", order);
+		session.close();
+		return re;
+	}
+	
+	public static Integer deleteOrders(int ordersno) {
+		SqlSession session = sqlSessionFactory.openSession(true);
+		Integer re = session.delete("orders.deleteOrder", ordersno);
+		session.close();
+		return re;
+	}
+		
+	
 	public static List<OrdersVO> findByUserNo(int userno) {
 		SqlSession session = sqlSessionFactory.openSession();
 		List<OrdersVO> list = session.selectList("orders.findListOrders", userno);

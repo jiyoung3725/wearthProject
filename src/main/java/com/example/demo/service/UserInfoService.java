@@ -25,6 +25,9 @@ public interface UserInfoService {
 	// 전화번호로 회원 찾기
 	public Optional<UsersVO> findByPhone(String phone);
 	
+	// 비밀번호 변경
+	public int changePwd(int userno, String pwd);
 	
-	
+	// 회원정보 변경
+	public int updateUserInfo(UsersVO u);
 }

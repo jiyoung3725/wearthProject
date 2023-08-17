@@ -14,7 +14,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
+		integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
 	<!--font start-->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,11 +39,11 @@
 
 <body>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-      crossorigin="anonymous"></script>
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 
 	<!-- Start Main Top -->
 	<header class="main-header">
@@ -102,20 +102,15 @@
 							<ul class="account_selection">
 								<li><a href="/shop/shopMain/1"><i class="fa fa-sign-in" aria-hidden="true"></i>전체
 										상품</a></li>
-								<li><a href="/shop/shopMain/2"><i class="fa fa-sign-in"
-											aria-hidden="true"></i>식품</a>
+								<li><a href="/shop/shopMain/2"><i class="fa fa-sign-in" aria-hidden="true"></i>식품</a>
 								</li>
-								<li><a href="/shop/shopMain/3"><i class="fa fa-sign-in"
-											aria-hidden="true"></i>리빙
+								<li><a href="/shop/shopMain/3"><i class="fa fa-sign-in" aria-hidden="true"></i>리빙
 										용품</a></li>
-								<li><a href="/shop/shopMain/4"><i class="fa fa-sign-in"
-											aria-hidden="true"></i>주방
+								<li><a href="/shop/shopMain/4"><i class="fa fa-sign-in" aria-hidden="true"></i>주방
 										용품</a></li>
-								<li><a href="/shop/shopMain/5"><i class="fa fa-sign-in"
-											aria-hidden="true"></i>욕실
+								<li><a href="/shop/shopMain/5"><i class="fa fa-sign-in" aria-hidden="true"></i>욕실
 										용품</a></li>
-								<li><a href="/shop/shopMain/6"><i class="fa fa-sign-in"
-											aria-hidden="true"></i>선물
+								<li><a href="/shop/shopMain/6"><i class="fa fa-sign-in" aria-hidden="true"></i>선물
 										키트</a></li>
 
 							</ul>
@@ -203,7 +198,6 @@
 			</div>
 		</div>
 	</div>
-
 	<!-- sidebar -->
 	<div sec:authorize="isAuthenticated()" class="offcanvas offcanvas-end" data-bs-scroll="true"
 		data-bs-backdrop="false" tabindex="-1" id="sidebar" aria-labelledby="sidebar">
@@ -221,14 +215,14 @@
 					<span th:text="${session.u.nickname}"></span><br>
 					<button class="btn custom-btn mb-3" style="font-size: 13px;"
 						onclick="window.location.href='/mypage/update'">개인정보 수정</button>
-					<table width="80%">
+					<table class="user-table">
 						<tr>
-							<th>쿠폰</th>
-							<th>적립금</th>
+							<th class="user-td">쿠폰</th>
+							<th class="user-td">적립금</th>
 						</tr>
 						<tr>
-							<td>2 장</td>
-							<td th:text="${session.u.point}+'원'"></td>
+							<td class="user-td">2 장</td>
+							<td class="user-td" th:text="${session.u.point}+'원'"></td>
 						</tr>
 					</table>
 				</div>
@@ -236,19 +230,19 @@
 
 			<div class="detail-bar">
 				<ul class="nav flex-column">실천
-					<li class="nav-item"><a class="nav-link" href="/mypage/act/list">봉사신청내역</a></li>
-					<li class="nav-item"><a class="nav-link" href="">내가 쓴 글</a></li>
+					<li class="nav-item"><a class="nav-link header-nav-link" href="/mypage/act/list">봉사신청내역</a></li>
+					<li class="nav-item"><a class="nav-link header-nav-link" href="/mypage/board/list">내가 쓴 글</a></li>
 				</ul>
 				<ul class="nav flex-column">위얼스 학교
-					<li class="nav-item"><a class="nav-link" href="/mypage/edu/list/1">신청내역</a></li>
-					<li class="nav-item"><a class="nav-link" href="/mypage/edu/likedList">관심 교육/강연</a></li>
+					<li class="nav-item"><a class="nav-link header-nav-link" href="/mypage/edu/list/1">신청내역</a></li>
+					<li class="nav-item"><a class="nav-link header-nav-link" href="/mypage/edu/likedList">관심 교육/강연</a>
+					</li>
 				</ul>
 				<ul class="nav flex-column">쇼핑
-					<li class="nav-item"><a class="nav-link" href="/mypage/shopping/list">주문내역</a></li>
-					<li class="nav-item"><a class="nav-link" href="/mypage/shopping/liked">관심 상품</a></li>
+					<li class="nav-item"><a class="nav-link header-nav-link" href="/mypage/shopping/list">주문내역</a></li>
+					<li class="nav-item"><a class="nav-link header-nav-link" href="/mypage/shopping/liked">관심 상품</a>
+					</li>
 				</ul>
-
-
 			</div>
 		</div>
 	</div>
@@ -281,10 +275,10 @@
 		});
 	</script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-      crossorigin="anonymous"></script>
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+		integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 </body>
 
 </html>
