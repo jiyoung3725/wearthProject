@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.db.ShopDBManager;
+import com.example.demo.vo.GoodsCategoryVO;
 import com.example.demo.vo.GoodsVO;
 @Repository
 public class GoodsMybatisRepository {
@@ -27,6 +28,11 @@ public class GoodsMybatisRepository {
 
 	public static int getTotalRecord(Integer categoryNo) {
 		return ShopDBManager.getTotalRecord(categoryNo);
+	}
+	
+	//카테고리 조회
+	public static GoodsCategoryVO findCategory(Integer goodsNo) {
+		return ShopDBManager.findCategory(goodsNo);
 	}
 	
 }

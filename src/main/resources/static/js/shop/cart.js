@@ -25,12 +25,16 @@ $(function() {
 		//개별 상품 체크박스 선택 시 체크, 체크해제
 		$(".td_check").click(function(){
 			clickEvent(event);
+			
+			
 			if($(this).is(":checked")){
 				$(this).prop("checked",true);	
 				
 			}else{$(this).prop("checked",false)}
 			
-		})	
+			
+		})
+		
 		
 		//clickEvent에서 해당 Row값 가져오고 상품가격 합산해서 html에 값 넣어주기
 		function clickEvent(event){		
@@ -72,6 +76,8 @@ $(function() {
 			$(".goodsPrice").html(goodsPrice);
 			$(".shipPrice").html(shipPrice);		
 			$(".totalPrice").html(tot);
+			
+		
 		}
 		//checked_All 클릭 시 장바구니에 담긴 모든 상품의 가격, 수량 가져오고 합산해서 html에 값 넣어주기
 		function AllClick(event){
@@ -102,7 +108,7 @@ $(function() {
 				url : "/deleteCartByGoodsStock",
 				type : "post",
 				data : {userNo : userNo},
-				beforeSend: function (xhr) {xhr.setRequestHeader(header, token);},
+				beforeSend: function (xhr) {xhr.setRequestHeader(header, token);}, 
 				success: function (data) {
 					alert(" 삭제 성공!")
 					document.location.reload();
@@ -139,12 +145,14 @@ $(function() {
 			goodsNo = columns.eq(0).find("#goodsNo").val();
 			console.log(goodsNo);
 			//db에 수량 업데이트하기
+			console.log(userNo)
 			$.ajax({
 				url : "/updateCartCnt",
 				type : "post",
 				data : {userNo:userNo, cartCnt:count, goodsNo:goodsNo},
 				beforeSend: function (xhr) {xhr.setRequestHeader(header, token);},
 				success: function (data) {
+					alert("성공")
 					document.location.reload();
 				}
 			})
@@ -152,6 +160,18 @@ $(function() {
 		});
 		
 		//
+		$(".pay-btn-small").click(function(){
+			var userNo = $("#userNo").val();
+			var tr = $(this).parents().parents();
+			var goodsNo = parseInt(tr.children().eq(0).find("#goodsNo").val());
+			cnt = parseInt(tr.children().eq(2).find("#cnt").val());
+			location.href = "/shop/order/"+goodsNo+"/"+userNo+"/"+cnt;
+		})
+		
+		$("#totPay").click(function(){
+			var userNo = $("#userNo").val();
+			location.href="/shop/orders/"+userNo		
 	});
+	})	
 	// product +/-
 })

@@ -59,7 +59,7 @@
 						</div>
 					</td>
 					<td colspan="2" style="text-align: left;">  <img th:src="@{/images/shop/}+${c.mainFname}" style="width : 70px; height: 70px;" />  
-					<span th:text="'['+${c.goodsCompany}+']'+${c.goodsName}"></span>
+					<a th:href="@{/shop/detail(goodsNo=${c.goodsNo})}"><span th:text="'['+${c.goodsCompany}+']'+${c.goodsName}"></span></a>
 					</td>
 					<td>
 						<div class="num-block skin-5">
@@ -71,9 +71,9 @@
 						</div>
 					</td>
 					<td>
-						<span id="price" th:text="${c.goodsPrice}*${c.cartCnt}+'원'"></span>
+						<span id="price" th:text="${#numbers.formatInteger(c.goodsPrice*0.8*c.cartCnt,0,'COMMA')}+'원'"></span>
 						 <br />
-						<button class="pay-btn-small" onclick="location.href='/shop/order'">주문하기</button>
+						<button class="pay-btn-small" >주문하기</button>
 					</td>
 					<td><span id="ship" th:text="${c.shipPrice }+'원'"></span></td>
 				</tr>
@@ -111,7 +111,7 @@
 
 		<!--주문버튼 start-->
 		<div class="pay">
-			<button class="pay-btn" onclick="location.href='/shop/order'">주문하기</button> <br />
+			<button class="pay-btn" id="totPay">주문하기</button> <br />
 			<button class="pay-btn2">Npay 주문하기</button>
 		</div>
 		<!--주문버튼 end-->

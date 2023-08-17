@@ -10,10 +10,13 @@ import com.example.demo.repository.CartMybatisRepository;
 import com.example.demo.repository.GoodsJpaRepository;
 import com.example.demo.repository.GoodsMybatisRepository;
 import com.example.demo.repository.LikedMybatisRepository;
+import com.example.demo.repository.OpinionMyBatisRepository;
 import com.example.demo.vo.CartVO;
 import com.example.demo.vo.DetailCartVO;
+import com.example.demo.vo.GoodsCategoryVO;
 import com.example.demo.vo.GoodsVO;
 import com.example.demo.vo.LikedVO;
+import com.example.demo.vo.OpinionVO;
 
 import lombok.Setter;
 
@@ -29,7 +32,7 @@ public class GoodsService {
 	private CartMybatisRepository cm;
 	@Autowired
 	private LikedMybatisRepository lm;
-	
+	@Autowired OpinionMyBatisRepository om;
 	
 	//전체 상품 목록 조회
 	public List<GoodsVO> findGoods(HashMap<Object, Object> map){
@@ -90,7 +93,44 @@ public class GoodsService {
 		return cm.updateCartCnt(map);
 	}
 	
-
+	//쇼핑 문의 조회
+	public List<OpinionVO> selectShopOpinion(int goodsNo){
+		return om.selectShopOpinion(goodsNo);
+	}
 	
+	//쇼핑 리뷰 조회
+	public List<OpinionVO> selectShopReview(int goodsNo){
+		return om.selectShopReview(goodsNo);
+	}
+	
+	//쇼핑 문의글 작성
+	public int insertShopQNA(HashMap<String, Object>map) {
+		return om.insertShopQNA(map);
+	}
+	
+	//쇼핑 문의글 삭제
+	public int deleteShopQNA(HashMap<String, Object> map) {
+		return om.deleteShopQNA(map);
+	}
+	
+	//쇼핑 문의글 수정
+	public int updateShopQNA(HashMap<String, Object> map) {
+		return om.updateShopQNA(map);
+	}
+	
+	//상품 등록
+	public GoodsVO save(GoodsVO g) {
+		return gj.save(g);
+	}
+	
+	//카테고리 조회
+	public GoodsCategoryVO findCategory(Integer goodsNo) {
+		return gm.findCategory(goodsNo);
+	}
+	
+	//장바구니 상품 수량 조회
+	public CartVO cartTot(int userNo) {
+		return cm.cartTot(userNo);
+	}
 		
 }

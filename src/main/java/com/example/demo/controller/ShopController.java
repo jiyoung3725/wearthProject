@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,17 +15,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.repository.UserJpaRepository;
 import com.example.demo.repository.UserMyBatisRepository;
 import com.example.demo.service.GoodsService;
+import com.example.demo.vo.GoodsCategoryVO;
 import com.example.demo.vo.GoodsVO;
 import com.example.demo.vo.LikedVO;
+import com.example.demo.vo.OpinionVO;
 import com.example.demo.vo.UsersVO;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -97,10 +102,22 @@ public class ShopController {
 		return mav;
 	}
 
-	// 상품 상세조회
+	// 상품 상세조회 / 리뷰&문의 조회
 	@GetMapping("/shop/detail")
-	public void detailGoods(@RequestParam Integer goodsNo, Model model) {
+	public void detailGoods(@RequestParam Integer goodsNo, Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		UsersVO user = (UsersVO)session.getAttribute("u");
+		if(user !=null) {
+		model.addAttribute("id",user.getId());
+		model.addAttribute("userNo",user.getUserno());
+		}else {
+			model.addAttribute("id", null);
+		}
+		
 		model.addAttribute("g", gs.detailGoods(goodsNo));
+		model.addAttribute("review", gs.selectShopReview(goodsNo));
+		model.addAttribute("qna", gs.selectShopOpinion(goodsNo));
+		model.addAttribute("category", gs.findCategory(goodsNo));
 	}
 
 	
@@ -141,13 +158,10 @@ public class ShopController {
 	//장바구니 추가
 	@RequestMapping("/insertCart")
 	@ResponseBody
-	public void insertCart(int cnt, int goodsNo,Model model,HttpServletRequest request) {
-		HttpSession session = request.getSession();
+	public void insertCart(Model model,HttpServletRequest request) {
 	int cartCnt = Integer.parseInt(request.getParameter("cnt"));
-	goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
+	int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
 	int userNo = Integer.parseInt(request.getParameter("userNo")) ;
-
-	
 	HashMap<String, Object> map = new HashMap<String, Object>();
 	map.put("cartCnt", cartCnt);
 	map.put("goodsNo", goodsNo);
@@ -199,5 +213,119 @@ public class ShopController {
 		System.out.println("map:"+map);
 		model.addAttribute(gs.updateCartCnt(map));
 	}
+	
+	
+	//문의글 등록
+	@PostMapping("/shop/insertQNA")
+	@ResponseBody
+	public void insertShopQNA(HttpServletRequest request) {
+		System.out.println("문의 컨트롤러 동작!!!!!!!!!!!!");
+		int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
+		HttpSession session = request.getSession();
+		UsersVO user = (UsersVO)session.getAttribute("u");
+		String id = user.getId();
+		String opinionName = request.getParameter("opinionName");
+		String opinionContent = request.getParameter("opinionContent");
+		String opinionPwd = request.getParameter("opinionPwd");
+		System.out.println("아이디"+id);
+		System.out.println("상품번호"+goodsNo);
+		System.out.println("상품번호"+opinionName);
+		System.out.println("상품번호"+opinionContent);
+		System.out.println("상품번호"+opinionPwd);
+		HashMap<String, Object>map =new HashMap<String,Object>();
+		map.put("id", id);
+		map.put("goodsNo",goodsNo);
+		map.put("opinionName",opinionName);
+		map.put("opinionContent",opinionContent);
+		map.put("opinionPwd", opinionPwd) ;
+		gs.insertShopQNA(map);
+		
+	}
+	
+	//문의글 삭제
+	@PostMapping("/shop/deleteQNA")
+	@ResponseBody
+	public void deleteShopQNA() {
+		
+	}
+	
+	//문의글 수정
+	@PostMapping("/shop/updateQNA")
+	@ResponseBody
+	public void updateQNA() {
+		
+	}
+	
+	//하나만 구매하기 
+	@RequestMapping("/shop/order/{goodsNo}/{userNo}/{cnt}")
+	public String order(Model model,@PathVariable int goodsNo,@PathVariable int userNo,@PathVariable int cnt) {
+		model.addAttribute("cnt",cnt);
+		model.addAttribute("buy",gs.detailGoods(goodsNo));
+		model.addAttribute("count",null);
+		return "shop/order";
+	}
+	//여러개 구매하기
+	@RequestMapping("/shop/orders/{userNo}")
+	public String orders(@PathVariable int userNo,Model model) {
+		model.addAttribute("products", gs.findCartByUserNo(userNo));
+		model.addAttribute("count", 1);
+		return "shop/order";
+	}
+	
+	
+	
+	//상품등록화면
+	@GetMapping("/shop/insertGoods")
+	public String insertGoodsForm() {
+		return "shop/insertGoods";
+	}
+	//상품등록
+//	@PostMapping("/shop/insertGoods")
+//	public ModelAndView insertGoods(GoodsVO g,HttpServletRequest request) {
+//		ModelAndView mav = new ModelAndView("redirect:/shop/insertGoods");
+//		String path = request.getServletContext().getRealPath("images/shop");
+//		System.out.println("path!"+path);
+//		MultipartFile file1 = g.getFile1();
+//		MultipartFile file2 = g.getFile2();
+//		MultipartFile file3 = g.getFile3();
+//		String mainFname =file1.getOriginalFilename();
+//		String addFname =file2.getOriginalFilename();
+//		String infoFname =file3.getOriginalFilename();
+//		try {
+//			byte[] data1 = file1.getBytes(); 
+//			byte[] data2 = file2.getBytes(); 
+//			byte[] data3 = file3.getBytes(); 
+//			mainFname = file1.getOriginalFilename();
+//			addFname = file2.getOriginalFilename();
+//			infoFname = file3.getOriginalFilename();
+//			FileOutputStream fos1 = new FileOutputStream(path+"/"+mainFname);
+//			FileOutputStream fos2 = new FileOutputStream(path+"/"+addFname);
+//			FileOutputStream fos3 = new FileOutputStream(path+"/"+infoFname);
+//			fos1.write(data1);
+//			fos2.write(data2);
+//			fos3.write(data3);
+//			fos1.close();
+//			fos2.close();
+//			fos3.close();
+//			g.setMainFname(mainFname);
+//			g.setAddFname(addFname);
+//			g.setInfoFname(infoFname);
+//		}catch(Exception e){
+//			System.out.println("uploadFile 예외발생"+e.getMessage());
+//		}
+//		g.setMainFname(mainFname);
+//		g.setAddFname(addFname);
+//		g.setInfoFname(infoFname);
+//		try {
+//			
+//		}catch (Exception e) {
+//			System.out.println("등록 실패"+e.getMessage());
+//		}	
+//		return mav;
+//		
+//	}
+	
+	
+	
 }
 

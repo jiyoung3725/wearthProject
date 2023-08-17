@@ -83,7 +83,7 @@ public class MypageController {
 		review.setGoodsNo(goodsno);
 		review.setOpinionName(opinionName);
 		review.setOpinionContent(opinionContent);
-		review.setID(u.getNickname());
+		review.setId(u.getNickname());
 		return myPageService.insertReview(review);
 	}
 

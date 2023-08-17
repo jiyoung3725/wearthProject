@@ -14,32 +14,33 @@ import lombok.ToString;
 public class OpinionVO {
 	
 	@Id
-	private int opinionNO;
-	private int eduNO;
+	private int opinionNo;
+	private int eduNo;
 	private int goodsNo;
 	private int lecNo;
 
-	private String ID;
+	private String id;
 	private String opinionName;
 	private String opinionContent;
 	private Date opinionDate;
-	private boolean opinionSecret;
+	private int opinionSecret;
 	private String opinionPwd;
 	private String opinionStatus;
 	private int reviewScore;
 	private int answerNo;
 	private String type;
-	public int getOpinionNO() {
-		return opinionNO;
+	private int depth;
+	public int getOpinionNo() {
+		return opinionNo;
 	}
-	public void setOpinionNO(int opinionNO) {
-		this.opinionNO = opinionNO;
+	public void setOpinionNo(int opinionNo) {
+		this.opinionNo = opinionNo;
 	}
-	public int getEduNO() {
-		return eduNO;
+	public int getEduNo() {
+		return eduNo;
 	}
-	public void setEduNO(int eduNO) {
-		this.eduNO = eduNO;
+	public void setEduNo(int eduNo) {
+		this.eduNo = eduNo;
 	}
 	public int getGoodsNo() {
 		return goodsNo;
@@ -53,11 +54,11 @@ public class OpinionVO {
 	public void setLecNo(int lecNo) {
 		this.lecNo = lecNo;
 	}
-	public String getID() {
-		return ID;
+	public String getId() {
+		return id;
 	}
-	public void setID(String iD) {
-		ID = iD;
+	public void setId(String id) {
+		this.id = id;
 	}
 	public String getOpinionName() {
 		return opinionName;
@@ -77,10 +78,10 @@ public class OpinionVO {
 	public void setOpinionDate(Date opinionDate) {
 		this.opinionDate = opinionDate;
 	}
-	public boolean isOpinionSecret() {
+	public int getOpinionSecret() {
 		return opinionSecret;
 	}
-	public void setOpinionSecret(boolean opinionSecret) {
+	public void setOpinionSecret(int opinionSecret) {
 		this.opinionSecret = opinionSecret;
 	}
 	public String getOpinionPwd() {
@@ -113,9 +114,16 @@ public class OpinionVO {
 	public void setType(String type) {
 		this.type = type;
 	}
-
+	public int getDepth() {
+		return depth;
+	}
+	public void setDepth(int depth) {
+		this.depth = depth;
+	}
 	
 	
-
 }
+	
+
+
 

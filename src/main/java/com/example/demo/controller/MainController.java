@@ -11,10 +11,11 @@ public class MainController {
 		return "main/main";
 	}
 
-	@GetMapping("/order")
-	public String test5() {
-		return "shop/order";
+	@GetMapping("/customerCenter")
+	public String customerCenter() {
+		return "customerCenter/customerCenter";
 	}
+	
 	
 }
 

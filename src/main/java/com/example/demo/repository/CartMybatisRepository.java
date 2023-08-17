@@ -37,4 +37,10 @@ public class CartMybatisRepository {
 		return ShopDBManager.updateCartCnt(map);
 	}
 	
+	//장바구니에 담겨있는 모든 상품수량 조회
+	public static CartVO cartTot(int userNo) {
+		return ShopDBManager.cartTot(userNo);
+	}
+	
+	
 }

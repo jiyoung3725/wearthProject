@@ -14,6 +14,7 @@ import com.example.demo.vo.DetailCartVO;
 import com.example.demo.vo.GoodsCategoryVO;
 import com.example.demo.vo.GoodsVO;
 import com.example.demo.vo.LikedVO;
+import com.example.demo.vo.OpinionVO;
 
 public class ShopDBManager {
 	public static SqlSessionFactory sqlSessionFactory;
@@ -138,5 +139,66 @@ public class ShopDBManager {
 			return re;
 		}
 		
-
+		//쇼핑 문의 조회
+		public static List<OpinionVO> selectShopOpinion(int goodsNo){
+			SqlSession session = sqlSessionFactory.openSession();
+			List<OpinionVO> list = session.selectList("opinion.selectShopOpinion", goodsNo);
+			session.close();
+			return list;
+		}
+		
+		//쇼핑 리뷰 조회
+		public static List<OpinionVO> selectShopReview(int goodsNo){
+			SqlSession session = sqlSessionFactory.openSession();
+			List<OpinionVO> list = session.selectList("opinion.selectShopReview",goodsNo);
+			System.out.println("나나나낭ㄹ나어리나어ㅣㅏㄹㄴ"+list);
+			session.close();
+			return list;
+		}
+		
+		//쇼핑 리뷰 사진 모아보기
+		
+		//쇼핑 문의글 작성
+		public static int insertShopQNA(HashMap<String, Object>map) {
+			int re = -1;
+			SqlSession session = sqlSessionFactory.openSession(true);
+			re = session.insert("opinion.insertShopQNA",map);
+			session.close();
+			return re;
+		}
+		
+		//쇼핑 문의글 삭제
+		public static int deleteShopQNA(HashMap<String, Object>map) {
+			int re = -1;
+			SqlSession session = sqlSessionFactory.openSession(true);
+			re = session.delete("opinion.deleteShopQNA", map);
+			session.close();
+			return re;
+		}
+		
+		//쇼핑 문의글 수정
+		public static int updateShopQNA(HashMap<String, Object>map) {
+			int re = -1;
+			SqlSession session = sqlSessionFactory.openSession(true);
+			re = session.update("opinion.updateShopQNA", map);
+			session.close();
+			return re;
+		}
+		
+		//카테고리 조회
+		public static GoodsCategoryVO findCategory(Integer goodsNo) {
+			SqlSession session =sqlSessionFactory.openSession();
+			GoodsCategoryVO g = session.selectOne("category.findCategory",goodsNo);
+			System.out.println("카테고리!!!!!!!!!"+g);
+			session.close();
+			return g;
+		}
+		
+		//장바구니 모든 상품 수량 조회
+		public static CartVO cartTot(int userNo) {
+			SqlSession session = sqlSessionFactory.openSession();
+			CartVO cart = session.selectOne("cart.cartTot",userNo);
+			session.close();
+			return cart;
+		}
 }
