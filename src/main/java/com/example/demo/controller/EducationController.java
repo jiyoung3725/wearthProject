@@ -283,8 +283,8 @@ public class EducationController {
 		if( u != null) {
 			String id = u.getNickname();
 			OpinionVO o = new OpinionVO();
-			o.setEduNO(eduNO);
-			o.setID(id);
+			o.setEduNo(eduNO);
+			o.setId(id);
 			o.setOpinionName(opinionName);
 			o.setOpinionContent(opinionContent);
 			o.setOpinionPwd(opinionPwd);

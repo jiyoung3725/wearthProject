@@ -5,7 +5,7 @@
 <mapper namespace="category">
 
   <select id="findCategory" resultType="categoryVO">
-    select * from g_category
+    select c.categoryNo,categoryName from g_category c right join (select categoryNo from goods where goodsNo=#{goodsNo}) g on g.categoryNo=c.categoryNo
   </select>
 
  	

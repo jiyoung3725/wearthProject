@@ -2,6 +2,8 @@ package com.example.demo.vo;
 
 import java.sql.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -27,5 +29,8 @@ public class GoodsVO {
 	private String mainFname;
 	private String addFname;
 	private String infoFname;
+//	private MultipartFile file1;
+//	private MultipartFile file2;
+//	private MultipartFile file3;
 
 }

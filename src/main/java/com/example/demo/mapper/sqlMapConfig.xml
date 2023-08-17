@@ -35,6 +35,7 @@
 		<typeAlias type="com.example.demo.vo.TrainingRequestVO" alias="trainingRequestVO" />
 		<typeAlias type="com.example.demo.vo.OpinionVO" alias="opinionVO" />
 	</typeAliases>
+
 	<environments default="development">
 		<environment id="development">
 			<transactionManager type="JDBC" />

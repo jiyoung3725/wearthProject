@@ -7,10 +7,11 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "g_category")
+@Table(name = "category")
 public class GoodsCategoryVO {
 
 	@Id
 	private int categoryNo;
 	private String categoryName;
+	private int goodsNo;
 }

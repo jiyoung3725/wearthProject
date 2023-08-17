@@ -209,7 +209,8 @@
 								<div class="card-start" th:text="[+${g.goodsCompany}+]+${g.goodsName}"> </div>
 							</a>
 							<div class="cardbody">
-								<span class="card-text" th:text="${g.goodsPrice}+원"></span>
+								<span style="color: red;">[sale 20%]</span>
+								<span class="card-text" th:text="${#numbers.formatInteger(g.goodsPrice*0.8, 0, 'COMMA')}+원"></span>
 								<div class="card-bottom">
 									<div class="cart">
 										<!--<a th:href="@{'/shop/cart/'+${g.goodsNo}}"> -->

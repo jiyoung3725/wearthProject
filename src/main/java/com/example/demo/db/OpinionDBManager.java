@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import com.example.demo.vo.OpinionVO;
 
 public class OpinionDBManager extends DBManager {
+
 	
 	//강의, 교육 전체 목록 반환
 	public static List<OpinionVO> findAllEducationOpinion (int eduNO){
@@ -38,5 +39,5 @@ public class OpinionDBManager extends DBManager {
 		session.close();
 		return o;
 	}
-	
+
 }

@@ -183,15 +183,15 @@ public class LectureController {
 		//강연 문의 추가
 		@PostMapping("/school/lecture/opinion/insert")
 		@ResponseBody
-		public int insertLectureOpinion(int lecNO, String opinionName, String opinionContent, String opinionPwd, HttpServletRequest request) {
+		public int insertLectureOpinion(int lecNo, String opinionName, String opinionContent, String opinionPwd, HttpServletRequest request) {
 			int re = -1;
 			HttpSession session = request.getSession();
 			UsersVO u = (UsersVO) session.getAttribute("u");
 			if( u != null) {
 				String id = u.getNickname();
 				OpinionVO o = new OpinionVO();
-				o.setLecNO(lecNO);
-				o.setID(id);
+				o.setLecNo(lecNo);
+				o.setId(id);
 				o.setOpinionName(opinionName);
 				o.setOpinionContent(opinionContent);
 				o.setOpinionPwd(opinionPwd);

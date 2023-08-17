@@ -508,7 +508,7 @@ section {
 
 
 
-#btn_pay {
+.btn_pay {
 	width: 48%;
 
 	font-style: inherit;
@@ -516,7 +516,7 @@ section {
 	border-radius: 30px;
 	border: #777777;
 }
-#btn_pay:hover{
+.btn_pay:hover{
   background: #d6d6d6;
   color : black;
    border : none;
@@ -732,3 +732,8 @@ figure{
     opacity: 1;
     color: orange;
 }
+
+#update{
+	display : none;
+}
+

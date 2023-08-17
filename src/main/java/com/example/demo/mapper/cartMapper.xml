@@ -9,7 +9,7 @@
 	<!-- 유저별 장바구니 목록 조회 -->
 	<select id="findCartByUserNo" resultType="detailCartVO">
 		select c.userNo, g.goodsNo, g.goodsStock, g.goodsName, g.goodsCompany, g.goodsPrice, g.mainFname,g.shipPrice,
-		c.cartCnt from goods g left join cart c on g.goodsNo=c.goodsNo where userNo=#{userNo}
+		c.cartCnt from goods g left join cart c on g.goodsNo=c.goodsNo where userNo=#{userNo} order by goodsNo
 	</select>
 
 	<!-- 장바구니 추가 -->
@@ -33,5 +33,9 @@
 		update cart set cartCnt=#{cartCnt} where goodsNo=#{goodsNo} and userNo=#{userNo}
 	</update>
 	
+	<!-- 장바구니 상품 수량  -->
+	<select id="cartTot" resultType="cartVO">
+		select count(*) from cart where userNo=#{userNo}
+	</select>
 
 </mapper>
