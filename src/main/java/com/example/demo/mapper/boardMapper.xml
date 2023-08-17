@@ -6,18 +6,29 @@
 <mapper namespace="board">
 
 	<select id="findAll" resultType="boardVO">
-		SELECT boardno, userno, nickname, b_title, b_content, b_date, b_hit, fname
-		FROM (SELECT ROWNUM n, boardno, userno, nickname, b_title, b_content, b_date, b_hit, fname 
-		FROM (SELECT b.boardno, b.userno, nickname, b_title, b_content, b_date, b_hit, fname
-		FROM board b
-		JOIN users u ON b.userno = u.userno
-		LEFT JOIN files f ON b.boardno = f.boardno
-		ORDER BY b.boardno DESC)) a
-		WHERE a.n BETWEEN #{start} and #{end}		
+		SELECT a.boardno, a.userno, a.nickname, a.b_title, a.b_content, a.b_date, a.b_hit, a.fname, a.cnt
+		FROM (SELECT ROWNUM n, boardno, userno, nickname, b_title, b_content, b_date, b_hit, fname, COALESCE(likedCnt, 0) AS cnt
+		FROM (SELECT b.boardno, b.userno, u.nickname, b.b_title, b.b_content, b.b_date, b.b_hit, f.fname, (SELECT COUNT(*) FROM liked l WHERE l.boardno = b.boardno) AS likedCnt
+        FROM board b
+        JOIN users u ON b.userno = u.userno
+        LEFT JOIN files f ON b.boardno = f.boardno
+        LEFT JOIN (SELECT boardno, COUNT(*) AS likedCnt
+					FROM liked
+					GROUP BY boardno) l ON b.boardno = l.boardno
+        ORDER BY b.boardno DESC)) a
+		WHERE a.n BETWEEN #{start} AND #{end} 	
 	</select>
 	
 	<select id="getTotalRecord" resultType="java.lang.Integer">
 		select count(*) from board
+	</select>
+	
+	<select id="findByBoardno" resultType="boardVO">
+		SELECT b.boardno, b.userno, u.nickname, b_title, b_content, f.fname 
+		FROM board b
+		JOIN users u ON b.userno = u.userno
+		LEFT JOIN files f ON b.boardno = f.boardno
+		WHERE b.boardno=#{boardno}		
 	</select>
  	
 </mapper>

@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.lang.module.FindException;
 import java.util.HashMap;
 
 import org.apache.ibatis.io.ResolverUtil.IsA;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.example.demo.service.BoardService;
 import com.example.demo.service.CommentsService;
 import com.example.demo.service.FilesService;
+import com.example.demo.service.LikedService;
 import com.example.demo.vo.BoardVO;
 import com.example.demo.vo.FilesVO;
 
@@ -30,7 +32,7 @@ import lombok.Setter;
 
 @Controller
 @Setter
-public class Boardcontroller {
+public class BoardController {
 	
 	@Autowired
 	private BoardService bs;
@@ -41,6 +43,9 @@ public class Boardcontroller {
 	@Autowired
 	private CommentsService cs;
 	
+	@Autowired
+	private LikedService ls;
+	
 	//페이징 처리를 위한 변수 추가
 	public int pageSize = 8;
 	public int totalRecord;
@@ -50,6 +55,8 @@ public class Boardcontroller {
 	@GetMapping(value = {"/board/list", "/board/list/{pageNum}"})
 	public String boardList(Model model, @PathVariable(required = false) Integer pageNum) {
 		System.out.println("process : BoardController-------------------------------------");
+		
+		//페이징 처리
 		totalRecord = bs.getTotalRecord();
 		totalPage = (int)Math.ceil(totalRecord/(double)pageSize);
 		if (pageNum == null) {
@@ -67,6 +74,7 @@ public class Boardcontroller {
 		map.put("start", start);
 		map.put("end", end);
 		
+		
 		model.addAttribute("list", bs.findAll(map));
 		model.addAttribute("totalPage", totalPage);		//전체 페이지 수 만큼 페이징 버튼 띄우기 위해서
 		
@@ -78,7 +86,6 @@ public class Boardcontroller {
 	@GetMapping("/board/insert")
 	public String insert(Model model, HttpSession session) {
 		System.out.println("boardInsert Controller---------------------------------");
-		System.out.println((Object)(session.getAttribute("u")));
 		model.addAttribute("boardno", bs.getNextNo());
 		System.out.println("게시글 번호:"+bs.getNextNo());
 		return "board/insert";
@@ -153,17 +160,15 @@ public class Boardcontroller {
 	@GetMapping("/board/update/{boardno}")
 	public String update(@PathVariable("boardno") Integer boardno, Model model) {
 		System.out.println("boardUpdate Controller---------------------------------");
-		//findby boardno으로 게시글 정보 불러와서 수정 내용에 띄워야 함
-		model.addAttribute("boardno", bs.getNextNo());
+		System.out.println("수정할 게시글:"+bs.findByBoardno(boardno).getBoardno()+"****************");
+		model.addAttribute("boardToUpdate", bs.findByBoardno(boardno));
 		return "board/update";
 	}
 	
 	//실천하기 게시글 수정 완료 - JPA
-	//사진 업로드 하지 않을 경우 default로 보여줄 값 설정해야함
-	//file이 null 일 때 특정 이미지 불러오도록 설정할 예정
-	@PostMapping("/board/update")
-	public ModelAndView update(BoardVO b, FilesVO f, HttpServletRequest request) {
-		System.out.println("insert POST Controller---------------------------------");		
+	@PostMapping("/board/update/{boardno}")
+	public ModelAndView update(@PathVariable("boardno") Integer boardno, BoardVO b, FilesVO f, HttpServletRequest request) {
+		System.out.println("boardUpdate POST Controller---------------------------------");		
 		String path = request.getServletContext().getRealPath("/board");
 		System.out.println("path:"+path);
 		String fname = null;
@@ -182,8 +187,8 @@ public class Boardcontroller {
 				f.setBoardno(b.getBoardno());	//input hidden으로 게시글 번호 담겨있음..
 				System.out.println("f.getBoardno:"+f.getBoardno());
 				f.setFname(fname);
-
-				bs.insert(b);	//게시글 업로드
+				
+				bs.update(b.getB_title(), b.getB_content(), b.getBoardno());	//게시글 수정 반영
 				fs.insertInBoard(f);	//게시글의 첨부파일 업로드
 				System.out.println("******************파일업로드 완료*******************");
 			}catch (Exception e) {
@@ -191,10 +196,10 @@ public class Boardcontroller {
 				System.out.println("파일 업로드 예외발생:"+e.getMessage());	
 			}
 		}else {	//첨부파일이 없는 경우
-			bs.insert(b);
+			bs.update(b.getB_title(), b.getB_content(), b.getBoardno());
 		}
 	
-		ModelAndView mav = new ModelAndView("redirect:/board/list/1");	//게시글 작성 완료시 1페이지로 이동
+		ModelAndView mav = new ModelAndView("redirect:/board/list/1");	//게시글 수정 완료시 1페이지로 이동
 		return mav;
 	}
 	

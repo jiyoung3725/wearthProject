@@ -21,13 +21,13 @@
 
 /*게시글 작성 버튼*/
 .btn_write{
-	width: 60%;
+	width: 50%;
 	background-color : #58b483;
 	color : white;
 	border-radius: 30px;
 	font-weight: bold;  
 	font-size: 16px;
-	text-align: center;
+	justify-content: center;
 }
 .btn_write:hover{
 	background: #43a06f;
@@ -55,15 +55,14 @@
 	padding: 0 0 0 0;
 }
 
-.listOption{
-	float: left;
-}
-
 .listOptionArea{
 	display: flex;
 	justify-content: end;
 }
 
+.listOption{
+	float: left;
+}
 
 .actListAll{
 	display: flex;
@@ -88,6 +87,10 @@
    overflow: hidden;
 }
 
+.likeAndHit{
+	display: flex;
+}
+
 .like-button {
 	border : solid 1px #43a06f;
 	width: 20px;
@@ -95,7 +98,8 @@
 	border-radius: 5px;
 	cursor: pointer;
 	margin-top: 5px;
-	display: inline-block;
+	float: right;
+	/*display: inline-block;*/
 	text-align: center;
 }
 
@@ -105,8 +109,8 @@
 	color: white;
 }
 .hit{
-	display: inline-block;
-	float: right; 
+	/*display: inline-block;*/
+	float: right;
 	margin-left: 0.8rem;
 	padding: 0 0.8rem 0 0.8rem;
 	width: fit-content;

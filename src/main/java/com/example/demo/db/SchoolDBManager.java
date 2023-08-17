@@ -20,6 +20,7 @@ public class SchoolDBManager extends DBManager{
 			int n = 0;
 			SqlSession session = sqlSessionFactory.openSession();
 			n = session.selectOne("lecture.getTotalLecture");
+			session.close();
 			return n;
 		}
 

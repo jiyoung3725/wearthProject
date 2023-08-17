@@ -18,9 +18,13 @@ public class BoardMyBatisRepository {
 		return BoardDBManager.findAll(map);
 	}
 
-	
 	//페이징 처리를 위해 전체 게시글 수 불러오기
 	public int getTotalRecord() {
 		return BoardDBManager.getTotalRecord();
+	}
+	
+	//게시글 하나의 정보 가져오기
+	public BoardVO findByBoardno(int boardno) {
+		return BoardDBManager.findByBoardno(boardno);
 	}
 }

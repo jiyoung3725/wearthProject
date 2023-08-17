@@ -34,6 +34,4 @@ public interface FilesJpaRepository extends JpaRepository<FilesVO, Integer> {
 	public void insertInVolunteer(FilesVO f);
 
 	
-	
-	
 }

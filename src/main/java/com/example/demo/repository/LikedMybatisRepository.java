@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.example.demo.db.LikedDBManager;
 import com.example.demo.db.SchoolDBManager;
 import com.example.demo.db.ShopDBManager;
 import com.example.demo.vo.EducationVO;
@@ -13,6 +14,15 @@ import com.example.demo.vo.LikedVO;
 
 @Repository
 public class LikedMybatisRepository {
+	//게시글 좋아요 체크
+	public int checkLiked(HashMap<String, Integer> map) {
+		return LikedDBManager.checkLiked(map);
+	}
+	//게시글 좋아요 수 카운트
+	public int countLiked(int boardno) {
+		return LikedDBManager.countLiked(boardno);
+	}
+	
 	//상품 좋아요 추가
 	public static int insertGoodsLiked(HashMap<String, Object> map) {
 		return ShopDBManager.insertGoodsLiked(map);

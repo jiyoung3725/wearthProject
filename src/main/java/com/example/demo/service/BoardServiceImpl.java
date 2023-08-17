@@ -28,12 +28,19 @@ public class BoardServiceImpl implements BoardService {
 		System.out.println("process : BoardServiceImp--------------------------");
 		return abMB.findAll(map);
 	}
-
+	//페이징 처리를 위해 전체 게시글 수 불러오기
 	@Override
 	public int getTotalRecord() {
 		return abMB.getTotalRecord();
 	}
 
+	//게시글 하나의 정보 가져오기
+	@Override
+	public BoardVO findByBoardno(int boardno) {
+		return abMB.findByBoardno(boardno);
+	}
+	
+	
 	//게시글 입력시 다음 게시글 번호 부여
 	@Override
 	public int getNextNo() {
@@ -50,6 +57,13 @@ public class BoardServiceImpl implements BoardService {
 	public void delete(int boardno) {
 		abJPA.delete(boardno);
 	}
+	
+	//게시글 수정
+	@Override
+	public void update(String title, String content, int boardno) {
+		abJPA.update(title, content, boardno);
+	}
+	
 	
 
 }

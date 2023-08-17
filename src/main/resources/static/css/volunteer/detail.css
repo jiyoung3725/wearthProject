@@ -26,6 +26,10 @@
 	.informationUpper{
 		display: flex;
 	}
+	.informMapPart{
+		padding-left: 1rem;
+	}
+	
 	.informationLower{
 		display: flex;
 	}
@@ -42,6 +46,10 @@
 	.detail{
 		display: flex;
 	}
+	
+	#openMap{
+		cursor: pointer;
+	}
 	.category{
 		margin-right: 1rem;
 		margin-left: 1rem;
@@ -50,7 +58,7 @@
 		color:  #58b483;
 	}
 	.categoryContent{
-		font-size: 24px;
+		font-size: 20px;
 		font-weight: bold;
 		
 	}

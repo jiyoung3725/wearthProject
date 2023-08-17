@@ -51,4 +51,27 @@ public class CustomMailSender {
 		mail.put("code", code);
 		return mail;
 	}
+	
+	public static HashMap<String, String> volunteerApplyAlert(String title, String username, String phone, String date) {
+		HashMap<String, String> mail = new HashMap<>();
+		
+		String subject = "[Wearth] '"+title+"' 신청 내역 ";
+		String text = "";
+		text += "<table border='1'>";
+		text += "<tr>";
+		text += "<th>신청인 이름</th>";
+		text += "<th>신청인 연락처</th>";
+		text += "<th>신청 일시</th>";
+		text += "</tr>";
+		text += "<tr>";
+		text += "<td>"+username+"</td>";
+		text += "<td>"+phone+"</td>";
+		text += "<td>"+date+"</td>";
+		text += "</tr>";
+		text += "</table>";
+	
+		mail.put("subject", subject);
+		mail.put("text", text);
+		return mail;
+	}
 }

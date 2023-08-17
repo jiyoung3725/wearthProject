@@ -20,6 +20,7 @@ public class FilesDBManager extends DBManager{
 		int totalRecord;
 		SqlSession session = sqlSessionFactory.openSession();
 		totalRecord = session.selectOne("files.getTotalRecord");
+		session.close();
 		return totalRecord;
 	}
 	
@@ -28,6 +29,7 @@ public class FilesDBManager extends DBManager{
 		SqlSession session = sqlSessionFactory.openSession();
 		list = session.selectList("files.findByBoardno", boardno);
 		System.out.println("DBMANAGER:"+list+"***********************");
+		session.close();
 		return list;
 	}
 	
