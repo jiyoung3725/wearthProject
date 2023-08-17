@@ -17,8 +17,6 @@ public class ApplicationVO {
 	private String a_status;
 	private Date a_date;
 	private String a_consent;
-	private int reqno;
-	private int eduno;
 	private int volunteerno;
 	public int getAppno() {
 		return appno;
@@ -49,18 +47,6 @@ public class ApplicationVO {
 	}
 	public void setA_consent(String a_consent) {
 		this.a_consent = a_consent;
-	}
-	public int getReqno() {
-		return reqno;
-	}
-	public void setReqno(int reqno) {
-		this.reqno = reqno;
-	}
-	public int getEduno() {
-		return eduno;
-	}
-	public void setEduno(int eduno) {
-		this.eduno = eduno;
 	}
 	public int getVolunteerno() {
 		return volunteerno;

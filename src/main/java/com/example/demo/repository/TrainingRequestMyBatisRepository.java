@@ -16,14 +16,29 @@ public class TrainingRequestMyBatisRepository {
 	public static int totalRecord;
 	public static int totalPage;
 	
+// TrainingRequest	
+	public int getTotalRecordTrainingRequest(HashMap<String, Object> map)	{
+		return SchoolDBManager.getTotalRecordTrainingRequest(map);
+	}
 	public List<TrainingRequestVO> findAllTrainingRequest(HashMap<String, Object> map){
-		totalRecord = SchoolDBManager.getTotalRecordTrainingRequest();
+		totalRecord = SchoolDBManager.getTotalRecordTrainingRequest(map);
 		totalPage = (int)Math.ceil(totalRecord / (double)pageSize);
+		System.out.println("강의요청 전체레코드 : "+totalRecord );
+		System.out.println("강의요청 전체페이지 : "+totalPage );
 		return SchoolDBManager.findAllTrainingRequest(map);
 	}
-	
 	public TrainingRequestVO findByNoTrainingRequest(int reqNo) {
 		return SchoolDBManager.findByNoTrainingRequest(reqNo);
 	}
-
+	
+// EducationApplication
+	public int getTotalRecordEducationApplication(int userno)	{
+		return SchoolDBManager.getTotalRecordEducationApplication(userno);
+	}
+	public List<TrainingRequestVO> findAllEducationApplication(HashMap<String, Object> map){
+		return SchoolDBManager.findAllEducationApplication(map);
+	}
+	public TrainingRequestVO findByNoEducationApplication(int reqNo) {
+		return SchoolDBManager.findByNoTrainingRequest(reqNo);
+	}
 }

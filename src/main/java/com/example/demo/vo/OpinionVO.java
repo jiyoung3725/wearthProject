@@ -17,8 +17,7 @@ public class OpinionVO {
 	private int opinionNO;
 	private int eduNO;
 	private int goodsNo;
-	private int lecNo;
-
+	private int lecNO;
 	private String ID;
 	private String opinionName;
 	private String opinionContent;
@@ -47,12 +46,7 @@ public class OpinionVO {
 	public void setGoodsNo(int goodsNo) {
 		this.goodsNo = goodsNo;
 	}
-	public int getLecNo() {
-		return lecNo;
-	}
-	public void setLecNo(int lecNo) {
-		this.lecNo = lecNo;
-	}
+	
 	public String getID() {
 		return ID;
 	}
@@ -113,9 +107,12 @@ public class OpinionVO {
 	public void setType(String type) {
 		this.type = type;
 	}
-
-	
-	
+	public int getLecNO() {
+		return lecNO;
+	}
+	public void setLecNO(int lecNO) {
+		this.lecNO = lecNO;
+	}
 
 }
 

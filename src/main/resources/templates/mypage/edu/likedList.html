@@ -45,8 +45,8 @@
 		      <tr th:each="e:${edulikedList}">
 		        <td th:text="${e.eduNO}"></td>
 		        <td th:text="${e.eduAddr}"></td>
-		        <td th:text="${e.eduName}"></td>
-		        <td th:text="${e.eduApp}"></td>
+				<td><a th:href="@{'/school/education/detail/'+${e.eduNO}}" th:text="${e.eduName}"></a></td>
+		       <td th:text="${e.eduApp}"></td>
 		        <td th:text="${e.eduStatus}"></td>
 		      </tr>
 		
@@ -78,7 +78,7 @@
 		      <tr th:each="l:${leclikedList}">
 		        <td th:text="${l.lecNO}"></td>
 		        <td th:text="${l.lecAddr}"></td>
-		        <td th:text="${l.lecName}"></td>
+		        <td><a th:href="@{'/school/lecture/detail/'+${l.lecNO}}" th:text="${l.lecName}"></a></td>
 		        <td th:text="${l.lecApp}"></td>
 		        <td th:text="${l.lecDate}"></td>
 		        <td th:text="${l.lecStatus}"></td>

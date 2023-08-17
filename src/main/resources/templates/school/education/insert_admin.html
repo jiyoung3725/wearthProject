@@ -20,8 +20,7 @@
 		  <h1 style="font-weight: bold;  color: #43a06f;">교육 게시글등록</h1>
 		</div>
   
-  <form action="/action_page.php">
-    
+  <form action="/school/education/insertAdmin" method="post" enctype="multipart/form-data">
      
     <div class="form-group">
       <label for="educator" style="font-weight: bold;">교육자</label>
@@ -53,16 +52,15 @@
 		  <label for="eduContent" style="font-weight: bold;">내용</label>
 		  <textarea id="summernote" name="eduContent"></textarea>
 		</div>
-
 	    
 	   <div class="mb-3">
-		  <label for="eduFile" class="form-label" style="font-weight: bold;">첨부파일(메인) </label>
-		  <input class="form-control" type="file" id="formFileMultiple" name="eduFile">
+		  <label for="uploadFile" class="form-label" style="font-weight: bold;">첨부파일(메인) </label>
+		  <input class="form-control" type="file" id="formFileMultiple" name="uploadFile">
 		</div>
 		
 		<div class="mb-3">
-		  <label for="eduDetailFile" class="form-label" style="font-weight: bold;">첨부파일(상세) </label>
-		  <input class="form-control" type="file" id="formFileMultiple" name="eduDetailFile">
+		  <label for="uploadDetailFile" class="form-label" style="font-weight: bold;">첨부파일(상세) </label>
+		  <input class="form-control" type="file" id="formFileMultiple" name="uploadDetailFile">
 		</div>
 		
 	    <br />

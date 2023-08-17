@@ -24,7 +24,8 @@
 		<typeAlias type="com.example.demo.vo.GoodsVO" alias="goodsVO" />
 		<typeAlias type="com.example.demo.vo.GoodsCategoryVO" alias="categoryVO" />
 		<typeAlias type="com.example.demo.vo.OpinionVO" alias="opinionVO" />
-		<typeAlias type="com.example.demo.vo.LikedVO" alias="likedVo" />
+
+		<typeAlias type="com.example.demo.vo.LikedVO" alias="likedVO" />
 		<typeAlias type="com.example.demo.vo.CartVO" alias="cartVO" />
 		<typeAlias type="com.example.demo.vo.DetailCartVO" alias="detailcartVO" />
 		
@@ -32,6 +33,7 @@
 		<typeAlias type="com.example.demo.vo.EducationVO" alias="educationVO" />
 		<typeAlias type="com.example.demo.vo.LectureVO" alias="lectureVO" />
 		<typeAlias type="com.example.demo.vo.TrainingRequestVO" alias="trainingRequestVO" />
+		<typeAlias type="com.example.demo.vo.OpinionVO" alias="opinionVO" />
 	</typeAliases>
 	<environments default="development">
 		<environment id="development">
@@ -60,12 +62,12 @@
 		<mapper resource="com/example/demo/mapper/goodsMapper.xml" />
 		<mapper resource="com/example/demo/mapper/GoodsCategoryMapper.xml" />
 		<mapper resource="com/example/demo/mapper/cartMapper.xml" />
+		<mapper resource="com/example/demo/mapper/likedMapper.xml" />
 		<!-- 류예인 -->
 		<mapper resource="com/example/demo/mapper/educationMapper.xml" />
 		<mapper resource="com/example/demo/mapper/lectureMapper.xml" />
+		<mapper resource="com/example/demo/mapper/trainingRequestMapper.xml" />
 		<mapper resource="com/example/demo/mapper/opinionMapper.xml" />
-		<mapper resource="com/example/demo/mapper/likedMapper.xml" />
 		<mapper resource="com/example/demo/mapper/reviewMapper.xml" />
-	<!-- 	<mapper resource="com/example/demo/mapper/traningRequestMapper.xml" />   -->
 	</mappers>
 </configuration>

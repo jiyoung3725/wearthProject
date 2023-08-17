@@ -3,10 +3,23 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="opinion">
-  <select id="findAllOpinion" resultType="opinionVO">
-   select opinionNO, eduNo, goodsNo, lecNO, ID, opinionName, opinionContent, opinionDate, opinionSecret, opinionPwd, opinionStatus, opinionScore, answerNo, type from (select rownum n, opinionNO, eduNo, goodsNo,lecNO, ID, opinionName, opinionContent, opinionDate, opinionSecret, opinionPwd, opinionStatus, opinionScore, answerNo, type from (select * from opinion order by opinionNO desc))a where a.n between #{start} and #{end}
-  </select>
- 
+ <!-- 해당 게시글의 문의 글의 전체 조회 -->
+ <select id="findAllEducationOpinion" resultType="opinionVO">
+	select opinionNO, eduNo, goodsNo, lecNO, ID, opinionName, opinionContent, opinionDate, opinionSecret, opinionPwd, opinionStatus, REVIEWSCORE, answerNo,type 
+	from opinion where eduNO = #{eduNO} and type = 'opinion' order by opinionNO desc
+ </select>
+ <select id="findAllLectureOpinion" resultType="opinionVO">
+	select opinionNO, eduNo, goodsNo, lecNO, ID, opinionName, opinionContent, opinionDate, opinionSecret, opinionPwd, opinionStatus, REVIEWSCORE, answerNo,type 
+	from opinion where lecNO = #{lecNO} and type = 'opinion' order by opinionNO desc
+ </select>
+ <!-- 해당 게시글의 문의 글의 상세 조회 -->
+ <select id="findByNoEducationOpinion" resultType="opinionVO">
+ 	select * from opinion where eduNO = ${eduNO} and opinionNO = #{opinionNO} and type = 'opinion' 
+ </select>
+ <select id="findByNoLectureOpinion" resultType="opinionVO">
+ 	select * from opinion where lecNO = ${lecNO} and opinionNO = #{opinionNO} and type = 'opinion' 
+ </select>
+
  	<select id="findByNoOpinion" resultType="opinionVO">
  		select * from opinion where opinionNO = #{opinionNO}
  	</select>
@@ -54,4 +67,5 @@
  	<delete id = "deleteShopQNA" parameterType="int">
  		delete opinion where type='qna'
  	</delete>
+
 </mapper>

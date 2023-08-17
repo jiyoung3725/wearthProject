@@ -1,4 +1,3 @@
-
 // 게시글 등록 시 textarea에 summernote 에디터 사용
  $(document).ready(function() {
 		$('#summernote').summernote({

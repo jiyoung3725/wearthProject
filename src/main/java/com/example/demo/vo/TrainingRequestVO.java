@@ -2,26 +2,22 @@ package com.example.demo.vo;
 
 import java.sql.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Data;
 
 @Entity
-@Data
 @Table(name = "trainingRequest")
 public class TrainingRequestVO {
 	
 	@Id
-	private int reqNo;
+	private int reqNO;
+	private int userno;
 	private String reqTitle;
-	
-//	@ManyToOne
-//	@JoinColumn(name = "id", insertable = true, updatable = true)
-//	private UsersVO users;
-	
 	private String reqContent;
 	private String reqStatus;
 	private String reqApp;
@@ -29,13 +25,23 @@ public class TrainingRequestVO {
 	private String reqDate;
 	private String reqCompany;
 	private String reqPhone;
+	@Transient
+	private MultipartFile uploadFile;
+	private String reqFile; 
 	private Date reqSysDate;
+	private String type;
 	private int userNo;
-	public int getReqNo() {
-		return reqNo;
+	public int getReqNO() {
+		return reqNO;
 	}
-	public void setReqNo(int reqNo) {
-		this.reqNo = reqNo;
+	public void setReqNO(int reqNO) {
+		this.reqNO = reqNO;
+	}
+	public int getUserno() {
+		return userno;
+	}
+	public void setUserno(int userno) {
+		this.userno = userno;
 	}
 	public String getReqTitle() {
 		return reqTitle;
@@ -85,11 +91,29 @@ public class TrainingRequestVO {
 	public void setReqPhone(String reqPhone) {
 		this.reqPhone = reqPhone;
 	}
+	public MultipartFile getUploadFile() {
+		return uploadFile;
+	}
+	public void setUploadFile(MultipartFile uploadFile) {
+		this.uploadFile = uploadFile;
+	}
+	public String getReqFile() {
+		return reqFile;
+	}
+	public void setReqFile(String reqFile) {
+		this.reqFile = reqFile;
+	}
 	public Date getReqSysDate() {
 		return reqSysDate;
 	}
 	public void setReqSysDate(Date reqSysDate) {
 		this.reqSysDate = reqSysDate;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 	public int getUserNo() {
 		return userNo;
@@ -99,4 +123,5 @@ public class TrainingRequestVO {
 	}
 	
 	
+
 }

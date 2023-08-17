@@ -18,10 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.demo.db.OpinionDBManager;
 import com.example.demo.service.UserInfoService;
 import com.example.demo.service.lectureService;
-import com.example.demo.vo.EducationVO;
 import com.example.demo.vo.LectureVO;
+import com.example.demo.vo.OpinionVO;
 import com.example.demo.vo.UsersVO;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -144,24 +145,73 @@ public class LectureController {
 		   
 		}
 
-//		// 좋아요 목록
-//		@GetMapping("/school/education/likedList")
-//	    public ModelAndView listLiked(Model model, HttpServletRequest request){
-//			ModelAndView mav = new ModelAndView("/school/education/likedList");
-//	        HttpSession session = request.getSession();
-//	        UsersVO u = (UsersVO) session.getAttribute("u");//(만약 로그인 상태라면)
-//		    if (u != null) {
-//		        int userno = u.getUserno();
-//		        System.out.println("userno: " + userno);
-//		        session.setAttribute("userno", u.getUserno());
-//		        List<LectureVO> likedList = ls.findLikedLectureByUserNo(userno);
-//		        System.out.println("likedList" + likedList);
-//		        mav.addObject("leclikedList", likedList);
-//		    }else {
-//		    	mav.setViewName("redirect:/userinfo/login");
-//		    }
-//	        return mav;
-//	    }
-	
+		//리뷰 
+		//강연리뷰 조회
+		@GetMapping("/school/lecture/review/list/{lecNO}")
+		@ResponseBody
+		public List<OpinionVO> findAllLectureReview(Model model,@PathVariable(name = "lecNO") int lecNO) {
+			System.out.println("교육리뷰조회 lecNO 파라미터값 :"+ lecNO);
+		   return ls.findAllLectureReview(lecNO);
+		}
+
+		//강연리뷰 추가
+		@PostMapping("/school/lecture/review/insert")
+		@ResponseBody
+		public int insertLectureReview(@RequestParam int lecNO, @RequestParam String opinionContent, HttpServletRequest request) {
+		    int re = 0; // 초기값을 0으로 설정
+		    HttpSession session = request.getSession();
+		    UsersVO u = (UsersVO) session.getAttribute("u");
+		    
+		    if (u != null) {
+		        String ID = u.getNickname();
+		        System.out.println("lecNO : " + lecNO);
+		        System.out.println("id : " + ID);
+		        System.out.println("opinionContent : " + opinionContent);
+
+		        HashMap<String, Object> map = new HashMap<>();
+		        map.put("lecNO", lecNO);
+		        map.put("ID", ID);
+		        map.put("opinionContent", opinionContent);
+		        System.out.println("map : " + map);
+
+		        re = ls.insertLectureReview(map); // re 값을 실제 처리 결과로 설정
+		    }
+		    
+		    return re;
+		}
+		//문의
+		//강연 문의 추가
+		@PostMapping("/school/lecture/opinion/insert")
+		@ResponseBody
+		public int insertLectureOpinion(int lecNO, String opinionName, String opinionContent, String opinionPwd, HttpServletRequest request) {
+			int re = -1;
+			HttpSession session = request.getSession();
+			UsersVO u = (UsersVO) session.getAttribute("u");
+			if( u != null) {
+				String id = u.getNickname();
+				OpinionVO o = new OpinionVO();
+				o.setLecNO(lecNO);
+				o.setID(id);
+				o.setOpinionName(opinionName);
+				o.setOpinionContent(opinionContent);
+				o.setOpinionPwd(opinionPwd);
+				re = ls.insertLectureOpinion(o);
+				System.out.println("opinion lecture : "+ o);
+				System.out.println("opinion lecture re : "+ re);
+			}
+			return re;
+		}
+
+		//강연 문의 목록
+		@GetMapping("/school/lecture/opinion/list/{lecNO}")
+		@ResponseBody
+		public List<OpinionVO> listlectureOpinion(
+				Model model,
+				@PathVariable(name="lecNO") int lecNO, 
+				HttpServletRequest request){
+			
+			System.out.println("강연문의조회 lecNO 파라미터값 :"+ lecNO);
+			return ls.findAllLectureOpinion(lecNO);
+		}	
 	
 }

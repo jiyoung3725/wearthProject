@@ -8,7 +8,7 @@ public class MainController {
 
 	@GetMapping("/")
 	public String test() {
-		return "main/main";
+		return "/main/main";
 	}
 
 	@GetMapping("/order")

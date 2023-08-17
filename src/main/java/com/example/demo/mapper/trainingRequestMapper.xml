@@ -3,29 +3,81 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="trainingRequest">
-  <select id="findAllTrainingRequest" resultType="trainingRequestVO">
-    select reqNo, reqTitle, reqContent, reqStatus, reqApp, reqAddr, reqDate, reqCompany, reqPhone, reqSysDate from (select rownum n, reqNo, reqTitle, reqContent, reqStatus, reqApp, reqAddr, reqDate, reqCompany, reqPhone, reqSysDate from (select * from trainingRequest order by reqNo desc))a where a.n between #{start} and #{end}
-  </select>
- 
+	<!-- 강의요청 목록 조회 -->
+	<!-- TrainingRequest 전체 레코드 수 조회 -->
+ 	<select id="getTotalRecordTrainingRequest" resultType="java.lang.Integer">
+ 		SELECT count(*) FROM trainingRequest WHERE type = '강의요청'
+ 		<if test="search != null">
+			    <if test="category == 'reqTitle'">
+					and reqTitle like '%'||#{search}||'%'
+			    </if>
+			    <if test="category == 'reqContent'">
+					and reqContent like '%'||#{search}||'%'
+			    </if>
+			    <if test="category == 'reqApp'">
+					and reqApp like '%'||#{search}||'%'
+			    </if>
+			    <if test="category == 'reqAddr'">
+					and reqAddr like '%'||#{search}||'%'
+			    </if>
+		    </if>
+ 	</select>
+ 	<!-- 전체 목록 조회 -->
+  	<select id="findAllTrainingRequest" resultType="trainingRequestVO">
+    SELECT reqNo, reqTitle, reqContent, reqApp, reqAddr, reqDate, reqCompany, reqPhone, reqSysdate, userNo, reqStatus, reqFile
+    FROM (SELECT rownum n, reqNo, reqTitle, reqContent, reqApp, reqAddr, reqDate, reqCompany, reqPhone, reqSysdate, userNo, reqStatus, reqFile
+    FROM (SELECT * FROM trainingRequest WHERE type = '강의요청' 
+    <if test="search != null">
+				    <if test="category == 'reqTitle'">
+						and reqTitle like '%'||#{search}||'%'
+				    </if>
+				    <if test="category == 'reqContent'">
+						and reqContent like '%'||#{search}||'%'
+				    </if>
+				    <if test="category == 'reqApp'">
+						and reqApp like '%'||#{search}||'%'
+				    </if>
+				    <if test="category == 'reqAddr'">
+						and reqAddr like '%'||#{search}||'%'
+			  	  	</if>
+			    </if>
+    ORDER BY reqSysdate DESC)) a WHERE a.n BETWEEN #{start} AND #{end}
+	</select>
  	<select id="findByNoTrainingRequest" resultType="trainingRequestVO">
- 		select * from trainingRequest where reqNo = #{reqNo}
+ 		SELECT * FROM trainingRequest WHERE reqNO = #{reqNO}
  	</select>
  	
- 	<select id="getTotalRecordTrainingRequest" resultType="java.lang.Integer">
- 		select count(*) from trainingRequest
+ 	<!-- 찾아가는 환경교육 신청목록 조회 -->
+ 	<!-- EduApplication 전체 레코드 수 조회 -->
+ 	<select id="getTotalRecordEducationApplication" resultType="java.lang.Integer">
+   	 SELECT count(*) FROM trainingRequest WHERE type = '교육' and userno = #{userno}
+	</select>
+ 	<!-- 전체 목록 조회 -->
+  	<select id="findAllEducationApplication" resultType="trainingRequestVO">
+    SELECT reqNO, userno, reqTitle, reqContent, reqStatus, reqApp, reqAddr, reqDate, reqCompany, reqPhone, reqFile, reqSysDate, type
+    FROM (
+        SELECT rownum n, reqNO, userno, reqTitle, reqContent, reqStatus, reqApp, reqAddr, reqDate, reqCompany, reqPhone, reqFile, reqSysDate, type
+        FROM (
+            SELECT * FROM trainingRequest WHERE type = '교육' and userno = #{userno} ORDER BY reqSysDate DESC
+        )
+    ) a WHERE a.n BETWEEN #{start} AND #{end}
+</select>
+ 	<select id="findByNoEducationApplication" resultType="trainingRequestVO">
+ 		SELECT * FROM trainingRequest WHERE reqNO = #{reqNO} 
  	</select>
+ 	
  	
  	<!-- JPA로 삭제예정
  	<insert id="insertTrainingRequest" parameterType="trainingRequestVO">
- 	insert into trainingRequest values (seq_education.nextval,#{reqTitle},#{reqContent}, #{reqStatus} ,#{reqApp},#{reqAddr},#{reqDate},#{reqCompany},#{reqPhone}, sysdate)
+ 	insert into trainingRequest values (seq_trainingRequest.nextval,#{reqTitle},#{reqContent}, #{reqStatus} ,#{reqApp},#{reqAddr},#{reqDate},#{reqCompany},#{reqPhone}, sysdate)
  	</insert>
  	
  	<update id="updateTrainingRequest" parameterType="trainingRequestVO">
- 		update trainingRequest set reqTitle=#{reqTitle},reqContent=#{reqContent},reqApp=#{reqApp},reqAddr=#{reqAddr},reqDate=#{reqDate},reqCompany=#{reqCompany},reqCompany=#{reqCompany} where reqNo=#{reqNo}
+ 		update trainingRequest set reqTitle=#{reqTitle},reqContent=#{reqContent},reqApp=#{reqApp},reqAddr=#{reqAddr},reqDate=#{reqDate},reqCompany=#{reqCompany},reqCompany=#{reqCompany} where reqNO=#{reqNO}
  	</update>
  	
  	<delete id="deleteTrainingRequest" parameterType="trainingRequestVO">
- 		delete trainingRequest where reqNo = #{reqNo}
+ 		delete trainingRequest where reqNO = #{reqNO}
  	</delete>
  	 -->
 </mapper>
